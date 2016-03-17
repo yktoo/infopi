@@ -43,6 +43,13 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
     # GET
     def do_GET(self):
 
+        if self.path != '/':
+            self.send_response(404)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(bytes('404 Page Not Found', 'utf8'))
+            return
+
         # Send response status code
         self.send_response(200)
 
