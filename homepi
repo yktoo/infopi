@@ -33,7 +33,7 @@ HTML_PAGE = '''<!DOCTYPE html>
                 text-align: center;
             }}
             .data-block {{
-                max-height: 50%;
+                max-height: 100%;
                 overflow: hidden;
             }}
         </style>
