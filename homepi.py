@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-import re
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from urllib.request import urlopen
 
-HTML_PAGE = \
-'''<!DOCTYPE html>
+from data_provider import NSDepartureTimesProvider
+
+HTML_PAGE = '''<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="refresh" content="30">
@@ -13,6 +12,13 @@ HTML_PAGE = \
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <style>
+            body, html {{
+                width: 100%;
+                height: 100%;
+            }}
+            .container, .row {{
+                height: 100%;
+            }}
             .m-hidden {{
                 display: none;
             }}
@@ -24,25 +30,35 @@ HTML_PAGE = \
             .avt__platform {{
                 font-size: 130%;
                 font-weight: bold;
+                text-align: center;
+            }}
+            .data-block {{
+                max-height: 50%;
+                overflow: hidden;
             }}
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>Houten Castellum — {}</h1>
-            <table class="table table-striped">
-                {}
-            </table>
+            <div class="row">
+                <div class="col-md-6 data-block">
+                    <h1>Houten Castellum — {time}</h1>
+                    {houtenc}
+                </div>
+                <div class="col-md-6 data-block">
+                    <h1>Utrecht — {time}</h1>
+                    {utrecht}
+                </div>
+            </div>
         </div>
     </body>
 </html>
 '''
 
-# HTTPRequestHandler class
-class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
-    # GET
-    def do_GET(self):
 
+# HTTPRequestHandler class
+class HomePiRequestHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
         if self.path != '/':
             self.send_response(404)
             self.send_header('Content-type', 'text/plain')
@@ -57,27 +73,28 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
-        # Scrap the NS page
-        html = urlopen('http://www.ns.nl/actuele-vertrektijden/avt?station=htnc').read().decode('utf-8')
+        # Fetch the data
+        times_houtenc = NSDepartureTimesProvider('htnc').fetch()
+        times_utrecht = NSDepartureTimesProvider('ut').fetch()
 
-        # Extract the time table
-        match = re.search(r'<table class="avt_table">(.+?)</table>', html, flags=re.DOTALL)
-        if match:
-            response = match.group(1)
-        else:
-            response = ':('
+        args = {
+            'time': time.strftime('%H:%M'),
+            'houtenc': times_houtenc,
+            'utrecht': times_utrecht,
+        }
 
         # Write the response
-        self.wfile.write(bytes(HTML_PAGE.format(time.strftime('%H:%M'), response), 'utf8'))
+        self.wfile.write(bytes(HTML_PAGE.format(**args), 'utf8'))
+
 
 def run():
-    print('starting server...')
+    print('Starting server...')
 
     # Server settings
     # Choose port 8080, for port 80, which is normally used for a http server, you need root access
     server_address = ('', 8000)
-    httpd = HTTPServer(server_address, testHTTPServer_RequestHandler)
-    print('running server...')
+    httpd = HTTPServer(server_address, HomePiRequestHandler)
+    print('Running server...')
     httpd.serve_forever()
 
 
