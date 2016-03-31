@@ -11,32 +11,7 @@ HTML_PAGE = '''<!DOCTYPE html>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            body, html {{
-                width: 100%;
-                height: 100%;
-            }}
-            .container, .row {{
-                height: 100%;
-            }}
-            .m-hidden {{
-                display: none;
-            }}
-            .avt__delay {{
-                color: #f00;
-                font-weight: bold;
-                padding-left: 4px;
-            }}
-            .avt__platform {{
-                font-size: 130%;
-                font-weight: bold;
-                text-align: center;
-            }}
-            .data-block {{
-                max-height: 100%;
-                overflow: hidden;
-            }}
-        </style>
+        <link href="/main.css" rel="stylesheet">
     </head>
     <body>
         <div class="container">
