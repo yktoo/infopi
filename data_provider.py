@@ -51,7 +51,7 @@ class NSDepartureTimesProvider(HttpDataProvider):
         # Extract the timetable from the data
         match = re.search(r'<table class="avt_table">(.+?)</table>', data, flags=re.DOTALL)
         if match:
-            return '<table class="table table-striped">{}</table>'.format(match.group(1))
+            return '<table class="table">{}</table>'.format(match.group(1))
         else:
             return None
 

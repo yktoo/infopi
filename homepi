@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import time
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 from data_provider import NSDepartureTimesProvider
 
@@ -10,7 +10,7 @@ HTML_PAGE = '''<!DOCTYPE html>
         <meta http-equiv="refresh" content="30">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <style>
             body, html {{
                 width: 100%;
@@ -57,14 +57,10 @@ HTML_PAGE = '''<!DOCTYPE html>
 
 
 # HTTPRequestHandler class
-class HomePiRequestHandler(BaseHTTPRequestHandler):
+class HomePiRequestHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path != '/':
-            self.send_response(404)
-            self.send_header('Content-type', 'text/plain')
-            self.end_headers()
-            self.wfile.write(bytes('404 Page Not Found', 'utf8'))
-            return
+            return SimpleHTTPRequestHandler.do_GET(self)
 
         # Send response status code
         self.send_response(200)
