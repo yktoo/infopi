@@ -14,14 +14,18 @@ HTML_PAGE = '''<!DOCTYPE html>
         <link href="/main.css" rel="stylesheet">
     </head>
     <body>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6 data-block">
-                    <h1>Houten Castellum — {time}</h1>
+                <div class="col-sm-6 db-date">{date}</div>
+                <div class="col-sm-6 db-time">{time}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 data-block">
+                    <h1>Houten Castellum</h1>
                     {houtenc}
                 </div>
-                <div class="col-md-6 data-block">
-                    <h1>Utrecht — {time}</h1>
+                <div class="col-sm-6 data-block">
+                    <h1>Utrecht</h1>
                     {utrecht}
                 </div>
             </div>
@@ -49,7 +53,8 @@ class HomePiRequestHandler(SimpleHTTPRequestHandler):
         times_utrecht = NSDepartureTimesProvider('ut').fetch()
 
         args = {
-            'time': time.strftime('%H:%M'),
+            'date':    time.strftime('%A %d.%m'),
+            'time':    time.strftime('%H:%M'),
             'houtenc': times_houtenc,
             'utrecht': times_utrecht,
         }

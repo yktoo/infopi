@@ -1,13 +1,13 @@
 body, html {
-    width: 100%;
-    height: 100%;
-}
-.container, .row {
-    height: 100%;
-}
-.data-block {
-    max-height: 100%;
     overflow: hidden;
+}
+.db-date {
+    font-size: 60px;
+    text-align: center;
+}
+.db-time {
+    font-size: 80px;
+    text-align: center;
 }
 
 /* Train schedules */
