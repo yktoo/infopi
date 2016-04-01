@@ -1,0 +1,12 @@
+<div class="db-train-times">
+    <h1>{{title}}</h1>
+    <table>
+        <tr ng-repeat="train in trains">
+            <td class="train-time" >{{train.time}}</td>
+            <td class="train-delay">{{train.delay}}</td>
+            <td class="train-dest" >{{train.dest}}</td>
+            <td class="train-type" >{{train.type}}</td>
+            <td class="train-platf">{{train.platf}}</td>
+        </tr>
+    </table>
+</div>

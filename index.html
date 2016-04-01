@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid" ng-controller="HomeController as vm">
+        <div class="row">
+            <div class="col-sm-6 text-center">
+                <span class="db-dow"  ng-bind="vm.now | date:'EEEE'"></span>
+                <span class="db-date" ng-bind="vm.now | date:'d-MM'"></span>
+            </div>
+            <div class="col-sm-6 text-center">
+                <span class="db-time" ng-bind="vm.now | date:'hh:mm'"></span>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6 data-block">
+                <train-times title="Houten Castellum"></train-times>
+            </div>
+            <div class="col-md-6 data-block">
+                <train-times title="Utrecht"></train-times>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="app.module.js"></script>
+    <script src="app-services/nsapi.service.js"></script>
+    <script src="app-services/trainTimes.directive.js"></script>
+    <script src="home/controller.js"></script>
+</body>
+</html>
