@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import time
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
@@ -64,6 +65,11 @@ class HomePiRequestHandler(SimpleHTTPRequestHandler):
 
 
 def run():
+    dir_name = os.path.dirname(os.path.abspath(__file__))
+
+    print('Server directory: ' + dir_name)
+    os.chdir(dir_name)
+
     print('Starting server...')
 
     # Server settings
