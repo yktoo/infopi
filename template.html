@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="refresh" content="30">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/main.css" rel="stylesheet">
+    <title>homepi</title>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 db-date">{now.day}.{now:%m}</div>
+        <div class="col-sm-4 db-dow">{now:%A}</div>
+        <div class="col-sm-5 db-time">{now.hour}:{now:%M}</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5 db-weather-text">
+            <img src="img/weather/{weather[current][icon]}.png">
+            {weather[current][text]}
+        </div>
+        <div class="col-sm-2 db-weather-temp">
+            {weather[current][temp]}°{weather[units][temp]}
+            <div class="db-weather-tempf">
+                Feels like {weather[current][feels]}°{weather[units][temp]}
+            </div>
+        </div>
+        <div class="col-sm-5 db-weather-wind-humi">
+            <span class="glyphicon glyphicon-transfer"></span>
+            {weather[current][wind][text]}
+            {weather[current][wind][speed]} bft ·
+            <span class="glyphicon glyphicon-tint"></span> {weather[current][humidity]}%
+        </div>
+        <div class="col-sm-5 db-weather-baro">
+            <span class="glyphicon glyphicon-dashboard"></span>
+            {weather[current][pressure][dir]}
+            {weather[current][pressure][value]} {weather[units][pressure]}
+        </div>
+        <div class="col-sm-5 db-weather-provider">{weather[provider]} - {weather[updated]}</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Houten Castellum</h1>
+            {trains_ht}
+        </div>
+        <div class="col-sm-6">
+            <h1>Utrecht</h1>
+            {trains_ut}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

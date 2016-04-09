@@ -1,128 +1,14 @@
 #!/usr/bin/env python3
-import datetime
 import os
-from http.server import HTTPServer, SimpleHTTPRequestHandler
 
-from provider.ns import NSDepartureTimesProvider
-from provider.weather import WeatherDataProvider
+from server import HomePiServer
 
-HTML_PAGE = '''<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="refresh" content="30">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/main.css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3 db-date">{now.day}.{now:%m}</div>
-                <div class="col-sm-4 db-dow">{now:%A}</div>
-                <div class="col-sm-5 db-time">{now.hour}:{now:%M}</div>
-            </div>
-            <div class="row">
-                <div class="col-sm-5 db-weather-text">
-                    <img src="img/weather/{weather[current_conditions][icon]}.png">
-                    {weather[current_conditions][text]}
-                </div>
-                <div class="col-sm-2 db-weather-temp">
-                    {weather[current_conditions][temperature]}°{weather[units][temperature]}
-                    <div class="db-weather-tempf">
-                        Feels like {weather[current_conditions][feels_like]}°{weather[units][temperature]}
-                    </div>
-                </div>
-                <div class="col-sm-5 db-weather-wind-humi">
-                    <span class="glyphicon glyphicon-transfer"></span>
-                        {weather[current_conditions][wind][text]}
-                        {weather[current_conditions][wind][speedbft]} bft ·
-                    <span class="glyphicon glyphicon-tint"></span> {weather[current_conditions][humidity]}%
-                </div>
-                <div class="col-sm-5 db-weather-baro">
-                    <span class="glyphicon glyphicon-dashboard"></span>
-                        {weather[current_conditions][barometer][direction]}
-                        {weather[current_conditions][barometer][reading]} {weather[units][pressure]}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <h1>Houten Castellum</h1>
-                    {trains_ht}
-                </div>
-                <div class="col-sm-6">
-                    <h1>Utrecht</h1>
-                    {trains_ut}
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
-'''
-
-
-# HTTPRequestHandler class
-class HomePiRequestHandler(SimpleHTTPRequestHandler):
-    def do_GET(self):
-        if self.path != '/':
-            return SimpleHTTPRequestHandler.do_GET(self)
-
-        # Send response status code
-        self.send_response(200)
-
-        # Send headers
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-
-        # Fetch the data
-        times_houtenc = NSDepartureTimesProvider('htnc').get()
-        times_utrecht = NSDepartureTimesProvider('ut').get()
-
-        weather = WeatherDataProvider('NLXX0018').get()
-
-        args = {
-            'now':       datetime.datetime.now(),
-            'trains_ht': self.format_train_table(times_houtenc),
-            'trains_ut': self.format_train_table(times_utrecht),
-            'weather':   weather,
-        }
-
-        # Write the response
-        self.wfile.write(bytes(HTML_PAGE.format(**args), 'utf8'))
-
-    @staticmethod
-    def format_train_table(data: list):
-        """Formats train time table data as an HTML table and returns it.
-        :param data: train time table data.
-        """
-        tbl_body = ''
-        for row in data:
-            tbl_body += \
-                '<tr>' \
-                '<td class="train-time" >{time}</td>' \
-                '<td class="train-delay">{delay}</td>' \
-                '<td class="train-dest" >{dest}</td>' \
-                '<td class="train-type" >{type}</td>' \
-                '<td class="train-platf">{platf}</td>' \
-                '</tr>'.format(**row)
-
-        return '<table class="table">' + tbl_body + '</table>'
-
-
-def run():
+if __name__ == "__main__":
+    # Navigate to the root dir of the project
     dir_name = os.path.dirname(os.path.abspath(__file__))
-
     print('Server directory: ' + dir_name)
     os.chdir(dir_name)
 
+    # Instantiate and run the server
     print('Starting server...')
-
-    # Server settings
-    # Choose port 8080, for port 80, which is normally used for a http server, you need root access
-    server_address = ('', 8000)
-    httpd = HTTPServer(server_address, HomePiRequestHandler)
-    print('Running server...')
-    httpd.serve_forever()
-
-
-run()
+    HomePiServer().run()

@@ -40,6 +40,11 @@ body, html {
     font-size: 24px;
     text-align: center;
 }
+.db-weather-provider {
+    font-size: 9px;
+    text-align: center;
+    padding-top: 10px;
+}
 
 /* Train schedules */
 .train-time {
