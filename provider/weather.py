@@ -13,4 +13,9 @@ class WeatherDataProvider(DataProvider):
         self.city_id = city_id
 
     def get(self):
-        return pywapi.get_weather_from_weather_com(self.city_id)
+        data = pywapi.get_weather_from_weather_com(self.city_id)
+
+        # Convert wind speed from km/h to beaufort
+        data['current_conditions']['wind']['speedbft'] = pywapi.wind_beaufort_scale(
+            data['current_conditions']['wind']['speed'])
+        return data

@@ -33,13 +33,16 @@ HTML_PAGE = '''<!DOCTYPE html>
                         Feels like {weather[current_conditions][feels_like]}°{weather[units][temperature]}
                     </div>
                 </div>
-                <div class="col-sm-5 db-weather-extra">
+                <div class="col-sm-5 db-weather-wind-humi">
                     <span class="glyphicon glyphicon-transfer"></span>
-                        {weather[current_conditions][wind][speed]} {weather[units][speed]} ·
+                        {weather[current_conditions][wind][text]}
+                        {weather[current_conditions][wind][speedbft]} bft ·
+                    <span class="glyphicon glyphicon-tint"></span> {weather[current_conditions][humidity]}%
+                </div>
+                <div class="col-sm-5 db-weather-baro">
                     <span class="glyphicon glyphicon-dashboard"></span>
-                        {weather[current_conditions][barometer][reading]} {weather[units][pressure]} ·
-                    <span class="glyphicon glyphicon-tint"></span>
-                        {weather[current_conditions][humidity]}%
+                        {weather[current_conditions][barometer][direction]}
+                        {weather[current_conditions][barometer][reading]} {weather[units][pressure]}
                 </div>
             </div>
             <div class="row">
