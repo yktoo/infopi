@@ -2,11 +2,17 @@ body, html {
     overflow: hidden;
 }
 .db-date {
-    font-size: 60px;
-    text-align: center;
+    font-size: 70px;
+    text-align: right;
+}
+.db-dow {
+    font-size: 35px;
+    text-align: left;
+    padding-top: 10px;
 }
 .db-time {
     font-size: 80px;
+    font-weight: bold;
     text-align: center;
 }
 
