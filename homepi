@@ -1,14 +1,24 @@
 #!/usr/bin/env python3
 import os
+import logging
 
 from server import HomePiServer
 
 if __name__ == "__main__":
-    # Navigate to the root dir of the project
     dir_name = os.path.dirname(os.path.abspath(__file__))
-    print('Server directory: ' + dir_name)
+
+    # Setup logging
+    logging.basicConfig(
+        filename=os.path.join(dir_name, 'homepi.log'),
+        level=logging.DEBUG,
+        format='%(asctime)s  %(levelname)s %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S')
+
+    # Navigate to the root dir of the project
+    logging.info('========================================')
+    logging.info('Server directory: ' + dir_name)
     os.chdir(dir_name)
 
     # Instantiate and run the server
-    print('Starting server...')
+    logging.info('Starting server...')
     HomePiServer().run()

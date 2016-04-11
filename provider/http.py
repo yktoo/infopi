@@ -1,3 +1,4 @@
+import logging
 from abc import ABCMeta, abstractmethod
 import urllib.request
 
@@ -8,11 +9,15 @@ class HttpDataProvider(DataProvider, metaclass=ABCMeta):
     """Abstract data provider that can fetch data from an HTTP server."""
 
     def get(self):
-        # Fetch data from the server
-        data = urllib.request.urlopen(self.get_url()).read().decode('utf-8')
+        try:
+            # Fetch data from the server
+            data = urllib.request.urlopen(self.get_url()).read().decode('utf-8')
 
-        # Process and return the data
-        return self.process_data(data)
+            # Process and return the data
+            return self.process_data(data)
+        except Exception as e:
+            logging.exception(e)
+            return None
 
     @abstractmethod
     def get_url(self):

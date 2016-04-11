@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 import pywapi
 import time
@@ -53,7 +54,8 @@ class WeatherDataProvider(DataProvider):
         # Try to fetch weather data from weather.com
         try:
             d = pywapi.get_weather_from_weather_com(self.city_id)
-        except:
+        except Exception as e:
+            logging.exception('Failed to fetch weather from weather.com: ' + str(e))
             # On a failure set data to None
             d = None
 
@@ -97,7 +99,8 @@ class WeatherDataProvider(DataProvider):
         # Try to fetch weather data from Yahoo!
         try:
             d = pywapi.get_weather_from_yahoo(self.city_id)
-        except:
+        except Exception as e:
+            logging.exception('Failed to fetch weather from Yahoo!: ' + str(e))
             # On a failure set data to None
             d = None
 

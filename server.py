@@ -1,4 +1,5 @@
 import datetime
+import logging
 from http.server import HTTPServer
 
 from provider.ns import NSDepartureTimesProvider
@@ -46,6 +47,9 @@ class HomePiServer:
         """Formats train time table data as an HTML table and returns it.
         :param data: train time table data.
         """
+        if data is None:
+            return 'N/A'
+
         tbl_body = ''
         for row in data:
             tbl_body += \
@@ -65,8 +69,7 @@ class HomePiServer:
         with open(HTML_TEMPLATE_FILE, 'r') as f:
             return f.read()
 
-
     def run(self):
         """Run the server indefinitely."""
-        print('Running server...')
+        logging.info('Running server...')
         self.http_server.serve_forever()
