@@ -1,29 +1,53 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html lang="en" ng-app="app">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="main.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/main.css" rel="stylesheet">
+    <title>homepi</title>
 </head>
 <body>
     <div class="container-fluid" ng-controller="HomeController as vm">
+        <!-- Date and time -->
         <div class="row">
-            <div class="col-sm-6 text-center">
-                <span class="db-dow"  ng-bind="vm.now | date:'EEEE'"></span>
-                <span class="db-date" ng-bind="vm.now | date:'d-MM'"></span>
+            <div class="col-sm-3 db-date" ng-bind="vm.now | date:'d.MM'"></div>
+            <div class="col-sm-4 db-dow"  ng-bind="vm.now | date:'EEEE'"></div>
+            <div class="col-sm-5 db-time" ng-bind="vm.now | date:'HH:mm'"></div>
+        </div>
+        <!-- Weather -->
+        <div class="row">
+            <div class="col-sm-5 db-weather-text">
+                <img ng-src="img/weather/{{vm.weather.current.icon}}.png">
+                {{vm.weather.current.text}}
             </div>
-            <div class="col-sm-6 text-center">
-                <span class="db-time" ng-bind="vm.now | date:'hh:mm'"></span>
+            <div class="col-sm-2 db-weather-temp">
+                {{vm.weather.current.temp}}°{{vm.weather.units.temp}}
+                <div class="db-weather-tempf">
+                    Feels like {{vm.weather.current.feels}}°{{vm.weather.units.temp}}
+                </div>
             </div>
+            <div class="col-sm-5 db-weather-wind-humi">
+                <span class="glyphicon glyphicon-transfer"></span>
+                {{vm.weather.current.wind.text}}
+                {{vm.weather.current.wind.speed}} bft ·
+                <span class="glyphicon glyphicon-tint"></span> {{vm.weather.current.humidity}}%
+            </div>
+            <div class="col-sm-5 db-weather-baro">
+                <span class="glyphicon glyphicon-dashboard"></span>
+                {{vm.weather.current.pressure.dir}}
+                {{vm.weather.current.pressure.value}} {{vm.weather.units.pressure}}
+            </div>
+            <div class="col-sm-5 db-weather-provider">{{vm.weather.provider}} - {{vm.weather.updated}}</div>
         </div>
         <hr>
+        <!-- Train departure times -->
         <div class="row">
-            <div class="col-md-6 data-block">
-                <train-times title="Houten Castellum"></train-times>
+            <div class="col-sm-6">
+                <train-times title="Houten Castellum" station-id="htnc"></train-times>
             </div>
-            <div class="col-md-6 data-block">
-                <train-times title="Utrecht"></train-times>
+            <div class="col-sm-6">
+                <train-times title="Utrecht" station-id="ut"></train-times>
             </div>
         </div>
     </div>
@@ -32,6 +56,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
     <script src="app.module.js"></script>
     <script src="app-services/nsapi.service.js"></script>
+    <script src="app-services/weather.service.js"></script>
     <script src="app-services/trainTimes.directive.js"></script>
     <script src="home/controller.js"></script>
 </body>

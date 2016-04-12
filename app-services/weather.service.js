@@ -3,17 +3,17 @@
 
     angular
         .module('app')
-        .factory('NsApiService', NsApiService);
+        .factory('WeatherService', WeatherService);
 
-    NsApiService.$inject = ['$http', '$q'];
-    function NsApiService($http, $q) {
+    WeatherService.$inject = ['$http', '$q'];
+    function WeatherService($http, $q) {
         return {
-            getTrainTimes: getTrainTimes
+            getWeather: getWeather
         };
 
-        function getTrainTimes(stationId) {
+        function getWeather(cityId) {
             return $http
-                .get('/ns/dep/' + stationId)
+                .get('/weather/' + cityId)
                 .then(handleSuccess, handleError);
         }
 

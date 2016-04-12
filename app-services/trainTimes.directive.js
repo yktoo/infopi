@@ -9,35 +9,33 @@
     function TrainTimes($interval, NsApiService) {
         return {
             restrict:    'E',
-            scope:       {title: '@', stationId: '@'},
+            scope:       {title: '@'},
             templateUrl: 'app-services/trainTimes.tpl.html',
             link:        link
         };
 
         function link(scope, element, attrs) {
-            var timeoutId;
+            var timeoutId = null;
 
             // Stop polling on destroy
             element.on('$destroy', function() {
-                $interval.cancel(timeoutId);
+                timeoutId && $interval.cancel(timeoutId);
             });
 
             // Subscribe to periodic updates
-            timeoutId = $interval(update, 1000);
+            timeoutId = $interval(update, attrs.interval || 30000);
             update();
 
             function update() {
-                NsApiService.getTrainTimes(attrs.stationId)
-                    .then(handleTrainTimes, handleError);
+                NsApiService.getTrainTimes(attrs.stationId).then(handleSuccess, handleError);
             }
 
-            function handleTrainTimes(data) {
-                scope.trains = [{time: new Date(), delay: attrs.stationId}];
-
+            function handleSuccess(data) {
+                scope.trains = data;
             }
 
             function handleError(reason) {
-                scope.trains = [{time: reason}];
+                scope.trains = [{time: 'N/A', delay: '', dest: reason, type: '', platf: ''}];
             }
 
         }
