@@ -8,7 +8,7 @@
     HomeController.$inject = ['$interval', 'WeatherService'];
     function HomeController($interval, WeatherService) {
         var vm = this;
-        var weatherCityId = 'NLXX0018';
+        var weatherCityId = '1811978';
 
         // Publish VM properties
         vm.updateNow     = updateNow;

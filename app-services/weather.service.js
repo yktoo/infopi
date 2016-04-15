@@ -13,7 +13,7 @@
 
         function getWeather(cityId) {
             return $http
-                .get('/weather/' + cityId)
+                .get('/weer/' + cityId)
                 .then(handleSuccess, handleError);
         }
 

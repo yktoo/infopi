@@ -4,27 +4,32 @@ from http.server import SimpleHTTPRequestHandler
 
 from provider.ns import NSDepartureTimesProvider
 from provider.weather import WeatherDataProvider
+from provider.weer import WeerNlProvider
 
 ROUTE_MAP = [
     # NS departure times: /ns/dep/<station_code>
     {'route': '/ns/dep/([a-z]+)', 'handler': NSDepartureTimesProvider},
     # Weather: /weather/<city_id>
     {'route': '/weather/([A-Z0-9]+)', 'handler': WeatherDataProvider},
+    # Dutch weather: /weer/<city_id>
+    {'route': '/weer/(\d+)', 'handler': WeerNlProvider},
 ]
 
 
 class HomePiRequestHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         # Iterate through defined routes to find the appropriate one
+        handled = False
         data = None
         for entry in ROUTE_MAP:
             match = re.match(entry['route'], self.path)
             if match is not None:
+                handled = True
                 data = entry['handler'](match.group(1)).get()
                 break
 
         # No match found, consider it's a static resource: hand over to the original handler
-        if data is None:
+        if not handled:
             return SimpleHTTPRequestHandler.do_GET(self)
 
         # Send response status code
