@@ -19,26 +19,24 @@
         <div class="row">
             <div class="col-sm-5 db-weather-text">
                 <img ng-src="http://www.weer.nl/{{vm.weather.current.icon}}">
-                {{vm.weather.current.text}}
             </div>
             <div class="col-sm-2 db-weather-temp">
-                {{vm.weather.current.temp}}°{{vm.weather.units.temp}}
+                {{vm.weather.current.temp.actual}} {{vm.weather.current.temp.units}}
                 <div class="db-weather-tempf">
-                    Feels like {{vm.weather.current.feels}}°{{vm.weather.units.temp}}
+                    Feels like {{vm.weather.current.temp.perceived}} {{vm.weather.current.temp.units}}
                 </div>
             </div>
             <div class="col-sm-5 db-weather-wind-humi">
-                <span class="glyphicon glyphicon-transfer"></span>
-                {{vm.weather.current.wind.text}}
-                {{vm.weather.current.wind.speed}} bft ·
-                <span class="glyphicon glyphicon-tint"></span> {{vm.weather.current.humidity}}%
+                Wind:
+                {{vm.weather.current.wind.direction}}
+                {{vm.weather.current.wind.speed}} {{vm.weather.current.wind.units}} ·
+                Humidity: {{vm.weather.current.humidity}}%
             </div>
             <div class="col-sm-5 db-weather-baro">
-                <span class="glyphicon glyphicon-dashboard"></span>
-                {{vm.weather.current.pressure.dir}}
-                {{vm.weather.current.pressure.value}} {{vm.weather.units.pressure}}
+                Pressure: {{vm.weather.current.pressure.value}} {{vm.weather.current.pressure.units}} ·
+                Rain:  {{vm.weather.current.rain.value}} {{vm.weather.current.rain.units}}
             </div>
-            <div class="col-sm-5 db-weather-provider">{{vm.weather.provider}} - {{vm.weather.updated}}</div>
+            <div class="col-sm-5 db-weather-provider">{{vm.weather.updated | date:'HH:mm'}}</div>
         </div>
         <hr>
         <!-- Train departure times -->

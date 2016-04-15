@@ -13,14 +13,16 @@
 
         function getWeather(cityId) {
             return $http
-                .get('/weer/' + cityId)
+                .get('/weather/' + cityId)
                 .then(handleSuccess, handleError);
         }
 
         // Private functions
 
         function handleSuccess(response) {
-            return response.data;
+            var data = response.data;
+            data.updated = new Date();
+            return data;
         }
 
         function handleError(response) {

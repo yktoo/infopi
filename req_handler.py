@@ -4,15 +4,13 @@ from http.server import SimpleHTTPRequestHandler
 
 from provider.ns import NSDepartureTimesProvider
 from provider.weather import WeatherDataProvider
-from provider.weer import WeerNlProvider
 
+# Array of route-provider mappings
 ROUTE_MAP = [
     # NS departure times: /ns/dep/<station_code>
     {'route': '/ns/dep/([a-z]+)', 'handler': NSDepartureTimesProvider},
     # Weather: /weather/<city_id>
-    {'route': '/weather/([A-Z0-9]+)', 'handler': WeatherDataProvider},
-    # Dutch weather: /weer/<city_id>
-    {'route': '/weer/(\d+)', 'handler': WeerNlProvider},
+    {'route': '/weather/(\d+)', 'handler': WeatherDataProvider},
 ]
 
 
