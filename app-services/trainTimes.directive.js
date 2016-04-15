@@ -8,8 +8,7 @@
     TrainTimes.$inject = ['$interval', 'NsApiService'];
     function TrainTimes($interval, NsApiService) {
         return {
-            restrict:    'E',
-            scope:       {title: '@'},
+            scope:       {},
             templateUrl: 'app-services/trainTimes.tpl.html',
             link:        link
         };
@@ -27,7 +26,7 @@
             update();
 
             function update() {
-                NsApiService.getTrainTimes(attrs.stationId).then(handleSuccess, handleError);
+                NsApiService.getTrainTimes(attrs.trainTimes).then(handleSuccess, handleError);
             }
 
             function handleSuccess(data) {

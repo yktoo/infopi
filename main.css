@@ -57,6 +57,10 @@ body, html {
 }
 .train-dest {
 }
+.train-notes {
+    color: #f00;
+    font-weight: bold;
+}
 .train-type {
 }
 .train-platf {

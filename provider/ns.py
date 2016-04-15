@@ -48,13 +48,20 @@ class NSDepartureTimesProvider(HttpDataProvider):
             # Parse the departure time
             dep_time = dateutil.parser.parse(e_train.findtext('VertrekTijd', ''))
 
+            # Collect notes
+            e_notes = e_train.find('Opmerkingen')
+            notes = None
+            if e_notes is not None:
+                notes = ' '.join([t.strip() for t in e_notes.itertext()])
+
             # Append a data row
             output_data.append({
                 'time':  dep_time.strftime('%H:%M'),
                 'delay': e_train.findtext('VertrekVertragingTekst',  ''),
                 'dest':  e_train.findtext('EindBestemming',          ''),
                 'type':  e_train.findtext('TreinSoort',              ''),
-                'platf': e_train.findtext('VertrekSpoor',            '')
+                'platf': e_train.findtext('VertrekSpoor',            ''),
+                'notes': notes
             })
 
         return output_data
