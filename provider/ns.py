@@ -31,11 +31,12 @@ class NSDepartureTimesProvider(HttpDataProvider):
         return 'http://webservices.ns.nl/ns-api-avt?station=' + self.station_code
 
     def process_data(self, data: str):
+        # Parse the XML
         e_root = ElementTree.fromstring(data)
 
         # Sanity check
         if e_root.tag != 'ActueleVertrekTijden':
-            raise LookupError('Root XML node is not ActueleVertrekTijden')
+            raise LookupError('Root XML node is not <ActueleVertrekTijden>')
 
         output_data = []
 
