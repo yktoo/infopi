@@ -11,15 +11,22 @@ body, html {
     vertical-align: middle;
     text-align: center;
     width: 33.333%;
+    background-color: #fff;
+    color: #000;
 }
 .table.datetime td.dt-date { font-size: 70px; }
 .table.datetime td.dt-dow  { font-size: 35px; }
 .table.datetime td.dt-time { font-size: 80px; font-weight: bold; }
 
 /* Weather */
-.table.weather td, .table.weather th {
+.table.weather td {
     vertical-align: middle;
     text-align: center;
+}
+.table.weather th {
+    vertical-align: middle;
+    text-align: center;
+    background-color: #333;
 }
 .table td.w-icon      { font-size: 100px; }
 .table td.w-text      { font-size: 32px;  }
@@ -29,7 +36,9 @@ body, html {
 .table td.w-updated   { font-size: 11px;  }
 
 .table th.w-fcast     { font-size: 32px; }
-.table td.w-fcast     { font-size: 20px; }
+.table td.w-fcast     { font-size: 20px; border: none; }
+.w-fcast-prob         { font-size: 16px; }
+.w-fcast-prob:after   { font-size: 10px; content: '%'; }
 
 /* Train schedules */
 .train-time {

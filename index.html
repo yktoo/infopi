@@ -9,7 +9,7 @@
     <title>homepi</title>
 </head>
 <body>
-    <div class="container-fluid" ng-controller="HomeController as vm">
+    <div ng-controller="HomeController as vm">
         <!-- Date and time -->
         <table class="table datetime" ng-if="vm.now">
             <tr>
@@ -54,7 +54,8 @@
             </tr>
             <tr>
                 <td class="w-fcast" ng-repeat="day in vm.weather.forecast">
-                    <i class="wi wi-raindrops"></i> {{day.rain.probability}}%
+                    <i class="wi wi-raindrop"></i> <span class="w-fcast-prob">{{day.rain.probability}}</span>
+                    <i class="wi wi-day-sunny"></i> <span class="w-fcast-prob">{{day.probSun}}</span>
                 </td>
             </tr>
             <!-- Update date/time -->
