@@ -26,21 +26,11 @@ body, html {
     font-weight: bold;
     text-align: center;
 }
-.db-weather-tempf {
-    font-size: 16px;
-    font-weight: normal;
-    text-align: center;
-}
-.db-weather-wind-humi {
+.db-weather-wind, .db-weather-humi, .db-weather-baro, .db-weather-rain {
     font-size: 26px;
     text-align: center;
-    padding-top: 24px;
 }
-.db-weather-baro {
-    font-size: 24px;
-    text-align: center;
-}
-.db-weather-provider {
+.db-weather-updated {
     font-size: 9px;
     text-align: center;
     padding-top: 10px;

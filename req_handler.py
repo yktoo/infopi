@@ -3,14 +3,14 @@ import json
 from http.server import SimpleHTTPRequestHandler
 
 from provider.ns import NSDepartureTimesProvider
-from provider.weather import WeatherDataProvider
+from provider.buienradar import BuienRadarDataProvider
 
 # Array of route-provider mappings
 ROUTE_MAP = [
     # NS departure times: /ns/dep/<station_code>
     {'route': '/ns/dep/([a-z]+)', 'handler': NSDepartureTimesProvider},
-    # Weather: /weather/<city_id>
-    {'route': '/weather/(\d+)', 'handler': WeatherDataProvider},
+    # Weather: /weather/<station_id>
+    {'route': '/buienradar/(\d+)', 'handler': BuienRadarDataProvider},
 ]
 
 

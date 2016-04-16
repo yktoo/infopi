@@ -3,26 +3,24 @@
 
     angular
         .module('app')
-        .factory('WeatherService', WeatherService);
+        .factory('BuienRadarService', BuienRadarService);
 
-    WeatherService.$inject = ['$http', '$q'];
-    function WeatherService($http, $q) {
+    BuienRadarService.$inject = ['$http', '$q'];
+    function BuienRadarService($http, $q) {
         return {
             getWeather: getWeather
         };
 
-        function getWeather(cityId) {
+        function getWeather(stationId) {
             return $http
-                .get('/weather/' + cityId)
+                .get('/buienradar/' + stationId)
                 .then(handleSuccess, handleError);
         }
 
         // Private functions
 
         function handleSuccess(response) {
-            var data = response.data;
-            data.updated = new Date();
-            return data;
+            return response.data;
         }
 
         function handleError(response) {

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/weather-icons/css/weather-icons.min.css" rel="stylesheet">
     <link href="/main.css" rel="stylesheet">
     <title>homepi</title>
 </head>
@@ -18,25 +19,24 @@
         <!-- Weather -->
         <div class="row">
             <div class="col-sm-5 db-weather-text">
-                <img ng-src="http://www.weer.nl/{{vm.weather.current.icon}}">
+                <img ng-src="{{vm.weather.current.iconUrl}}" style="width: 74px;"> {{vm.weather.current.text}}
             </div>
             <div class="col-sm-2 db-weather-temp">
-                {{vm.weather.current.temp.actual}} {{vm.weather.current.temp.units}}
-                <div class="db-weather-tempf">
-                    Feels like {{vm.weather.current.temp.perceived}} {{vm.weather.current.temp.units}}
-                </div>
+                {{vm.weather.current.temperature}} °C
             </div>
-            <div class="col-sm-5 db-weather-wind-humi">
-                Wind:
-                {{vm.weather.current.wind.direction}}
-                {{vm.weather.current.wind.speed}} {{vm.weather.current.wind.units}} ·
+            <div class="col-sm-5 db-weather-wind">
+                Wind: {{vm.weather.current.wind.dirText}} {{vm.weather.current.wind.speed}} bft
+            </div>
+            <div class="col-sm-5 db-weather-humi">
                 Humidity: {{vm.weather.current.humidity}}%
             </div>
             <div class="col-sm-5 db-weather-baro">
-                Pressure: {{vm.weather.current.pressure.value}} {{vm.weather.current.pressure.units}} ·
-                Rain:  {{vm.weather.current.rain.value}} {{vm.weather.current.rain.units}}
+                Pressure: {{vm.weather.current.pressure}} hPa
             </div>
-            <div class="col-sm-5 db-weather-provider">{{vm.weather.updated | date:'HH:mm'}}</div>
+            <div class="col-sm-5 db-weather-rain">
+                Rain:  {{vm.weather.current.rain}} mm/h
+            </div>
+            <div class="col-sm-5 db-weather-updated">{{vm.weather.updated | date:'HH:mm'}}</div>
         </div>
         <hr>
         <!-- Train departure times -->
@@ -56,7 +56,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
     <script src="app.module.js"></script>
     <script src="app-services/nsapi.service.js"></script>
-    <script src="app-services/weather.service.js"></script>
+    <script src="app-services/buienRadar.service.js"></script>
     <script src="app-services/trainTimes.directive.js"></script>
     <script src="home/controller.js"></script>
 </body>

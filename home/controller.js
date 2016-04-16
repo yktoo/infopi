@@ -5,10 +5,10 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$interval', 'WeatherService'];
-    function HomeController($interval, WeatherService) {
+    HomeController.$inject = ['$interval', 'BuienRadarService'];
+    function HomeController($interval, BuienRadarService) {
         var vm = this;
-        var weatherCityId = '1811978';
+        var buienRadarStationId = '6260'; // Meetstation De Bilt
 
         // Publish VM properties
         vm.updateNow     = updateNow;
@@ -22,7 +22,7 @@
         }
 
         function updateWeather() {
-            WeatherService.getWeather(weatherCityId).then(function (data) { vm.weather = data; });
+            BuienRadarService.getWeather(buienRadarStationId).then(function (data) { vm.weather = data; });
         }
 
         // Private functions
