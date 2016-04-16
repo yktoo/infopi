@@ -11,13 +11,17 @@
 <body>
     <div class="container-fluid" ng-controller="HomeController as vm">
         <!-- Date and time -->
-        <div class="row">
-            <div class="col-sm-3 db-date" ng-bind="vm.now | date:'d.MM'"></div>
-            <div class="col-sm-4 db-dow"  ng-bind="vm.now | date:'EEEE'"></div>
-            <div class="col-sm-5 db-time" ng-bind="vm.now | date:'HH:mm'"></div>
-        </div>
-        <!-- Weather -->
-        <table class="table weather">
+        <table class="table datetime" ng-if="vm.now">
+            <tr>
+                <td class="dt-date" ng-bind="vm.now | date:'d.MM'"></td>
+                <td class="dt-dow"  ng-bind="vm.now | date:'EEEE'"></td>
+                <td class="dt-time" ng-bind="vm.now | date:'HH:mm'"></td>
+            </tr>
+        </table>
+
+        <!-- Weather: current -->
+        <div class="alert alert-info" ng-if="!vm.weather">Failed to fetch weather</div>
+        <table class="table weather" ng-if="vm.weather.current">
             <tr>
                 <td class="w-icon" rowspan="4"><i class="wi" ng-class="vm.weather.current.iconWiClass"></i></td>
                 <td class="w-text" rowspan="4">{{vm.weather.current.text}}</td>
@@ -31,17 +35,34 @@
             </tr>
             <tr>
                 <td class="w-smallicon"><i class="wi wi-barometer"></i></td>
-                <td class="w-smalltext">{{vm.weather.current.pressure | number:0 }} hPa</td>
+                <td class="w-smalltext">{{vm.weather.current.pressure | number:0}} hPa</td>
             </tr>
             <tr>
                 <td class="w-smallicon"><i class="wi wi-raindrops"></i></td>
                 <td class="w-smalltext">{{vm.weather.current.rain === '-' ? 0 : vm.weather.current.rain}} mm/h</td>
             </tr>
+        </table>
+
+        <!-- Weather: forecast -->
+        <table class="table weather" ng-if="vm.weather.forecast">
+            <tr><th class="w-fcast" ng-repeat="day in vm.weather.forecast">{{day.dow}}</th></tr>
             <tr>
-                <td class="w-updated" colspan="5">{{vm.weather.updated}}</td>
+                <td class="w-fcast" ng-repeat="day in vm.weather.forecast">
+                    <i class="wi" ng-class="day.iconWiClass"></i>
+                    {{day.temperature.lowMin}} · {{day.temperature.highMax}} °C
+                </td>
+            </tr>
+            <tr>
+                <td class="w-fcast" ng-repeat="day in vm.weather.forecast">
+                    <i class="wi wi-raindrops"></i> {{day.rain.probability}}%
+                </td>
+            </tr>
+            <!-- Update date/time -->
+            <tr>
+                <td class="w-updated" colspan="{{vm.weather.forecast.length}}">{{vm.weather.updated}}</td>
             </tr>
         </table>
-        <hr>
+
         <!-- Train departure times -->
         <div class="row">
             <div class="col-sm-6">

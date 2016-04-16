@@ -2,31 +2,34 @@ body, html {
     overflow: hidden;
 }
 
-/* Data blocks */
-.db-date {
-    font-size: 70px;
-    text-align: right;
+.table {
+    margin-bottom: 0;
 }
-.db-dow {
-    font-size: 35px;
-    text-align: left;
-    padding-top: 10px;
+
+/* Date and time */
+.table.datetime td {
+    vertical-align: middle;
+    text-align: center;
+    width: 33.333%;
 }
-.db-time {
-    font-size: 80px;
-    font-weight: bold;
+.table.datetime td.dt-date { font-size: 70px; }
+.table.datetime td.dt-dow  { font-size: 35px; }
+.table.datetime td.dt-time { font-size: 80px; font-weight: bold; }
+
+/* Weather */
+.table.weather td, .table.weather th {
+    vertical-align: middle;
     text-align: center;
 }
-/* Weather */
-.table.weather td {
-    vertical-align: middle;
-}
-.table td.w-icon      { font-size: 100px; text-align: center; }
-.table td.w-text      { font-size: 32px;  text-align: center; }
-.table td.w-temp      { font-size: 92px;  text-align: center; }
+.table td.w-icon      { font-size: 100px; }
+.table td.w-text      { font-size: 32px;  }
+.table td.w-temp      { font-size: 92px;  }
 .table td.w-smalltext { font-size: 26px;  text-align: left; padding: 4px; }
 .table td.w-smallicon { font-size: 32px;  padding: 0; }
-.table td.w-updated   { font-size: 11px;  text-align: center; }
+.table td.w-updated   { font-size: 11px;  }
+
+.table th.w-fcast     { font-size: 32px; }
+.table td.w-fcast     { font-size: 20px; }
 
 /* Train schedules */
 .train-time {
