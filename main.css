@@ -17,24 +17,16 @@ body, html {
     font-weight: bold;
     text-align: center;
 }
-.db-weather-text {
-    font-size: 40px;
-    text-align: center;
+/* Weather */
+.table.weather td {
+    vertical-align: middle;
 }
-.db-weather-temp {
-    font-size: 72px;
-    font-weight: bold;
-    text-align: center;
-}
-.db-weather-wind, .db-weather-humi, .db-weather-baro, .db-weather-rain {
-    font-size: 26px;
-    text-align: center;
-}
-.db-weather-updated {
-    font-size: 9px;
-    text-align: center;
-    padding-top: 10px;
-}
+.table td.w-icon      { font-size: 100px; text-align: center; }
+.table td.w-text      { font-size: 32px;  text-align: center; }
+.table td.w-temp      { font-size: 92px;  text-align: center; }
+.table td.w-smalltext { font-size: 26px;  text-align: left; padding: 4px; }
+.table td.w-smallicon { font-size: 32px;  padding: 0; }
+.table td.w-updated   { font-size: 11px;  text-align: center; }
 
 /* Train schedules */
 .train-time {

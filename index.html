@@ -17,27 +17,30 @@
             <div class="col-sm-5 db-time" ng-bind="vm.now | date:'HH:mm'"></div>
         </div>
         <!-- Weather -->
-        <div class="row">
-            <div class="col-sm-5 db-weather-text">
-                <img ng-src="{{vm.weather.current.iconUrl}}" style="width: 74px;"> {{vm.weather.current.text}}
-            </div>
-            <div class="col-sm-2 db-weather-temp">
-                {{vm.weather.current.temperature}} °C
-            </div>
-            <div class="col-sm-5 db-weather-wind">
-                Wind: {{vm.weather.current.wind.dirText}} {{vm.weather.current.wind.speed}} bft
-            </div>
-            <div class="col-sm-5 db-weather-humi">
-                Humidity: {{vm.weather.current.humidity}}%
-            </div>
-            <div class="col-sm-5 db-weather-baro">
-                Pressure: {{vm.weather.current.pressure}} hPa
-            </div>
-            <div class="col-sm-5 db-weather-rain">
-                Rain:  {{vm.weather.current.rain}} mm/h
-            </div>
-            <div class="col-sm-5 db-weather-updated">{{vm.weather.updated | date:'HH:mm'}}</div>
-        </div>
+        <table class="table weather">
+            <tr>
+                <td class="w-icon" rowspan="4"><i class="wi" ng-class="vm.weather.current.iconWiClass"></i></td>
+                <td class="w-text" rowspan="4">{{vm.weather.current.text}}</td>
+                <td class="w-temp" rowspan="4">{{vm.weather.current.temperature}} <i class="wi wi-celsius"></i></td>
+                <td class="w-smallicon"><i class="wi" ng-class="'wi-wind-beaufort-' + vm.weather.current.wind.speed"></i></td>
+                <td class="w-smalltext">{{vm.weather.current.wind.dirText}}</td>
+            </tr>
+            <tr>
+                <td class="w-smallicon"><i class="wi wi-humidity"></i></td>
+                <td class="w-smalltext">{{vm.weather.current.humidity}}%</td>
+            </tr>
+            <tr>
+                <td class="w-smallicon"><i class="wi wi-barometer"></i></td>
+                <td class="w-smalltext">{{vm.weather.current.pressure | number:0 }} hPa</td>
+            </tr>
+            <tr>
+                <td class="w-smallicon"><i class="wi wi-raindrops"></i></td>
+                <td class="w-smalltext">{{vm.weather.current.rain === '-' ? 0 : vm.weather.current.rain}} mm/h</td>
+            </tr>
+            <tr>
+                <td class="w-updated" colspan="5">{{vm.weather.updated}}</td>
+            </tr>
+        </table>
         <hr>
         <!-- Train departure times -->
         <div class="row">
