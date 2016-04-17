@@ -8,101 +8,110 @@
     <link href="/main.css" rel="stylesheet">
     <title>homepi</title>
 </head>
-<body>
-    <div ng-controller="HomeController as vm">
-        <!-- Date and time -->
-        <table class="table datetime" ng-if="vm.now">
-            <tr>
-                <td class="dt-date" ng-bind="vm.now | date:'d.MM'"></td>
-                <td class="dt-dow"  ng-bind="vm.now | date:'EEEE'"></td>
-                <td class="dt-time" ng-bind="vm.now | date:'HH:mm'"></td>
-            </tr>
-        </table>
+<body ng-controller="HomeController as vm">
+    <!-- Date and time -->
+    <table class="table datetime" ng-if="vm.now">
+        <tr>
+            <td class="dt-date" ng-bind="vm.now | date:'d.MM'"></td>
+            <td class="dt-dow"  ng-bind="vm.now | date:'EEEE'"></td>
+            <td class="dt-time" ng-bind="vm.now | date:'HH:mm'"></td>
+        </tr>
+    </table>
 
-        <!-- Weather: current -->
-        <div class="alert alert-info" ng-if="!vm.weather">Failed to fetch weather</div>
-        <table class="table weather" ng-if="vm.weather.current">
-            <tr>
-                <td class="w-icon" rowspan="4"><i class="wi" ng-class="vm.weather.current.iconWiClass"></i></td>
-                <td class="w-text" rowspan="4">{{vm.weather.current.text}}</td>
-                <td class="w-temp" rowspan="4">{{vm.weather.current.temperature}} <i class="wi wi-celsius"></i></td>
-                <td class="w-smallicon"><i class="wi" ng-class="'wi-wind-beaufort-' + vm.weather.current.wind.speed"></i></td>
-                <td class="w-smalltext">{{vm.weather.current.wind.dirText}}</td>
-            </tr>
-            <tr>
-                <td class="w-smallicon"><i class="wi wi-humidity"></i></td>
-                <td class="w-smalltext">{{vm.weather.current.humidity}}%</td>
-            </tr>
-            <tr>
-                <td class="w-smallicon"><i class="wi wi-barometer"></i></td>
-                <td class="w-smalltext">{{vm.weather.current.pressure | number:0}} hPa</td>
-            </tr>
-            <tr>
-                <td class="w-smallicon"><i class="wi wi-raindrops"></i></td>
-                <td class="w-smalltext">{{vm.weather.current.rain === '-' ? 0 : vm.weather.current.rain}} mm/h</td>
-            </tr>
-        </table>
+    <!-- Weather: current -->
+    <div class="alert alert-info" ng-if="!vm.weather">Failed to fetch weather</div>
+    <table class="table weather" ng-if="vm.weather.current">
+        <tr>
+            <td class="w-icon" rowspan="4"><i class="wi" ng-class="vm.weather.current.iconWiClass"></i></td>
+            <td class="w-text" rowspan="4">{{vm.weather.current.text}}</td>
+            <td class="w-temp" rowspan="4">{{vm.weather.current.temperature}} <i class="wi wi-celsius"></i></td>
+            <td class="w-smallicon"><i class="wi" ng-class="'wi-wind-beaufort-' + vm.weather.current.wind.speed"></i></td>
+            <td class="w-smalltext">{{vm.weather.current.wind.dirText}}</td>
+        </tr>
+        <tr>
+            <td class="w-smallicon"><i class="wi wi-humidity"></i></td>
+            <td class="w-smalltext">{{vm.weather.current.humidity}}%</td>
+        </tr>
+        <tr>
+            <td class="w-smallicon"><i class="wi wi-barometer"></i></td>
+            <td class="w-smalltext">{{vm.weather.current.pressure | number:0}} hPa</td>
+        </tr>
+        <tr>
+            <td class="w-smallicon"><i class="wi wi-raindrops"></i></td>
+            <td class="w-smalltext">{{vm.weather.current.rain === '-' ? 0 : vm.weather.current.rain}} mm/h</td>
+        </tr>
+    </table>
 
-        <!-- Weather: forecast -->
-        <table class="table weather" ng-if="vm.weather.forecast">
-            <tr><th class="w-fcast" ng-repeat="day in vm.weather.forecast">{{day.dow}}</th></tr>
-            <tr>
-                <td class="w-fcast" ng-repeat="day in vm.weather.forecast">
-                    <i class="wi" ng-class="day.iconWiClass"></i>
-                    <span class="w-fcast-temp">{{day.temperature.lowMin}} ··· {{day.temperature.highMax}}</span>
-                </td>
-            </tr>
-            <tr>
-                <td class="w-fcast" ng-repeat="day in vm.weather.forecast">
-                    <i class="wi wi-raindrop"></i> <span class="w-fcast-prob">{{day.rain.probability}}</span>
-                    <i class="wi wi-day-sunny"></i> <span class="w-fcast-prob">{{day.probSun}}</span>
-                </td>
-            </tr>
-            <!-- Update date/time -->
-            <tr>
-                <td class="w-updated" colspan="{{vm.weather.forecast.length}}">{{vm.weather.updated}}</td>
-            </tr>
-        </table>
+    <!-- Weather: forecast -->
+    <table class="table weather" ng-if="vm.weather.forecast">
+        <tr><th class="w-fcast" ng-repeat="day in vm.weather.forecast">{{day.dow}}</th></tr>
+        <tr>
+            <td class="w-fcast" ng-repeat="day in vm.weather.forecast">
+                <i class="wi" ng-class="day.iconWiClass"></i>
+                <span class="w-fcast-temp">{{day.temperature.lowMin}} ··· {{day.temperature.highMax}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="w-fcast" ng-repeat="day in vm.weather.forecast">
+                <i class="wi wi-raindrop"></i> <span class="w-fcast-prob">{{day.rain.probability}}</span>
+                <i class="wi wi-day-sunny"></i> <span class="w-fcast-prob">{{day.probSun}}</span>
+            </td>
+        </tr>
+        <!-- Update date/time -->
+        <tr>
+            <td class="w-updated" colspan="{{vm.weather.forecast.length}}">{{vm.weather.updated}}</td>
+        </tr>
+    </table>
+
+    <!-- Train departure times -->
+    <table class="table trains">
+        <tr>
 
         <!-- Train departure times -->
-        <table class="table trains">
-            <tr>
+        <td class="width50">
+            <h1>Houten Castellum</h1>
+            <table class="table">
+                <tr ng-repeat="train in vm.trainDepartureTimes">
+                    <td class="train-time" >{{train.time | date:'HH:mm'}}</td>
+                    <td class="train-delay">{{train.delay}}</td>
+                    <td class="train-dest" >
+                        {{train.dest}}
+                        <div class="train-notes" ng-bind="train.notes"></div>
+                    </td>
+                    <td class="train-type" >{{train.type}}</td>
+                    <td class="train-platf">{{train.platf}}</td>
+                </tr>
+            </table>
+        </td>
 
-            <!-- Train departure times -->
-            <td class="width50">
-                <h1>Houten Castellum</h1>
-                <table class="table">
-                    <tr ng-repeat="train in vm.trainDepartureTimes">
-                        <td class="train-time" >{{train.time | date:'HH:mm'}}</td>
-                        <td class="train-delay">{{train.delay}}</td>
-                        <td class="train-dest" >
-                            {{train.dest}}
-                            <div class="train-notes" ng-bind="train.notes"></div>
-                        </td>
-                        <td class="train-type" >{{train.type}}</td>
-                        <td class="train-platf">{{train.platf}}</td>
-                    </tr>
-                </table>
-            </td>
+        <!-- Travel advice -->
+        <td class="width50">
+            <h1>Castellum → Bijlmer</h1>
+            <table class="table advice">
+                <tr ng-repeat="advice in vm.travelAdvices" ng-class="advice.classes">
+                    <td class="adv-time">
+                        {{advice.plannedDepTime | date:'HH:mm'}}
+                        <span class="adv-delay">{{advice.depDelay}}</span>
+                        →
+                        {{advice.plannedArrTime | date:'HH:mm'}}
+                        <span class="adv-delay">{{advice.arrDelay}}</span>
+                    </td>
+                    <td class="adv-dura" ng-class="{'adv-delay': advice.plannedDuration !== advice.actualDuration}">
+                        {{advice.actualDuration}}
+                    </td>
+                    <td class="adv-chgs">{{advice.numChanges}}</td>
+                    <td class="adv-stat">
+                        <span class="adv-warning" ng-if="advice.status !== 'ok'"></span>
+                        {{advice.status}}
+                    </td>
+                </tr>
+            </table>
+        </td>
+        </tr>
+    </table>
 
-            <!-- Travel advice -->
-            <td class="width50">
-                <h1>Castellum → Bijlmer</h1>
-                <table class="table advice">
-                    <tr ng-repeat="advice in vm.travelAdvices" ng-class="'adv-status-' + advice.status">
-                        <td class="adv-time">{{advice.plannedDepTime | date:'HH:mm'}} → {{advice.plannedArrTime | date:'HH:mm'}}</td>
-                        <td class="adv-dura">{{advice.actualDuration}}</td>
-                        <td class="adv-chgs">{{advice.numChanges}}</td>
-                        <td class="adv-stat">
-                            <span class="adv-warning" ng-if="advice.status !== 'ok'"></span>
-                            {{advice.status}}
-                        </td>
-                    </tr>
-                </table>
-            </td>
-            </tr>
-        </table>
-    </div>
+    <!-- BuienRadar map -->
+    <div class="radar"><img class="radar-map" ng-src="{{vm.radarMapUrl}}"></div>
 
     <!-- Scripts -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>

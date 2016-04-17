@@ -28,6 +28,7 @@
 
         function updateWeather() {
             BuienRadarService.getWeather(buienRadarStationId).then(function (data) { vm.weather = data; });
+            vm.radarMapUrl = BuienRadarService.getRadarMapUrl();
         }
 
         function updateDepartureTimes() {

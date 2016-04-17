@@ -8,13 +8,18 @@
     BuienRadarService.$inject = ['$http', '$q'];
     function BuienRadarService($http, $q) {
         return {
-            getWeather: getWeather
+            getWeather:     getWeather,
+            getRadarMapUrl: getRadarMapUrl
         };
 
         function getWeather(stationId) {
             return $http
                 .get('/buienradar', {params: {station: stationId}})
                 .then(handleSuccess, handleError);
+        }
+
+        function getRadarMapUrl() {
+            return 'http://api.buienradar.nl/image/1.0/RadarMapNL?w=500&h=512&dummy=' + Math.random();
         }
 
         // Private functions

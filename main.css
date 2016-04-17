@@ -76,9 +76,17 @@ body, html {
 .adv-dura { font-size: 18px; }
 .adv-chgs { }
 .adv-stat { }
+.adv-delay { color: #f00; font-weight: bold; }
+.adv-expired { color: #888; }
 .adv-status-ok         {  }
 .adv-status-subopt     {  }
 .adv-status-impossible { color: #888; text-decoration: line-through; }
 .adv-status-canceled   { color: #888; text-decoration: line-through; }
 .adv-status-delayed    { color: #ffccc; }
 .adv-warning:before { content: '\26a0'; font-size: 18px; font-weight: bold; color: #f00; }
+
+/* BuienRadar map */
+.radar-map {
+    width: 100%;
+    height: auto;
+}

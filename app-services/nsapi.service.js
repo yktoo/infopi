@@ -54,7 +54,31 @@
                             ann_card:     params.annCard
                         }
                     })
-                .then(handleSuccess, handleError);
+                .then(handleSuccess, handleError)
+                .then(function (data) {
+                    var curTime = new Date();
+                    return data.map(function (el) {
+                        // Convert dates to Date() objects
+                        el.plannedDepTime = new Date(el.plannedDepTime);
+                        el.actualDepTime  = new Date(el.actualDepTime);
+                        el.plannedArrTime = new Date(el.plannedArrTime);
+                        el.actualArrTime  = new Date(el.actualArrTime);
+                        // Calculate delays
+                        el.depDelay = getDelay(el.plannedDepTime, el.actualDepTime);
+                        el.arrDelay = getDelay(el.plannedArrTime, el.actualArrTime);
+                        // Recursively convert dates in fragments/stops
+                        el.fragments = el.fragments.map(function (f) {
+                            f.stops = f.stops.map(function (s) {
+                                s.time = new Date(s.time);
+                            });
+                        });
+                        // Enrich with class names
+                        el.classes = ['adv-status-' + el.status];
+                        if (el.actualDepTime < curTime)
+                            el.classes.push('adv-expired');
+                        return el;
+                    });
+                });
         }
 
         // Private functions
@@ -65,6 +89,14 @@
 
         function handleError(response) {
             return $q.reject(response.data.message || response.data.errorMessage || response.statusText);
+        }
+
+        /**
+         * Calculates and returns time delay string.
+         */
+        function getDelay(planned, actual) {
+            var delay = actual - planned;
+            return delay > 0 ? '+' + delay : null;
         }
 
     }
