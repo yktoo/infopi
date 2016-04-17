@@ -49,7 +49,7 @@
             <tr>
                 <td class="w-fcast" ng-repeat="day in vm.weather.forecast">
                     <i class="wi" ng-class="day.iconWiClass"></i>
-                    {{day.temperature.lowMin}} · {{day.temperature.highMax}} °C
+                    <span class="w-fcast-temp">{{day.temperature.lowMin}} ··· {{day.temperature.highMax}}</span>
                 </td>
             </tr>
             <tr>

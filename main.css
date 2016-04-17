@@ -37,6 +37,8 @@ body, html {
 
 .table th.w-fcast     { font-size: 32px; }
 .table td.w-fcast     { font-size: 20px; border: none; }
+.w-fcast-temp         { font-size: 16px; }
+.w-fcast-temp:after   { font-size: 10px; content: '\2103'; padding-left: 3px; }
 .w-fcast-prob         { font-size: 16px; }
 .w-fcast-prob:after   { font-size: 10px; content: '%'; }
 
