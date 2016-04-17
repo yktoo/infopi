@@ -48,7 +48,7 @@
             // Schedule regular updates
             $interval(updateNow,          10 * 1000);       // 10 sec
             $interval(updateWeather,      10 * 60 * 1000);  // 10 min
-            $interval(updateTravelAdvice, 10 * 60 * 1000);  // 10 min
+            $interval(updateTravelAdvice, 1  * 60 * 1000);  // 1 min
         }
 
     }
