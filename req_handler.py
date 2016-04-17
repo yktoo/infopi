@@ -1,34 +1,37 @@
-import re
 import json
+import urllib.parse
 from http.server import SimpleHTTPRequestHandler
 
-from provider.ns import NSDepartureTimesProvider
+from provider.ns import NSDepartureTimesProvider, NSTravelAdviceProvider
 from provider.buienradar import BuienRadarDataProvider
 
-# Array of route-provider mappings
-ROUTE_MAP = [
-    # NS departure times: /ns/dep/<station_code>
-    {'route': '/ns/dep/([a-z]+)', 'handler': NSDepartureTimesProvider},
-    # Weather: /weather/<station_id>
-    {'route': '/buienradar/(\d+)', 'handler': BuienRadarDataProvider},
-]
+# Route-to-handler mappings
+ROUTE_MAP = {
+    '/ns/dep-times':     NSDepartureTimesProvider,
+    '/ns/travel-advice': NSTravelAdviceProvider,
+    '/buienradar':       BuienRadarDataProvider,
+}
 
 
 class HomePiRequestHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
-        # Iterate through defined routes to find the appropriate one
-        handled = False
-        data = None
-        for entry in ROUTE_MAP:
-            match = re.match(entry['route'], self.path)
-            if match is not None:
-                handled = True
-                data = entry['handler'](match.group(1)).get()
-                break
+        # Parse the request
+        url_components = urllib.parse.urlsplit(self.path)
+        url_path = url_components[2]
 
-        # No match found, consider it's a static resource: hand over to the original handler
-        if not handled:
+        # Parse the query string
+        url_params = urllib.parse.parse_qs(url_components[3])
+        # De-list single-item value lists
+        for name, value in url_params.items():
+            if type(value) is list and len(value) == 1:
+                url_params[name] = value[0]
+
+        # No appropriate handler found, consider it's a static resource: hand over to the original handler
+        if url_path not in ROUTE_MAP:
             return SimpleHTTPRequestHandler.do_GET(self)
+
+        # Instantiate and run the handler
+        data = ROUTE_MAP[url_path](**url_params).get()
 
         # Send response status code
         self.send_response(200)

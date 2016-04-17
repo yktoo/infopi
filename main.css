@@ -44,7 +44,7 @@ body, html {
 
 /* Train schedules */
 .train-time {
-    font-size: 130%;
+    font-size: 18px;
 }
 .train-delay {
     color: #f00;
@@ -64,3 +64,15 @@ body, html {
     font-weight: bold;
     text-align: center;
 }
+
+/* Travel advice */
+.adv-time { font-size: 18px; }
+.adv-dura { font-size: 18px; }
+.adv-chgs { }
+.adv-stat { }
+.adv-status-ok         {  }
+.adv-status-subopt     {  }
+.adv-status-impossible { color: #888; text-decoration: line-through; }
+.adv-status-canceled   { color: #888; text-decoration: line-through; }
+.adv-status-delayed    { color: #ffccc; }
+.adv-warning:before { content: '\26a0'; font-size: 18px; font-weight: bold; color: #f00; }

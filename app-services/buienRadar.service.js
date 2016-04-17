@@ -13,7 +13,7 @@
 
         function getWeather(stationId) {
             return $http
-                .get('/buienradar/' + stationId)
+                .get('/buienradar', {params: {station: stationId}})
                 .then(handleSuccess, handleError);
         }
 

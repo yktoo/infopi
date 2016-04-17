@@ -1,6 +1,7 @@
 import logging
 from abc import ABCMeta, abstractmethod
 import urllib.request
+import urllib.parse
 
 from .data_provider import DataProvider
 
@@ -11,7 +12,8 @@ class HttpDataProvider(DataProvider, metaclass=ABCMeta):
     def get(self):
         try:
             # Fetch data from the server
-            data = urllib.request.urlopen(self.get_url()).read().decode('utf-8')
+            url = self.get_url() + '?' + urllib.parse.urlencode(self.get_query_params())
+            data = urllib.request.urlopen(url).read().decode('utf-8')
 
             # Process and return the data
             return self.process_data(data)
@@ -22,6 +24,11 @@ class HttpDataProvider(DataProvider, metaclass=ABCMeta):
     @abstractmethod
     def get_url(self):
         """Return URL to fetch data from."""
+
+    # noinspection PyMethodMayBeStatic
+    def get_query_params(self) -> dict:
+        """Return parameters for the URL query string, as a dictionary. Base class returns an empty dictionary."""
+        return {}
 
     @abstractmethod
     def process_data(self, data: str):

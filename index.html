@@ -71,8 +71,18 @@
                 <div train-times="htnc"></div>
             </div>
             <div class="col-sm-6">
-                <h1>Utrecht</h1>
-                <div train-times="ut"></div>
+                <h1>Castellum → Bijlmer</h1>
+                <table class="table advice">
+                    <tr ng-repeat="advice in vm.travelAdvices" ng-class="'adv-status-' + advice.status">
+                        <td class="adv-time">{{advice.plannedDepTime | date:'HH:mm'}} → {{advice.plannedArrTime | date:'HH:mm'}}</td>
+                        <td class="adv-dura">{{advice.actualDuration}}</td>
+                        <td class="adv-chgs">{{advice.numChanges}}</td>
+                        <td class="adv-stat">
+                            <span class="adv-warning" ng-if="advice.status !== 'ok'"></span>
+                            {{advice.status}}
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

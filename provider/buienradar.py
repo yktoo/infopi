@@ -71,11 +71,11 @@ DOW_MAP = {
 class BuienRadarDataProvider(HttpDataProvider):
     """Weather data provider taking its data from weer.nl"""
 
-    def __init__(self, station_id: str):
+    def __init__(self, station: str):
         """Constructor. Initialises the instance.
-        :type station_id ID of BuienRadar station to get weather data for
+        :type station ID of BuienRadar station to get weather data for
         """
-        self.station_id = station_id
+        self.station = station
 
     @staticmethod
     def get_element(parent, path: str):
@@ -101,7 +101,7 @@ class BuienRadarDataProvider(HttpDataProvider):
 
         e_station = self.get_element(
             e_root,
-            "./weergegevens/actueel_weer/weerstations/weerstation[@id='{}']".format(self.station_id))
+            "./weergegevens/actueel_weer/weerstations/weerstation[@id='{}']".format(self.station))
 
         # Process the current weather
         e_icon = self.get_element(e_station, 'icoonactueel')
