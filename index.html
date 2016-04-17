@@ -65,12 +65,28 @@
         </table>
 
         <!-- Train departure times -->
-        <div class="row">
-            <div class="col-sm-6">
+        <table class="table trains">
+            <tr>
+
+            <!-- Train departure times -->
+            <td class="width50">
                 <h1>Houten Castellum</h1>
-                <div train-times="htnc"></div>
-            </div>
-            <div class="col-sm-6">
+                <table class="table">
+                    <tr ng-repeat="train in vm.trainDepartureTimes">
+                        <td class="train-time" >{{train.time | date:'HH:mm'}}</td>
+                        <td class="train-delay">{{train.delay}}</td>
+                        <td class="train-dest" >
+                            {{train.dest}}
+                            <div class="train-notes" ng-bind="train.notes"></div>
+                        </td>
+                        <td class="train-type" >{{train.type}}</td>
+                        <td class="train-platf">{{train.platf}}</td>
+                    </tr>
+                </table>
+            </td>
+
+            <!-- Travel advice -->
+            <td class="width50">
                 <h1>Castellum → Bijlmer</h1>
                 <table class="table advice">
                     <tr ng-repeat="advice in vm.travelAdvices" ng-class="'adv-status-' + advice.status">
@@ -83,16 +99,16 @@
                         </td>
                     </tr>
                 </table>
-            </div>
-        </div>
+            </td>
+            </tr>
+        </table>
     </div>
 
     <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
     <script src="app.module.js"></script>
     <script src="app-services/nsapi.service.js"></script>
     <script src="app-services/buienRadar.service.js"></script>
-    <script src="app-services/trainTimes.directive.js"></script>
     <script src="home/controller.js"></script>
 </body>
 </html>

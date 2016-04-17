@@ -72,9 +72,6 @@ class NSDepartureTimesProvider(NSDataProvider):
             if e_train.tag != 'VertrekkendeTrein':
                 raise NSError('Train XML node is not <VertrekkendeTrein>')
 
-            # Parse the departure time
-            dep_time = dateutil.parser.parse(e_train.findtext('VertrekTijd', ''))
-
             # Collect notes
             e_notes = e_train.find('Opmerkingen')
             notes = None
@@ -83,11 +80,11 @@ class NSDepartureTimesProvider(NSDataProvider):
 
             # Append a data row
             output_data.append({
-                'time':  dep_time.strftime('%H:%M'),
-                'delay': e_train.findtext('VertrekVertragingTekst', ''),
-                'dest':  e_train.findtext('EindBestemming',         ''),
-                'type':  e_train.findtext('TreinSoort',             ''),
-                'platf': e_train.findtext('VertrekSpoor',           ''),
+                'time':  e_train.findtext('VertrekTijd'),
+                'delay': e_train.findtext('VertrekVertragingTekst'),
+                'dest':  e_train.findtext('EindBestemming'),
+                'type':  e_train.findtext('TreinSoort'),
+                'platf': e_train.findtext('VertrekSpoor'),
                 'notes': notes
             })
 

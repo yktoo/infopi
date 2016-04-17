@@ -8,12 +8,16 @@
     HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService'];
     function HomeController($interval, NsApiService, BuienRadarService) {
         var vm = this;
-        var buienRadarStationId = '6260'; // Meetstation De Bilt
+        var trainDepTimesStation = 'htnc'; // Houten Castellum
+        var travelAdvFromStation = 'htnc'; // Houten Castellum
+        var travelAdvToStation   = 'asb';  // Houten Amsterdam Bijlmer Arena
+        var buienRadarStationId  = '6260'; // Meetstation De Bilt
 
         // Publish VM properties
-        vm.updateNow          = updateNow;
-        vm.updateWeather      = updateWeather;
-        vm.updateTravelAdvice = updateTravelAdvice;
+        vm.updateNow            = updateNow;
+        vm.updateWeather        = updateWeather;
+        vm.updateDepartureTimes = updateDepartureTimes;
+        vm.updateTravelAdvice   = updateTravelAdvice;
 
         // Initially update the data
         init();
@@ -26,11 +30,15 @@
             BuienRadarService.getWeather(buienRadarStationId).then(function (data) { vm.weather = data; });
         }
 
+        function updateDepartureTimes() {
+            NsApiService.getTrainTimes(trainDepTimesStation).then(function (data) { vm.trainDepartureTimes = data});
+        }
+
         function updateTravelAdvice() {
             NsApiService
                 .getTravelAdvice({
-                    from: 'htnc', // Houten Castellum
-                    to:   'asb',  // Amsterdam Bijlmer Arena
+                    from: travelAdvFromStation,
+                    to:   travelAdvToStation,
                     prev: 1,
                     next: 5
                 })
@@ -44,11 +52,13 @@
         function init() {
             updateNow();
             updateWeather();
+            updateDepartureTimes();
             updateTravelAdvice();
             // Schedule regular updates
-            $interval(updateNow,          10 * 1000);       // 10 sec
-            $interval(updateWeather,      10 * 60 * 1000);  // 10 min
-            $interval(updateTravelAdvice, 1  * 60 * 1000);  // 1 min
+            $interval(updateNow,            10 * 1000);       // 10 sec
+            $interval(updateWeather,        10 * 60 * 1000);  // 10 min
+            $interval(updateDepartureTimes, 30 * 1000);       // 30 sec
+            $interval(updateTravelAdvice,   1  * 60 * 1000);  // 1 min
         }
 
     }
