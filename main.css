@@ -1,5 +1,6 @@
 body, html {
     overflow: hidden;
+    font-size: 18px;
 }
 
 .table {
@@ -12,8 +13,6 @@ body, html {
     vertical-align: middle;
     text-align: center;
     width: 33.333%;
-    background-color: #fff;
-    color: #000;
 }
 .table.datetime td.dt-date { font-size: 70px; }
 .table.datetime td.dt-dow  { font-size: 35px; }
@@ -32,16 +31,16 @@ body, html {
 .table td.w-icon      { width: 150px; font-size: 100px; }
 .table td.w-text      { width: 350px; font-size: 32px;  }
 .table td.w-temp      { width: 350px; font-size: 92px;  }
-.table td.w-smalltext { font-size: 26px;  text-align: left; padding: 4px; }
-.table td.w-smallicon { font-size: 32px;  padding: 0; }
-.table td.w-updated   { font-size: 11px;  }
+.table td.w-smalltext { font-size: 32px;  text-align: left; padding: 4px; }
+.table td.w-smallicon { font-size: 40px;  padding: 0; }
+.table td.w-updated   { font-size: 16px;  }
 
 .table th.w-fcast     { font-size: 32px; }
-.table td.w-fcast     { font-size: 20px; border: none; }
-.w-fcast-temp         { font-size: 16px; }
-.w-fcast-temp:after   { font-size: 10px; content: '\2103'; padding-left: 3px; }
-.w-fcast-prob         { font-size: 16px; }
-.w-fcast-prob:after   { font-size: 10px; content: '%'; }
+.table td.w-fcast     { font-size: 30px; border: none; }
+.w-fcast-temp         { font-size: 24px; }
+.w-fcast-temp:after   { font-size: 16px; content: '\2103'; padding-left: 3px; }
+.w-fcast-prob         { font-size: 24px; }
+.w-fcast-prob:after   { font-size: 16px; content: '%'; }
 
 /* Trains */
 .table.trains > tbody > tr > td {
@@ -50,17 +49,15 @@ body, html {
 
 /* Train schedules */
 .train-time {
-    font-size: 18px;
+    font-size: 20px;
 }
 .train-delay {
-    color: #f00;
     font-weight: bold;
     padding-left: 4px;
 }
 .train-dest {
 }
 .train-notes {
-    color: #f00;
     font-weight: bold;
 }
 .train-type {
@@ -72,11 +69,11 @@ body, html {
 }
 
 /* Travel advice */
-.adv-time { font-size: 18px; }
-.adv-dura { font-size: 18px; }
+.adv-time { font-size: 20px; }
+.adv-dura { font-size: 20px; }
 .adv-chgs { }
 .adv-stat { }
-.adv-delay { color: #f00; font-weight: bold; }
+.adv-delay { font-weight: bold; }
 .adv-expired { color: #888; }
 .adv-status-ok         { }
 .adv-status-subopt     { }
@@ -84,7 +81,8 @@ body, html {
 .adv-status-canceled   { color: #888; text-decoration: line-through; }
 .adv-status-delayed    { }
 .adv-status-changed    { color: #ffffcc; }
-.adv-warning:before { content: '\26a0'; font-size: 18px; font-weight: bold; color: #f00; }
+.adv-status-new        { }
+.adv-warning:before { content: '\26a0'; font-size: 22px; font-weight: bold; }
 
 /* BuienRadar map */
 .radar-map {

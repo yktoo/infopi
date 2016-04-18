@@ -14,6 +14,7 @@ STATUS_MAP = {
     'GEANNULEERD':   'canceled',    # Canceled
     'VERTRAAGD':     'delayed',     # Delayed
     'PLAN-GEWIJZGD': 'changed',     # Changed
+    'NIEUW':         'new',         # New
 }
 
 

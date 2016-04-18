@@ -92,11 +92,11 @@
         }
 
         /**
-         * Calculates and returns time delay string.
+         * Calculates and returns time delay string (minutes).
          */
         function getDelay(planned, actual) {
             var delay = actual - planned;
-            return delay > 0 ? '+' + delay : null;
+            return delay > 0 ? '+' + delay/(60 * 1000) : null;
         }
 
     }
