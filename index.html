@@ -102,7 +102,7 @@
                     <td class="adv-chgs">{{advice.numChanges}}</td>
                     <td class="adv-stat">
                         <span class="adv-warning" ng-if="advice.status !== 'ok'"></span>
-                        {{advice.status}}
+                        {{advice.status === 'ok' ? '' : advice.status}}
                     </td>
                 </tr>
             </table>
