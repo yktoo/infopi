@@ -52,7 +52,7 @@
             </td>
         </tr>
         <tr>
-            <td class="w-fcast" ng-repeat="day in vm.weather.forecast">
+            <td class="w-fcast w-fcast-probs" ng-repeat="day in vm.weather.forecast">
                 <i class="wi wi-raindrop"></i> <span class="w-fcast-prob">{{day.rain.probability}}</span>
                 <i class="wi wi-day-sunny"></i> <span class="w-fcast-prob">{{day.probSun}}</span>
             </td>
