@@ -1,4 +1,3 @@
-import re
 from xml.etree import ElementTree
 
 from .http import HttpDataProvider
@@ -112,20 +111,20 @@ class BuienRadarDataProvider(HttpDataProvider):
                 'latitude':   e_station.findtext('lat'),
                 'longitude':  e_station.findtext('lon'),
             },
-            'temperature':    e_station.findtext('temperatuurGC'),      # In °C
+            'temperature':    e_station.findtext('temperatuurGC'),       # In °C
             'humidity':       e_station.findtext('luchtvochtigheid'),
-            'pressure':       e_station.findtext('luchtdruk'),          # In hPa
+            'pressure':       e_station.findtext('luchtdruk'),           # In hPa
             'wind': {
-                'dirText':    e_station.findtext('windrichting'),       # Text, like 'WZW'
-                'dirDegrees': e_station.findtext('windrichtingGR'),     # In degrees
-                'speed':      e_station.findtext('windsnelheidBF'),     # In bft
-                'gusts':      e_station.findtext('windstotenMS')        # In m/s
+                'dirText':    e_station.findtext('windrichting'),        # Text, like 'WZW'
+                'dirDegrees': e_station.findtext('windrichtingGR'),      # In degrees
+                'speed':      e_station.findtext('windsnelheidBF'),      # In bft
+                'gusts':      e_station.findtext('windstotenMS')         # In m/s
             },
-            'rain':           e_station.findtext('regenMMPU'),          # In mm/h
-            'visibility':     e_station.findtext('zichtmeters'),        # In metres
-            'iconUrl':        e_icon.text,                              # Full URL, ie. http://...
-            'iconWiClass':    self.get_wi_icon_class(e_icon.get('ID')), # One of the wi-* classes
-            'text':           e_icon.get('zin'),                        # In Dutch, eg. 'bewolkt'
+            'rain':           e_station.findtext('regenMMPU'),           # In mm/h
+            'visibility':     e_station.findtext('zichtmeters'),         # In metres
+            'iconUrl':        e_icon.text,                               # Full URL, ie. http://...
+            'iconWiClass':    self.get_wi_icon_class(e_icon.get('ID')),  # One of the wi-* classes
+            'text':           e_root.findtext('./weergegevens/verwachting_vandaag/samenvatting'),
         }
 
         # Process the forecast
