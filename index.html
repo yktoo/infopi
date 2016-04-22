@@ -33,7 +33,7 @@
     <!-- BuienRadar map -->
     <table class="table weather">
         <tr>
-            <td class="w-radar-map" rowspan="7">
+            <td class="w-radar-map" rowspan="8">
                 <img class="radar-map" ng-src="{{vm.radarMapUrl}}">
                 <img class="radar-cross" src="/crosshair.png">
             </td>
@@ -42,6 +42,12 @@
             <td class="w-smalltext">{{vm.weather.current.wind.dirText}}</td>
         </tr>
         <tr>
+            <!-- Wind gusts -->
+            <td class="w-smallicon"><i class="wi wi-strong-wind"></i></td>
+            <td class="w-smalltext">{{vm.weather.current.wind.gusts}} m/s</td>
+        </tr>
+        <tr>
+            <!-- Humidity -->
             <td class="w-smallicon"><i class="wi wi-humidity"></i></td>
             <td class="w-smalltext">{{vm.weather.current.humidity}}%</td>
         </tr>
@@ -70,7 +76,7 @@
             <td class="w-smallicon"><i class="wi w-moon" ng-class="vm.weather.sunMoon.moonPhaseWiClass"></i></td>
             <td class="w-smalltext">
                 {{vm.weather.sunMoon.moonPhaseText}}
-                <p class="w-updated">{{vm.weather.updated | date:'HH:mm'}}</p>
+                <p class="w-updated">{{vm.weather.current.station.updated | date:'HH:mm'}}</p>
             </td>
         </tr>
     </table>

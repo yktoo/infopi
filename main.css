@@ -12,6 +12,7 @@ body, html {
     vertical-align: middle;
     text-align: center;
     width: 33.333%;
+    border: none;
 }
 .table.datetime td.dt-date { font-size: 70px; }
 .table.datetime td.dt-dow  { font-size: 35px; }
@@ -47,12 +48,13 @@ body, html {
 .w-smallicon .wi-wind-beaufort-10 { color: #ff3c00; }
 .w-smallicon .wi-wind-beaufort-11 { color: #ff2a00; }
 .w-smallicon .wi-wind-beaufort-12 { color: #ff0000; }
-.w-smallicon .wi-humidity  { color: #ddd; }
-.w-smallicon .wi-barometer { color: #c392ff; }
-.w-smallicon .wi-raindrops { color: #9cf; }
-.w-smallicon .wi-sunrise   { color: #9f9; }
-.w-smallicon .wi-sunset    { color: #f99; }
-.w-smallicon .w-moon       { color: #ffd452; }
+.w-smallicon .wi-strong-wind { color: #ceeaa2; }
+.w-smallicon .wi-humidity    { color: #ddd; }
+.w-smallicon .wi-barometer   { color: #c392ff; }
+.w-smallicon .wi-raindrops   { color: #9cf; }
+.w-smallicon .wi-sunrise     { color: #9f9; }
+.w-smallicon .wi-sunset      { color: #f99; }
+.w-smallicon .w-moon         { color: #ffd452; }
 
 .w-updated   { font-size: 11px; float: right; }
 

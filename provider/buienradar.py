@@ -80,12 +80,12 @@ MOON_PHASE_MAP = [
     {'text': 'Waning gibbous',  'wicls': 'wi-moon-waning-gibbous-5'},
     {'text': 'Waning gibbous',  'wicls': 'wi-moon-waning-gibbous-6'},
     {'text': 'Third quarter',   'wicls': 'wi-moon-third-quarter'},
-    {'text': 'Waningcrescent',  'wicls': 'wi-moon-waning-crescent-1'},
-    {'text': 'Waningcrescent',  'wicls': 'wi-moon-waning-crescent-2'},
-    {'text': 'Waningcrescent',  'wicls': 'wi-moon-waning-crescent-3'},
-    {'text': 'Waningcrescent',  'wicls': 'wi-moon-waning-crescent-4'},
-    {'text': 'Waningcrescent',  'wicls': 'wi-moon-waning-crescent-5'},
-    {'text': 'Waningcrescent',  'wicls': 'wi-moon-waning-crescent-6'},
+    {'text': 'Waning crescent', 'wicls': 'wi-moon-waning-crescent-1'},
+    {'text': 'Waning crescent', 'wicls': 'wi-moon-waning-crescent-2'},
+    {'text': 'Waning crescent', 'wicls': 'wi-moon-waning-crescent-3'},
+    {'text': 'Waning crescent', 'wicls': 'wi-moon-waning-crescent-4'},
+    {'text': 'Waning crescent', 'wicls': 'wi-moon-waning-crescent-5'},
+    {'text': 'Waning crescent', 'wicls': 'wi-moon-waning-crescent-6'},
 ]
 
 # Mapping of Dutch to English names for days of the week
@@ -132,6 +132,7 @@ class BuienRadarDataProvider(HttpDataProvider):
                 'name':       e_station.findtext('stationnaam'),
                 'latitude':   e_station.findtext('lat'),
                 'longitude':  e_station.findtext('lon'),
+                'updated':    iso_datetime(e_station.findtext('datum')),
             },
             'temperature':    e_station.findtext('temperatuurGC'),     # In °C
             'humidity':       e_station.findtext('luchtvochtigheid'),
