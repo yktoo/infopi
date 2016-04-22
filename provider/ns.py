@@ -13,7 +13,7 @@ STATUS_MAP = {
     'NIET-MOGELIJK': 'impossible',  # Impossible
     'GEANNULEERD':   'canceled',    # Canceled
     'VERTRAAGD':     'delayed',     # Delayed
-    'PLAN-GEWIJZGD': 'changed',     # Changed
+    'GEWIJZIGD':     'changed',     # Changed
     'NIEUW':         'new',         # New
 }
 
