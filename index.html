@@ -22,23 +22,40 @@
     <div class="alert alert-info" ng-if="!vm.weather">Failed to fetch weather</div>
     <table class="table weather" ng-if="vm.weather.current">
         <tr>
-            <td class="w-icon" rowspan="4"><i class="wi" ng-class="vm.weather.current.iconWiClass"></i></td>
-            <td class="w-text" rowspan="4">{{vm.weather.current.text}}</td>
-            <td class="w-temp" rowspan="4">{{vm.weather.current.temperature}} <i class="wi wi-celsius"></i></td>
-            <td class="w-smallicon"><i class="wi" ng-class="'wi-wind-beaufort-' + vm.weather.current.wind.speed"></i></td>
+            <td class="w-icon" rowspan="6">
+                <i class="wi" ng-class="vm.weather.current.iconWiClass"></i>
+                <div class="w-icon-text" ng-bind="vm.weather.current.iconText"></div>
+            </td>
+            <td class="w-text" rowspan="6">{{vm.weather.current.text}}</td>
+            <td class="w-temp" rowspan="6">{{vm.weather.current.temperature}} <i class="wi wi-celsius"></i></td>
+            <!-- Sidebar data -->
+            <td class="w-smallicon"><i class="wi w-wind" ng-class="'wi-wind-beaufort-' + vm.weather.current.wind.speed"></i></td>
             <td class="w-smalltext">{{vm.weather.current.wind.dirText}}</td>
-        </tr>
-        <tr>
             <td class="w-smallicon"><i class="wi wi-humidity"></i></td>
             <td class="w-smalltext">{{vm.weather.current.humidity}}%</td>
         </tr>
         <tr>
+            <!-- Pressure -->
             <td class="w-smallicon"><i class="wi wi-barometer"></i></td>
             <td class="w-smalltext">{{vm.weather.current.pressure | number:0}} hPa</td>
-        </tr>
-        <tr>
+            <!-- Rain -->
             <td class="w-smallicon"><i class="wi wi-raindrops"></i></td>
             <td class="w-smalltext">{{vm.weather.current.rain === '-' ? 0 : vm.weather.current.rain}} mm/h</td>
+        </tr>
+        <tr>
+            <!-- Sunrise -->
+            <td class="w-smallicon"><i class="wi wi-sunrise"></i></td>
+            <td class="w-smalltext">{{vm.weather.sunMoon.sunrise | date:'HH:mm'}}</td>
+            <!-- Sunset -->
+            <td class="w-smallicon"><i class="wi wi-sunset"></i></td>
+            <td class="w-smalltext">{{vm.weather.sunMoon.sunset | date:'HH:mm'}}</td>
+        </tr>
+        <tr>
+            <!-- Moon phase -->
+            <td class="w-smallicon"><i class="wi w-moon" ng-class="vm.weather.sunMoon.moonPhaseWiClass"></i></td>
+            <td class="w-smalltext">{{vm.weather.sunMoon.moonPhaseText}}</td>
+            <td></td>
+            <td><p class="w-updated">{{vm.weather.updated | date:'HH:mm'}}</p></td>
         </tr>
     </table>
 
@@ -56,10 +73,6 @@
                 <i class="wi wi-raindrop"></i> <span class="w-fcast-prob">{{day.rain.probability}}</span>
                 <i class="wi wi-day-sunny"></i> <span class="w-fcast-prob">{{day.probSun}}</span>
             </td>
-        </tr>
-        <!-- Update date/time -->
-        <tr>
-            <td class="w-updated" colspan="{{vm.weather.forecast.length}}">{{vm.weather.updated}}</td>
         </tr>
     </table>
 
