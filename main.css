@@ -27,10 +27,10 @@ body, html {
     text-align: center;
     background-color: #333;
 }
-.table td.w-icon      { width: 135px; font-size: 92px; }
+.table td.w-icon      { width: 28.0%; font-size: 92px; }
 .w-icon-text          { font-size: 14px; }
-.table td.w-text      { width: 350px; font-size: 24px;  }
-.table td.w-temp      { width: 300px; font-size: 80px;  }
+.table td.w-text      { width: 44.0%; font-size: 24px;  }
+.table td.w-temp      { width: 28.0%; font-size: 80px;  }
 .w-temp .wi-celsius   { font-size: 70px; vertical-align: text-top; }
 .table td.w-smallicon { font-size: 32px; padding: 0; }
 .table td.w-smalltext { font-size: 18px; text-align: left; padding: 4px; }
@@ -64,6 +64,28 @@ body, html {
 .w-fcast-prob:after   { font-size: 10px; content: '%'; }
 .w-fcast-probs .wi-raindrop  { color: #9cf; }
 .w-fcast-probs .wi-day-sunny { color: #fc0; }
+
+/* BuienRadar map */
+.table.weather td.w-radar-map {
+    position: relative;
+    overflow-y: hidden;
+    height: 500px;
+    width: 850px;
+}
+.radar-map {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: -245px;
+    left: 0;
+    z-index: 10;
+}
+.radar-cross {
+    position: absolute;
+    top: 154px;
+    left: 430px;
+    z-index: 20;
+}
 
 /* Trains */
 .table.trains > tbody > tr > td {
@@ -108,9 +130,3 @@ body, html {
 .adv-status-changed    { color: #ffffcc; }
 .adv-status-new        { }
 .adv-warning:before    { content: '\26a0'; font-size: 18px; font-weight: bold; color: #f00; }
-
-/* BuienRadar map */
-.radar-map {
-    width: 100%;
-    height: auto;
-}

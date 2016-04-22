@@ -22,15 +22,26 @@
     <div class="alert alert-info" ng-if="!vm.weather">Failed to fetch weather</div>
     <table class="table weather" ng-if="vm.weather.current">
         <tr>
-            <td class="w-icon" rowspan="6">
+            <td class="w-icon">
                 <i class="wi" ng-class="vm.weather.current.iconWiClass"></i>
                 <div class="w-icon-text" ng-bind="vm.weather.current.iconText"></div>
             </td>
-            <td class="w-text" rowspan="6">{{vm.weather.current.text}}</td>
-            <td class="w-temp" rowspan="6">{{vm.weather.current.temperature}} <i class="wi wi-celsius"></i></td>
+            <td class="w-text">{{vm.weather.current.text}}</td>
+            <td class="w-temp">{{vm.weather.current.temperature}} <i class="wi wi-celsius"></i></td>
+    </table>
+
+    <!-- BuienRadar map -->
+    <table class="table weather">
+        <tr>
+            <td class="w-radar-map" rowspan="7">
+                <img class="radar-map" ng-src="{{vm.radarMapUrl}}">
+                <img class="radar-cross" src="/crosshair.png">
+            </td>
             <!-- Sidebar data -->
             <td class="w-smallicon"><i class="wi w-wind" ng-class="'wi-wind-beaufort-' + vm.weather.current.wind.speed"></i></td>
             <td class="w-smalltext">{{vm.weather.current.wind.dirText}}</td>
+        </tr>
+        <tr>
             <td class="w-smallicon"><i class="wi wi-humidity"></i></td>
             <td class="w-smalltext">{{vm.weather.current.humidity}}%</td>
         </tr>
@@ -38,6 +49,8 @@
             <!-- Pressure -->
             <td class="w-smallicon"><i class="wi wi-barometer"></i></td>
             <td class="w-smalltext">{{vm.weather.current.pressure | number:0}} hPa</td>
+        </tr>
+        <tr>
             <!-- Rain -->
             <td class="w-smallicon"><i class="wi wi-raindrops"></i></td>
             <td class="w-smalltext">{{vm.weather.current.rain === '-' ? 0 : vm.weather.current.rain}} mm/h</td>
@@ -46,6 +59,8 @@
             <!-- Sunrise -->
             <td class="w-smallicon"><i class="wi wi-sunrise"></i></td>
             <td class="w-smalltext">{{vm.weather.sunMoon.sunrise | date:'HH:mm'}}</td>
+        </tr>
+        <tr>
             <!-- Sunset -->
             <td class="w-smallicon"><i class="wi wi-sunset"></i></td>
             <td class="w-smalltext">{{vm.weather.sunMoon.sunset | date:'HH:mm'}}</td>
@@ -53,9 +68,10 @@
         <tr>
             <!-- Moon phase -->
             <td class="w-smallicon"><i class="wi w-moon" ng-class="vm.weather.sunMoon.moonPhaseWiClass"></i></td>
-            <td class="w-smalltext">{{vm.weather.sunMoon.moonPhaseText}}</td>
-            <td></td>
-            <td><p class="w-updated">{{vm.weather.updated | date:'HH:mm'}}</p></td>
+            <td class="w-smalltext">
+                {{vm.weather.sunMoon.moonPhaseText}}
+                <p class="w-updated">{{vm.weather.updated | date:'HH:mm'}}</p>
+            </td>
         </tr>
     </table>
 
@@ -122,9 +138,6 @@
         </td>
         </tr>
     </table>
-
-    <!-- BuienRadar map -->
-    <div class="radar"><img class="radar-map" ng-src="{{vm.radarMapUrl}}"></div>
 
     <!-- Scripts -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
