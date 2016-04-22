@@ -5,8 +5,8 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService'];
-    function HomeController($interval, NsApiService, BuienRadarService) {
+    HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService', 'FxService'];
+    function HomeController($interval, NsApiService, BuienRadarService, FxService) {
         var vm = this;
         var trainDepTimesStation = 'htnc'; // Houten Castellum
         var travelAdvFromStation = 'htnc'; // Houten Castellum
@@ -48,6 +48,10 @@
                 });
         }
 
+        function updateFx() {
+            FxService.getFxRates('RUB').then(function (data) { vm.fx = data; });
+        }
+
         // Private functions
 
         function init() {
@@ -55,11 +59,13 @@
             updateWeather();
             updateDepartureTimes();
             updateTravelAdvice();
+            updateFx();
             // Schedule regular updates
             $interval(updateNow,            10 * 1000);       // 10 sec
             $interval(updateWeather,        10 * 60 * 1000);  // 10 min
             $interval(updateDepartureTimes, 30 * 1000);       // 30 sec
             $interval(updateTravelAdvice,   1  * 60 * 1000);  // 1 min
+            $interval(updateFx,             60 * 60 * 1000);  // 1 hour
         }
 
     }

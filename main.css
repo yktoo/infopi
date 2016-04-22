@@ -132,3 +132,16 @@ body, html {
 .adv-status-changed    { color: #ffffcc; }
 .adv-status-new        { }
 .adv-warning:before    { content: '\26a0'; font-size: 18px; font-weight: bold; color: #f00; }
+
+/* FX rates */
+.table.fx td {
+    vertical-align: middle;
+    text-align: center;
+    font-size: 24px;
+    border: none;
+    padding-top: 40px;
+}
+.fx-ccy {
+    font-size: 40px;
+    font-weight: bold;
+}

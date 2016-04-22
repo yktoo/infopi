@@ -31,7 +31,7 @@
     </table>
 
     <!-- BuienRadar map -->
-    <table class="table weather">
+    <table class="table weather" ng-if="vm.weather.current">
         <tr>
             <td class="w-radar-map" rowspan="8">
                 <img class="radar-map" ng-src="{{vm.radarMapUrl}}">
@@ -98,7 +98,7 @@
         </tr>
     </table>
 
-    <!-- Train departure times -->
+    <!-- Trains -->
     <table class="table trains">
         <tr>
 
@@ -145,11 +145,23 @@
         </tr>
     </table>
 
+    <!-- FX rates -->
+    <table class="table fx" ng-if="vm.fx">
+        <tr>
+            <td><div class="fx-ccy">€</div>  {{1/vm.fx.rates.EUR | number:2}}</td>
+            <td><div class="fx-ccy">$</div>  {{1/vm.fx.rates.USD | number:2}}</td>
+            <td><div class="fx-ccy">£</div>  {{1/vm.fx.rates.GBP | number:2}}</td>
+            <td><div class="fx-ccy">¥</div>  {{1/vm.fx.rates.JPY | number:2}}</td>
+            <td><div class="fx-ccy">Fr</div> {{1/vm.fx.rates.CHF | number:2}}</td>
+        </tr>
+    </table>
+
     <!-- Scripts -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
     <script src="app.module.js"></script>
     <script src="app-services/nsapi.service.js"></script>
     <script src="app-services/buienRadar.service.js"></script>
+    <script src="app-services/fx.service.js"></script>
     <script src="home/controller.js"></script>
 </body>
 </html>
