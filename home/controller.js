@@ -19,6 +19,12 @@
         vm.updateDepartureTimes = updateDepartureTimes;
         vm.updateTravelAdvice   = updateTravelAdvice;
         vm.updateFx             = updateFx;
+        vm.fx                   = [
+            {ccy: 'EUR', label: '€'},
+            {ccy: 'USD', label: '$'},
+            {ccy: 'GBP', label: '£'},
+            {ccy: 'JPY', label: '¥'},
+            {ccy: 'CHF', label: 'Fr'}];
 
         // Initially update the data
         init();
@@ -50,25 +56,24 @@
         }
 
         function updateFx() {
+            var curRates, prevRates;
             // Get quotes for today (or the last working day before today)
             FxService.getFxRates('RUB')
                 .then(function (data) {
-                    vm.fx = data;
+                    curRates = data;
                     // Get quotes for the day before
                     return FxService.getFxRates('RUB', new Date(new Date(data.date) - 1000 * 3600 * 24));
                 })
                 .then(function (data) {
-                    vm.fxPrev = data;
-                    // Calculate reciprocals and moves
-                    vm.fx.revRates     = {};
-                    vm.fx.moves        = {};
-                    vm.fxPrev.revRates = {};
-                    angular.forEach(vm.fx.rates, function (val, cur) {
-                        var curVal  = 1/val;
-                        var prevVal = 1/(vm.fxPrev.rates[cur] || val);
-                        vm.fx.revRates[cur]     = curVal;
-                        vm.fxPrev.revRates[cur] = prevVal;
-                        vm.fx.moves[cur]        = curVal - prevVal;
+                    prevRates = data;
+                    // Calculate reciprocals and moves and store them in vm.fx
+                    vm.fx.forEach(function (e) {
+                        var curVal  = 1/(curRates.rates[e.ccy] || null);
+                        var prevVal = prevRates.rates[e.ccy] ? 1/prevRates.rates[e.ccy] : curVal;
+                        e.rate = curVal;
+                        e.move = Math.abs(curVal - prevVal);
+                        e.movedUp   = curVal > prevVal;
+                        e.movedDown = curVal < prevVal;
                     });
                 });
         }

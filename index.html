@@ -9,7 +9,6 @@
     <title>homepi</title>
 </head>
 <body ng-controller="HomeController as vm">
-    <div id="content">
     <!-- Date and time -->
     <table class="table datetime" ng-if="vm.now" ng-click="vm.updateNow()">
         <tr>
@@ -28,7 +27,10 @@
                 <div class="w-icon-text" ng-bind="vm.weather.current.iconText"></div>
             </td>
             <td class="w-text">{{vm.weather.current.text}}</td>
-            <td class="w-temp">{{vm.weather.current.temperature}} <i class="wi wi-celsius"></i></td>
+            <td class="w-temp">
+                {{vm.weather.current.temperature}} <i class="wi wi-celsius"></i>
+                <p class="w-updated">{{vm.weather.current.station.updated | date:'HH:mm'}}</p>
+            </td>
     </table>
 
     <!-- BuienRadar map and current weather details -->
@@ -75,10 +77,7 @@
         <tr>
             <!-- Moon phase -->
             <td class="w-smallicon"><i class="wi w-moon" ng-class="vm.weather.sunMoon.moonPhaseWiClass"></i></td>
-            <td class="w-smalltext">
-                {{vm.weather.sunMoon.moonPhaseText}}
-                <p class="w-updated">{{vm.weather.current.station.updated | date:'HH:mm'}}</p>
-            </td>
+            <td class="w-smalltext">{{vm.weather.sunMoon.moonPhaseText}}</td>
         </tr>
     </table>
 
@@ -145,35 +144,14 @@
         </td>
         </tr>
     </table>
-    </div>
 
-    <!-- FX rates -->
+    <!-- FX rates (docked at the bottom) -->
     <table class="table fx" ng-if="vm.fx" ng-click="vm.updateFx()">
         <tr>
-            <td>
-                <div class="fx-ccy">€</div>
-                {{vm.fx.revRates.EUR | number:2}}
-                <div class="fx-move" ng-class="{up: vm.fx.moves.EUR>0, down: vm.fx.moves.EUR<0}">{{vm.fx.moves.EUR | number:2}}</div>
-            </td>
-            <td>
-                <div class="fx-ccy">$</div>
-                {{vm.fx.revRates.USD | number:2}}
-                <div class="fx-move" ng-class="{up: vm.fx.moves.USD>0, down: vm.fx.moves.USD<0}">{{vm.fx.moves.USD | number:2}}</div>
-            </td>
-            <td>
-                <div class="fx-ccy">£</div>
-                {{vm.fx.revRates.GBP | number:2}}
-                <div class="fx-move" ng-class="{up: vm.fx.moves.GBP>0, down: vm.fx.moves.GBP<0}">{{vm.fx.moves.GBP | number:2}}</div>
-            </td>
-            <td>
-                <div class="fx-ccy">¥</div>
-                {{vm.fx.revRates.JPY | number:2}}
-                <div class="fx-move" ng-class="{up: vm.fx.moves.JPY>0, down: vm.fx.moves.JPY<0}">{{vm.fx.moves.JPY | number:2}}</div>
-            </td>
-            <td>
-                <div class="fx-ccy">Fr</div>
-                {{vm.fx.revRates.CHF | number:2}}
-                <div class="fx-move" ng-class="{up: vm.fx.moves.CHF>0, down: vm.fx.moves.CHF<0}">{{vm.fx.moves.CHF | number:2}}</div>
+            <td ng-repeat="rate in vm.fx">
+                <div class="fx-ccy">{{rate.label}}</div>
+                {{rate.rate | number:2}}
+                <div class="fx-move" ng-class="{up: rate.movedUp, down: rate.movedDown}">{{rate.move | number:2}}</div>
             </td>
         </tr>
     </table>

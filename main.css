@@ -2,10 +2,6 @@ body, html {
     height: 100%;
     overflow: hidden;
 }
-#content {
-    height: 100%;
-    margin-bottom: -165px;
-}
 
 .table {
     margin-bottom: 0;
@@ -38,8 +34,18 @@ body, html {
 .table td.w-text      { width: 44.0%; font-size: 24px;  }
 .table td.w-temp      { width: 28.0%; font-size: 80px;  }
 .w-temp .wi-celsius   { font-size: 70px; vertical-align: text-top; }
-.table td.w-smallicon { font-size: 32px; padding: 0; }
-.table td.w-smalltext { font-size: 18px; text-align: left; padding: 4px; }
+.table td.w-smallicon {
+    min-width: 60px;
+    font-size: 32px;
+    padding: 0; }
+.table td.w-smalltext {
+    font-size: 18px;
+    text-align: left;
+    padding: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .w-smallicon .wi-wind-beaufort-0  { color: #ffffff; }
 .w-smallicon .wi-wind-beaufort-1  { color: #ddfff7; }
 .w-smallicon .wi-wind-beaufort-2  { color: #b9ffee; }
@@ -140,12 +146,16 @@ body, html {
 .adv-warning:before { content: '\26a0'; font-size: 18px; font-weight: bold; color: #f00; }
 
 /* FX rates */
+.table.fx {
+    background-color: #000;
+    position: fixed;
+    bottom: 0;
+    z-index: 30;
+}
 .table.fx td {
     vertical-align: middle;
     text-align: center;
     font-size: 24px;
-    border: none;
-    padding-top: 40px;
 }
 .fx-ccy {
     font-size: 40px;
@@ -153,5 +163,6 @@ body, html {
 }
 .fx-move { font-size: 16px; }
 .fx-move.up { color: #1dac05; }
-.fx-move.up:before { content: '+';}
+.fx-move.up:before { content: '\25b2';}
 .fx-move.down { color: #ff2d2d; }
+.fx-move.down:before { content: '\25bc';}
