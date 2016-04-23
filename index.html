@@ -9,8 +9,9 @@
     <title>homepi</title>
 </head>
 <body ng-controller="HomeController as vm">
+    <div id="content">
     <!-- Date and time -->
-    <table class="table datetime" ng-if="vm.now">
+    <table class="table datetime" ng-if="vm.now" ng-click="vm.updateNow()">
         <tr>
             <td class="dt-date" ng-bind="vm.now | date:'d.MM'"></td>
             <td class="dt-dow"  ng-bind="vm.now | date:'EEEE'"></td>
@@ -20,7 +21,7 @@
 
     <!-- Weather: current -->
     <div class="alert alert-info" ng-if="!vm.weather">Failed to fetch weather</div>
-    <table class="table weather" ng-if="vm.weather.current">
+    <table class="table weather" ng-if="vm.weather.current" ng-click="vm.updateWeather()">
         <tr>
             <td class="w-icon">
                 <i class="wi" ng-class="vm.weather.current.iconWiClass"></i>
@@ -30,8 +31,8 @@
             <td class="w-temp">{{vm.weather.current.temperature}} <i class="wi wi-celsius"></i></td>
     </table>
 
-    <!-- BuienRadar map -->
-    <table class="table weather" ng-if="vm.weather.current">
+    <!-- BuienRadar map and current weather details -->
+    <table class="table weather" ng-if="vm.weather.current" ng-click="vm.updateWeather()">
         <tr>
             <td class="w-radar-map" rowspan="8">
                 <img class="radar-map" ng-src="{{vm.radarMapUrl}}">
@@ -82,7 +83,7 @@
     </table>
 
     <!-- Weather: forecast -->
-    <table class="table weather" ng-if="vm.weather.forecast">
+    <table class="table weather" ng-if="vm.weather.forecast" ng-click="vm.updateWeather()">
         <tr><th class="w-fcast" ng-repeat="day in vm.weather.forecast">{{day.dow}}</th></tr>
         <tr>
             <td class="w-fcast" ng-repeat="day in vm.weather.forecast">
@@ -103,7 +104,7 @@
         <tr>
 
         <!-- Train departure times -->
-        <td class="width50">
+        <td class="width50" ng-click="vm.updateDepartureTimes()">
             <h1>Houten Castellum</h1>
             <table class="table">
                 <tr ng-repeat="train in vm.trainDepartureTimes">
@@ -120,7 +121,7 @@
         </td>
 
         <!-- Travel advice -->
-        <td class="width50">
+        <td class="width50" ng-click="vm.updateTravelAdvice()">
             <h1>Castellum → Bijlmer</h1>
             <table class="table advice">
                 <tr ng-repeat="advice in vm.travelAdvices" ng-class="advice.classes">
@@ -144,15 +145,36 @@
         </td>
         </tr>
     </table>
+    </div>
 
     <!-- FX rates -->
-    <table class="table fx" ng-if="vm.fx">
+    <table class="table fx" ng-if="vm.fx" ng-click="vm.updateFx()">
         <tr>
-            <td><div class="fx-ccy">€</div>  {{1/vm.fx.rates.EUR | number:2}}</td>
-            <td><div class="fx-ccy">$</div>  {{1/vm.fx.rates.USD | number:2}}</td>
-            <td><div class="fx-ccy">£</div>  {{1/vm.fx.rates.GBP | number:2}}</td>
-            <td><div class="fx-ccy">¥</div>  {{1/vm.fx.rates.JPY | number:2}}</td>
-            <td><div class="fx-ccy">Fr</div> {{1/vm.fx.rates.CHF | number:2}}</td>
+            <td>
+                <div class="fx-ccy">€</div>
+                {{vm.fx.revRates.EUR | number:2}}
+                <div class="fx-move" ng-class="{up: vm.fx.moves.EUR>0, down: vm.fx.moves.EUR<0}">{{vm.fx.moves.EUR | number:2}}</div>
+            </td>
+            <td>
+                <div class="fx-ccy">$</div>
+                {{vm.fx.revRates.USD | number:2}}
+                <div class="fx-move" ng-class="{up: vm.fx.moves.USD>0, down: vm.fx.moves.USD<0}">{{vm.fx.moves.USD | number:2}}</div>
+            </td>
+            <td>
+                <div class="fx-ccy">£</div>
+                {{vm.fx.revRates.GBP | number:2}}
+                <div class="fx-move" ng-class="{up: vm.fx.moves.GBP>0, down: vm.fx.moves.GBP<0}">{{vm.fx.moves.GBP | number:2}}</div>
+            </td>
+            <td>
+                <div class="fx-ccy">¥</div>
+                {{vm.fx.revRates.JPY | number:2}}
+                <div class="fx-move" ng-class="{up: vm.fx.moves.JPY>0, down: vm.fx.moves.JPY<0}">{{vm.fx.moves.JPY | number:2}}</div>
+            </td>
+            <td>
+                <div class="fx-ccy">Fr</div>
+                {{vm.fx.revRates.CHF | number:2}}
+                <div class="fx-move" ng-class="{up: vm.fx.moves.CHF>0, down: vm.fx.moves.CHF<0}">{{vm.fx.moves.CHF | number:2}}</div>
+            </td>
         </tr>
     </table>
 

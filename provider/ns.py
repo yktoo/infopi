@@ -8,13 +8,14 @@ from .http import HttpDataProvider
 from ns_api_key import NSAPIKey
 
 STATUS_MAP = {
-    'VOLGENS-PLAN':  'ok',          # On schedule
-    'NIET-OPTIMAAL': 'subopt',      # Suboptimal
-    'NIET-MOGELIJK': 'impossible',  # Impossible
-    'GEANNULEERD':   'canceled',    # Canceled
-    'VERTRAAGD':     'delayed',     # Delayed
-    'GEWIJZIGD':     'changed',     # Changed
-    'NIEUW':         'new',         # New
+    'VOLGENS-PLAN':  'ok',            # On schedule
+    'NIET-OPTIMAAL': 'subopt',        # Suboptimal
+    'NIET-MOGELIJK': 'impossible',    # Impossible
+    'GEANNULEERD':   'canceled',      # Canceled
+    'VERTRAAGD':     'delayed',       # Delayed
+    'PLAN-GEWIJZGD': 'plan-changed',  # Plan changed
+    'GEWIJZIGD':     'changed',       # Changed
+    'NIEUW':         'new',           # New
 }
 
 

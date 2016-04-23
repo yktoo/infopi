@@ -1,5 +1,10 @@
 body, html {
+    height: 100%;
     overflow: hidden;
+}
+#content {
+    height: 100%;
+    margin-bottom: -165px;
 }
 
 .table {
@@ -124,14 +129,15 @@ body, html {
 .adv-stat { }
 .adv-delay { color: #f00; font-weight: bold; }
 .adv-expired { color: #888; }
-.adv-status-ok         { }
-.adv-status-subopt     { }
-.adv-status-impossible { color: #888; text-decoration: line-through; }
-.adv-status-canceled   { color: #888; text-decoration: line-through; }
-.adv-status-delayed    { }
-.adv-status-changed    { color: #ffffcc; }
-.adv-status-new        { }
-.adv-warning:before    { content: '\26a0'; font-size: 18px; font-weight: bold; color: #f00; }
+.adv-status-ok           { }
+.adv-status-subopt       { }
+.adv-status-impossible   { color: #888; text-decoration: line-through; }
+.adv-status-canceled     { color: #888; text-decoration: line-through; }
+.adv-status-delayed      { }
+.adv-status-changed      { color: #ffffcc; }
+.adv-status-plan-changed { }
+.adv-status-new          { }
+.adv-warning:before { content: '\26a0'; font-size: 18px; font-weight: bold; color: #f00; }
 
 /* FX rates */
 .table.fx td {
@@ -145,3 +151,7 @@ body, html {
     font-size: 40px;
     font-weight: bold;
 }
+.fx-move { font-size: 16px; }
+.fx-move.up { color: #1dac05; }
+.fx-move.up:before { content: '+';}
+.fx-move.down { color: #ff2d2d; }
