@@ -13,7 +13,7 @@ ROUTE_MAP = {
 }
 
 
-class HomePiRequestHandler(SimpleHTTPRequestHandler):
+class InfoPiRequestHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         # Parse the request
         url_components = urllib.parse.urlsplit(self.path)
