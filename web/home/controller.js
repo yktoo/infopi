@@ -5,19 +5,21 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService', 'FxService'];
-    function HomeController($interval, NsApiService, BuienRadarService, FxService) {
+    HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService', 'OvapiService', 'FxService'];
+    function HomeController($interval, NsApiService, BuienRadarService, OvapiService, FxService) {
         var vm = this;
-        var trainDepTimesStation = 'htnc'; // Houten Castellum
-        var travelAdvFromStation = 'htnc'; // Houten Castellum
-        var travelAdvToStation   = 'asb';  // Houten Amsterdam Bijlmer Arena
-        var buienRadarStationId  = '6260'; // Meetstation De Bilt
+        var trainDepTimesStation = 'htnc';   // Houten Castellum
+        var travelAdvFromStation = 'htnc';   // Houten Castellum
+        var travelAdvToStation   = 'asb';    // Houten Amsterdam Bijlmer Arena
+        var ovapiBusStopCode     = 'hoterv'; // De Erven/De Schaft
+        var buienRadarStationId  = '6260';   // Meetstation De Bilt
 
         // Publish VM properties
         vm.updateNow            = updateNow;
         vm.updateWeather        = updateWeather;
         vm.updateDepartureTimes = updateDepartureTimes;
         vm.updateTravelAdvice   = updateTravelAdvice;
+        vm.updateBusData        = updateBusData;
         vm.updateFx             = updateFx;
         vm.fx                   = [
             {ccy: 'EUR', label: '€'},
@@ -55,6 +57,10 @@
                 });
         }
 
+        function updateBusData() {
+            OvapiService.getBusData(ovapiBusStopCode).then(function (data) { vm.busData = data});
+        }
+
         function updateFx() {
             var curRates, prevRates;
             // Get quotes for today (or the last working day before today)
@@ -85,12 +91,14 @@
             updateWeather();
             updateDepartureTimes();
             updateTravelAdvice();
+            updateBusData();
             updateFx();
             // Schedule regular updates
             $interval(updateNow,            10 * 1000);       // 10 sec
             $interval(updateWeather,        10 * 60 * 1000);  // 10 min
             $interval(updateDepartureTimes, 30 * 1000);       // 30 sec
             $interval(updateTravelAdvice,   1  * 60 * 1000);  // 1 min
+            $interval(updateBusData,        30 * 1000);       // 30 sec
             $interval(updateFx,             60 * 60 * 1000);  // 1 hour
         }
 

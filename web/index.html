@@ -104,7 +104,7 @@
 
         <!-- Train departure times -->
         <td class="width50" ng-click="vm.updateDepartureTimes()">
-            <h1>Houten Castellum</h1>
+            <h2>Houten Castellum</h2>
             <table class="table">
                 <tr ng-repeat="train in vm.trainDepartureTimes">
                     <td class="train-time" >{{train.time | date:'HH:mm'}}</td>
@@ -121,7 +121,7 @@
 
         <!-- Travel advice -->
         <td class="width50" ng-click="vm.updateTravelAdvice()">
-            <h1>Castellum → Bijlmer</h1>
+            <h2>Castellum → Bijlmer</h2>
             <table class="table advice">
                 <tr ng-repeat="advice in vm.travelAdvices" ng-class="advice.classes">
                     <td class="adv-time">
@@ -145,6 +145,28 @@
         </tr>
     </table>
 
+    <table class="table busses">
+        <tr>
+            <!-- Bus departure times -->
+            <td class="width50" ng-click="vm.updateBusData()">
+                <h2>De Erven/De Schaft</h2>
+                <table class="table">
+                    <tr ng-repeat="bus in vm.busData">
+                        <td class="bus-time">{{bus.TargetDepartureTime | date:'HH:mm'}}</td>
+                        <td class="bus-delay">{{bus.delay ? '+' : ''}}{{bus.delay | date:'m:ss'}}</td>
+                        <td class="bus-line">{{bus.LinePublicNumber}}</td>
+                        <td class="bus-dest">{{bus.DestinationName50}}</td>
+                    </tr>
+                </table>
+            </td>
+
+            <!-- Vacant -->
+            <td class="width50">
+
+            </td>
+        </tr>
+    </table>
+
     <!-- FX rates (docked at the bottom) -->
     <table class="table fx" ng-if="vm.fx" ng-click="vm.updateFx()">
         <tr>
@@ -160,6 +182,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
     <script src="app.module.js"></script>
     <script src="app-services/nsapi.service.js"></script>
+    <script src="app-services/ovapi.service.js"></script>
     <script src="app-services/buienRadar.service.js"></script>
     <script src="app-services/fx.service.js"></script>
     <script src="home/controller.js"></script>

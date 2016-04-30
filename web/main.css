@@ -123,11 +123,12 @@ body, html {
 .train-type {
 }
 .train-platf {
-    font-size: 130%;
+    font-size: 18px;
     font-weight: bold;
     text-align: center;
 }
 
+    font-size: 18px;
 /* Travel advice */
 .adv-time { font-size: 18px; }
 .adv-dura { font-size: 18px; }
@@ -144,6 +145,27 @@ body, html {
 .adv-status-plan-changed { }
 .adv-status-new          { }
 .adv-warning:before { content: '\26a0'; font-size: 18px; font-weight: bold; color: #f00; }
+
+/* Busses */
+.table.busses > tbody > tr > td {
+    border: none;
+}
+.bus-time {
+    font-size: 18px;
+}
+.bus-delay {
+    color: #f00;
+    font-weight: bold;
+    padding-left: 4px;
+}
+.bus-line {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+.bus-dest {
+    font-size: 18px;
+}
 
 /* FX rates */
 .table.fx {
