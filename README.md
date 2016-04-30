@@ -11,6 +11,9 @@ My own implementation is specifically crafted for:
 * RaspberryPi running [Raspbian Jessie](https://www.raspberrypi.org/downloads/raspbian/).
 * Full HD monitor (1920&times;1080 pixels) in the portrait orientation.
 
+This is how the information page looks like:
+![Screenshot of the application](Screenshot.png)
+
 
 Dependencies
 ============
@@ -60,3 +63,12 @@ Credits
 * [Twitter Bootstrap](http://getbootstrap.com/)
 * Weather Icons by [Erik Flowers](http://weathericons.io/)
 * Python [Astral](https://pythonhosted.org/astral/)
+
+
+Data providers
+==============
+
+* Weather info: [Buienradar.nl](http://buienradar.nl/)
+* Train info: [Nederlandse Spoorwegen](http://www.ns.nl/)
+* Bus info: [openOV](http://openov.nl/)
+* Exchange rates: [fixer.io](http://fixer.io/)
