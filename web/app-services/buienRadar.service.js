@@ -19,10 +19,12 @@
         }
 
         function getRadarMapUrl() {
-            return 'http://buienradar.nl/image/' +
-                '?type=forecast3hourszozw' +
-                '&fn=buienradarnl-1x1-ani700-verwachting-3uur.gif' +
-                '&random=' + Math.random();
+            return 'http://www.buienradar.nl/lokalebuienradar/' +
+                '?lat=52.02833&lng=5.16806'+
+                '&overname=2' +
+                '&zoom=8' +
+                '&size=3' +
+                '&voor=1';
         }
 
         // Private functions

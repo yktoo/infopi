@@ -87,6 +87,7 @@
         // Private functions
 
         function init() {
+            // Initially update the data
             updateNow();
             updateWeather();
             updateDepartureTimes();

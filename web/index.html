@@ -36,45 +36,38 @@
     <!-- BuienRadar map and current weather details -->
     <table class="table weather" ng-if="vm.weather.current" ng-click="vm.updateWeather()">
         <tr>
-            <td class="w-radar-map" rowspan="8">
-                <img class="radar-map" ng-src="{{vm.radarMapUrl}}">
-                <img class="radar-cross" src="/crosshair.png">
-            </td>
-            <!-- Sidebar data -->
+            <!-- Wind direction and speed -->
             <td class="w-smallicon"><i class="wi w-wind" ng-class="'wi-wind-beaufort-' + vm.weather.current.wind.speed"></i></td>
             <td class="w-smalltext">{{vm.weather.current.wind.dirText}}</td>
-        </tr>
-        <tr>
-            <!-- Wind gusts -->
-            <td class="w-smallicon"><i class="wi wi-strong-wind"></i></td>
-            <td class="w-smalltext">{{vm.weather.current.wind.gusts}} m/s</td>
-        </tr>
-        <tr>
-            <!-- Humidity -->
-            <td class="w-smallicon"><i class="wi wi-humidity"></i></td>
-            <td class="w-smalltext">{{vm.weather.current.humidity}}%</td>
-        </tr>
-        <tr>
-            <!-- Pressure -->
-            <td class="w-smallicon"><i class="wi wi-barometer"></i></td>
-            <td class="w-smalltext">{{vm.weather.current.pressure | number:0}} hPa</td>
-        </tr>
-        <tr>
+            <!-- Rain radar -->
+            <td class="w-radar-map" rowspan="4">
+                <iframe class="radar-map" ng-src="{{vm.radarMapUrl}}" scrolling="no" width="550" height="512" frameborder="no"></iframe>
+                <img class="radar-cross" src="/crosshair.png">
+            </td>
             <!-- Rain -->
             <td class="w-smallicon"><i class="wi wi-raindrops"></i></td>
             <td class="w-smalltext">{{vm.weather.current.rain === '-' ? 0 : vm.weather.current.rain}} mm/h</td>
         </tr>
         <tr>
+            <!-- Wind gusts -->
+            <td class="w-smallicon"><i class="wi wi-strong-wind"></i></td>
+            <td class="w-smalltext">{{vm.weather.current.wind.gusts}} m/s</td>
             <!-- Sunrise -->
             <td class="w-smallicon"><i class="wi wi-sunrise"></i></td>
             <td class="w-smalltext">{{vm.weather.sunMoon.sunrise | date:'HH:mm'}}</td>
         </tr>
         <tr>
+            <!-- Humidity -->
+            <td class="w-smallicon"><i class="wi wi-humidity"></i></td>
+            <td class="w-smalltext">{{vm.weather.current.humidity}}%</td>
             <!-- Sunset -->
             <td class="w-smallicon"><i class="wi wi-sunset"></i></td>
             <td class="w-smalltext">{{vm.weather.sunMoon.sunset | date:'HH:mm'}}</td>
         </tr>
         <tr>
+            <!-- Pressure -->
+            <td class="w-smallicon"><i class="wi wi-barometer"></i></td>
+            <td class="w-smalltext">{{vm.weather.current.pressure | number:0}} hPa</td>
             <!-- Moon phase -->
             <td class="w-smallicon"><i class="wi w-moon" ng-class="vm.weather.sunMoon.moonPhaseWiClass"></i></td>
             <td class="w-smalltext">{{vm.weather.sunMoon.moonPhaseText}}</td>
