@@ -24,7 +24,8 @@
                 '&overname=2' +
                 '&zoom=8' +
                 '&size=3' +
-                '&voor=1';
+                '&voor=1' +
+                '&random=' + Math.random();
         }
 
         // Private functions
