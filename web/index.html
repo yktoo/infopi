@@ -153,9 +153,14 @@
                 </table>
             </td>
 
-            <!-- Vacant -->
+            <!-- Security -->
             <td class="width50">
-
+                <h2>Security</h2>
+                <table class="table">
+                    <tr ng-repeat="sensor in vm.sensors | filter:'_mcs_'">
+                        <td>{{sensor.Name}}</td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>
@@ -178,6 +183,7 @@
     <script src="app-services/ovapi.service.js"></script>
     <script src="app-services/buienRadar.service.js"></script>
     <script src="app-services/fx.service.js"></script>
+    <script src="app-services/domoticz.service.js"></script>
     <script src="home/controller.js"></script>
 </body>
 </html>

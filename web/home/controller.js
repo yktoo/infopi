@@ -5,14 +5,15 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService', 'OvapiService', 'FxService'];
-    function HomeController($interval, NsApiService, BuienRadarService, OvapiService, FxService) {
+    HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService', 'OvapiService', 'FxService', 'DomoticzService'];
+    function HomeController($interval, NsApiService, BuienRadarService, OvapiService, FxService, DomoticzService) {
         var vm = this;
         var trainDepTimesStation = 'htnc';   // Houten Castellum
         var travelAdvFromStation = 'htnc';   // Houten Castellum
         var travelAdvToStation   = 'asb';    // Houten Amsterdam Bijlmer Arena
         var ovapiBusStopCode     = 'hoterv'; // De Erven/De Schaft
         var buienRadarStationId  = '6260';   // Meetstation De Bilt
+        var domoticzUrl          = 'http://pihub/';
 
         // Publish VM properties
         vm.updateNow            = updateNow;
@@ -27,6 +28,7 @@
             {ccy: 'GBP', label: '£'},
             {ccy: 'JPY', label: '¥'},
             {ccy: 'CHF', label: 'Fr'}];
+        vm.updateSensors        = updateSensors;
 
         // Initially update the data
         init();
@@ -84,6 +86,14 @@
                 });
         }
 
+        function updateSensors() {
+            DomoticzService(domoticzUrl, 'devices', {used: true})
+                .then(function (data) {
+                    // "result" should be an array of device entries
+                    vm.sensors = data.result;
+                });
+        }
+
         // Private functions
 
         function init() {
@@ -94,6 +104,7 @@
             updateTravelAdvice();
             updateBusData();
             updateFx();
+            updateSensors();
             // Schedule regular updates
             $interval(updateNow,            10 * 1000);       // 10 sec
             $interval(updateWeather,        10 * 60 * 1000);  // 10 min
@@ -101,6 +112,7 @@
             $interval(updateTravelAdvice,   1  * 60 * 1000);  // 1 min
             $interval(updateBusData,        30 * 1000);       // 30 sec
             $interval(updateFx,             60 * 60 * 1000);  // 1 hour
+            $interval(updateSensors,        10 * 1000);       // 10 sec
         }
 
     }
