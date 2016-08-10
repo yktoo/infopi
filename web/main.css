@@ -164,6 +164,20 @@ body, html {
     font-size: 18px;
 }
 
+/* Sensors */
+.table.sensors {
+    font-size: 18px;
+}
+.table.sensors tr.warning td {
+    color: #f00;
+}
+.sens-name {
+    font-weight: bold;
+}
+.sens-updated {
+    font-size: 14px;
+}
+
 /* FX rates */
 .table.fx {
     background-color: #000;

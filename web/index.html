@@ -154,11 +154,13 @@
             </td>
 
             <!-- Security -->
-            <td class="width50">
+            <td class="width50" ng-click="vm.updateSensors()">
                 <h2>Security</h2>
-                <table class="table">
-                    <tr ng-repeat="sensor in vm.sensors | filter:'_mcs_'">
-                        <td>{{sensor.Name}}</td>
+                <table class="table sensors">
+                    <tr ng-repeat="sensor in vm.sensors | filter:{Name:'_mcs_'} | orderBy:'Name'" ng-class="{warning: sensor.Status !== 'Closed'}">
+                        <td class="sens-name">{{sensor.Description || sensor.Name}}</td>
+                        <td class="sens-status">{{sensor.Status}}</td>
+                        <td class="sens-updated">{{sensor.LastUpdate}}</td>
                     </tr>
                 </table>
             </td>
