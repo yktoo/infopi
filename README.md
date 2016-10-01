@@ -49,6 +49,20 @@ Getting started
 
    `chromium-browser --incognito --kiosk http://localhost:8000/`
 
+8. In order to make InfoPi start at bootup, you can add the following commands to `~/.config/lxsession/LXDE-pi/autostart`:
+
+```bash
+# Optional: remote desktop server that would allow
+# to connect to your Pi via VNC
+x11vnc -forever
+
+# InfoPi web server
+/path/to/your/infopi/infopi
+
+# Browser
+chromium-browser --incognito --kiosk http://localhost:8000/
+```
+
 
 License
 =======
