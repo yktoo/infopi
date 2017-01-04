@@ -10,7 +10,7 @@
         var vm = this;
         var trainDepTimesStation = 'htnc';   // Houten Castellum
         var travelAdvFromStation = 'htnc';   // Houten Castellum
-        var travelAdvToStation   = 'asb';    // Houten Amsterdam Bijlmer Arena
+        var travelAdvToStation   = 'gvc';    // Den Haag Centraal
         var ovapiBusStopCode     = 'hoterv'; // De Erven/De Schaft
         var buienRadarStationId  = '6260';   // Meetstation De Bilt
         var domoticzUrl          = 'http://pihub/';
