@@ -99,7 +99,7 @@
         <td class="width50" ng-click="vm.updateDepartureTimes()">
             <h2>Houten Castellum</h2>
             <table class="table">
-                <tr ng-repeat="train in vm.trainDepartureTimes">
+                <tr ng-repeat="train in vm.trainDepartureTimes | limitTo:12">
                     <td class="train-time" >{{train.time | date:'HH:mm'}}</td>
                     <td class="train-delay">{{train.delay}}</td>
                     <td class="train-dest" >
@@ -116,7 +116,7 @@
         <td class="width50" ng-click="vm.updateTravelAdvice()">
             <h2>Castellum → Den Haag</h2>
             <table class="table advice">
-                <tr ng-repeat="advice in vm.travelAdvices" ng-class="advice.classes">
+                <tr ng-repeat="advice in vm.travelAdvices | limitTo:12" ng-class="advice.classes">
                     <td class="adv-time">
                         {{advice.plannedDepTime | date:'HH:mm'}}
                         <span class="adv-delay">{{advice.depDelay}}</span>
