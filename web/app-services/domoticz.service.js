@@ -15,7 +15,7 @@
             return $http
                 .get(url + 'json.htm', {params: angular.extend({type: type}, params)})
                 .then(handleSuccess, handleError);
-        }
+        };
 
         // Private functions
 
