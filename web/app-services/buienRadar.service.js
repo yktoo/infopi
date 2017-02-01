@@ -19,7 +19,7 @@
         }
 
         function getRadarMapUrl() {
-            return 'http://www.buienradar.nl/lokalebuienradar/' +
+            return 'http://gadgets.buienradar.nl/gadget/zoommap/' +
                 '?lat=52.02833&lng=5.16806'+
                 '&overname=2' +
                 '&zoom=8' +
