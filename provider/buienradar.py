@@ -241,4 +241,4 @@ def iso_datetime(dt: str) -> str:
     :param dt: date and time in BuienRadar's format
     :return: date and time string in the ISO8601 format
     """
-    return datetime.strptime(dt, '%m/%d/%Y %H:%M:%S').isoformat()
+    return datetime.strptime(dt, '%m-%d-%Y %H:%M:%S').isoformat()
