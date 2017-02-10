@@ -31,13 +31,14 @@ body, html {
 }
 .table td.w-icon      { width: 28.0%; font-size: 92px; }
 .w-icon-text          { font-size: 14px; }
-.table td.w-text      { width: 44.0%; font-size: 24px;  }
+.table td.w-text      { width: 44.0%; font-size: 20px;  }
 .table td.w-temp      { width: 28.0%; font-size: 80px;  }
 .w-temp .wi-celsius   { font-size: 70px; vertical-align: text-top; }
 .table td.w-smallicon {
     width: 100px;
     font-size: 48px;
-    padding: 0; }
+    padding: 0;
+}
 .table td.w-smalltext {
     width: 165px;
     font-size: 24px;
