@@ -91,6 +91,13 @@
                 .then(function (data) {
                     // "result" should be an array of device entries
                     vm.sensors = data.result;
+                    // Store the SecurityPanel as a separate object
+                    vm.securityPanel = {};
+                    for (var i = 0; i < vm.sensors.length; i++)
+                        if (vm.sensors[i].Name === 'SecurityPanel') {
+                            vm.securityPanel = vm.sensors[i];
+                            break;
+                        }
                 });
         }
 

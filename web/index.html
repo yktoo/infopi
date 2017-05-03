@@ -155,7 +155,7 @@
 
             <!-- Security -->
             <td class="width50" ng-click="vm.updateSensors()">
-                <h2>Security</h2>
+                <h2 ng-class="{'security-armed': vm.securityPanel.Status !== 'Normal'}">Security</h2>
                 <table class="table sensors">
                     <tr ng-repeat="sensor in vm.sensors | filter:{Name:'_mcs_'} | orderBy:'Name'" ng-class="{warning: sensor.Status !== 'Closed'}">
                         <td class="sens-name">{{sensor.Description || sensor.Name}}</td>

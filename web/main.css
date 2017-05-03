@@ -143,7 +143,7 @@ body, html {
 .adv-status-new          { }
 .adv-warning:before { content: '\26a0'; font-size: 18px; font-weight: bold; color: #f00; }
 
-/* Busses */
+/* Buses */
 .table.busses > tbody > tr > td {
     border: none;
 }
@@ -164,7 +164,7 @@ body, html {
     font-size: 18px;
 }
 
-/* Sensors */
+/* Security */
 .table.sensors {
     font-size: 18px;
 }
@@ -176,6 +176,14 @@ body, html {
 }
 .sens-updated {
     font-size: 14px;
+}
+.security-armed {
+    background-color: #ff2a00;
+}
+.security-armed:after {
+    content: "ARMED";
+    color: #fff;
+    float: right;
 }
 
 /* FX rates */
