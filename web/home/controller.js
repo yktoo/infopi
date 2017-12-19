@@ -5,8 +5,8 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService', 'OvapiService', 'FxService', 'DomoticzService'];
-    function HomeController($interval, NsApiService, BuienRadarService, OvapiService, FxService, DomoticzService) {
+    HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService', 'OvapiService', 'FxService', 'CryptoService', 'DomoticzService'];
+    function HomeController($interval, NsApiService, BuienRadarService, OvapiService, FxService, CryptoService, DomoticzService) {
         var vm = this;
         var trainDepTimesStation = 'htnc';   // Houten Castellum
         var travelAdvFromStation = 'htnc';   // Houten Castellum
@@ -84,6 +84,14 @@
                         e.movedDown = curVal < prevVal;
                     });
                 });
+            // Get cryptocurrency rates
+            CryptoService.getRates('BTC,ETH', 'EUR')
+                .then(function (data) {
+                    vm.cryptoRates = [
+                        {label: 'ETH', rate: data.ETH.EUR},
+                        {label: 'BTC', rate: data.BTC.EUR}
+                    ];
+                })
         }
 
         function updateSensors() {

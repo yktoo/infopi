@@ -175,6 +175,10 @@
                 {{rate.rate | number:2}}
                 <div class="fx-move" ng-class="{up: rate.movedUp, down: rate.movedDown}">{{rate.move | number:2}}</div>
             </td>
+            <td ng-repeat="rate in vm.cryptoRates">
+                <div class="fx-ccy">{{rate.label}}</div>
+                {{rate.rate | number:2}}
+            </td>
         </tr>
     </table>
 
@@ -185,6 +189,7 @@
     <script src="app-services/ovapi.service.js"></script>
     <script src="app-services/buienRadar.service.js"></script>
     <script src="app-services/fx.service.js"></script>
+    <script src="app-services/crypto.service.js"></script>
     <script src="app-services/domoticz.service.js"></script>
     <script src="home/controller.js"></script>
 </body>
