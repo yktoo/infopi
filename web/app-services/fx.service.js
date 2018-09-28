@@ -13,7 +13,7 @@
         };
 
         /**
-         * Requests latest FX rates from fixer.io.
+         * Requests latest or historical FX rates.
          * @param base string Base currency, default is EUR.
          * @param date string Date to get the rates on (Date or string in the format 'yyyy-MM-dd'). If null/undefined,
          *                    defaults to the latest available date.
@@ -26,7 +26,7 @@
             return date && _cache[date] ?
                 $q.when(_cache[date]) :
                 $http
-                    .get('http://api.fixer.io/' + (date || 'latest'), {params: {base: base || 'EUR'}})
+                    .get('/fx', {params: {date: date, base_currency: base || 'EUR'}})
                     .then(handleSuccess, handleError);
         }
 

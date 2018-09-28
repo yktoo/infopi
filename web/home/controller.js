@@ -74,10 +74,10 @@
                 })
                 .then(function (data) {
                     prevRates = data;
-                    // Calculate reciprocals and moves and store them in vm.fx
+                    // Calculate moves and store them in vm.fx
                     vm.fx.forEach(function (e) {
-                        var curVal  = 1/(curRates.rates[e.ccy] || null);
-                        var prevVal = prevRates.rates[e.ccy] ? 1/prevRates.rates[e.ccy] : curVal;
+                        var curVal  = curRates.rates[e.ccy] || null;
+                        var prevVal = prevRates.rates[e.ccy] || curVal;
                         e.rate = curVal;
                         e.move = Math.abs(curVal - prevVal);
                         e.movedUp   = curVal > prevVal;

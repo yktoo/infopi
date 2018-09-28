@@ -85,4 +85,4 @@ Data providers
 * Weather info: [Buienradar.nl](http://buienradar.nl/)
 * Train info: [Nederlandse Spoorwegen](http://www.ns.nl/)
 * Bus info: [openOV](http://openov.nl/)
-* Exchange rates: [fixer.io](http://fixer.io/)
+* Exchange rates: [European Central Bank](https://www.ecb.europa.eu/)

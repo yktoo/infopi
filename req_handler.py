@@ -4,12 +4,14 @@ from http.server import SimpleHTTPRequestHandler
 
 from provider.ns import NSDepartureTimesProvider, NSTravelAdviceProvider
 from provider.buienradar import BuienRadarDataProvider
+from provider.fx import FxDataProvider
 
 # Route-to-handler mappings
 ROUTE_MAP = {
     '/ns/dep-times':     NSDepartureTimesProvider,
     '/ns/travel-advice': NSTravelAdviceProvider,
     '/buienradar':       BuienRadarDataProvider,
+    '/fx':               FxDataProvider,
 }
 
 
