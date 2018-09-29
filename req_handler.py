@@ -5,6 +5,7 @@ from http.server import SimpleHTTPRequestHandler
 from provider.ns import NSDepartureTimesProvider, NSTravelAdviceProvider
 from provider.buienradar import BuienRadarDataProvider
 from provider.fx import FxDataProvider
+from provider.ovapi import OvApiDataProvider
 
 # Route-to-handler mappings
 ROUTE_MAP = {
@@ -12,6 +13,7 @@ ROUTE_MAP = {
     '/ns/travel-advice': NSTravelAdviceProvider,
     '/buienradar':       BuienRadarDataProvider,
     '/fx':               FxDataProvider,
+    '/ovapi':            OvApiDataProvider,
 }
 
 

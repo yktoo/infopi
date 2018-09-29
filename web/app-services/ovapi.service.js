@@ -18,7 +18,7 @@
          */
         function getBusData(stopCode) {
             return $http
-                .get('http://v0.ovapi.nl/stopareacode/' + stopCode)
+                .get('/ovapi', {params: {stop_code: stopCode}})
                 .then(handleSuccess, handleError)
                 .then(function (data) {
                     var passes = [];
