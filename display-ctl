@@ -1,0 +1,22 @@
+#!/bin/bash
+# Turn the display on or off using DPMS
+# Usage: display-ctl on|off
+
+usage() {
+    echo "Usage: $0 on|off"
+    exit 1
+}
+
+cmd="$1"
+[[ -z "$cmd" ]] && usage
+
+case "$cmd" in
+    on|On|ON)
+        xset -display :0 dpms force on
+        ;;
+    off|Off|OFF)
+        xset -display :0 dpms force off
+        ;;
+    *)
+        usage
+esac
