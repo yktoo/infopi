@@ -5,15 +5,15 @@
         .module('app')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService', 'OvapiService', 'FxService', 'CryptoService', 'DomoticzService'];
-    function HomeController($interval, NsApiService, BuienRadarService, OvapiService, FxService, CryptoService, DomoticzService) {
+    HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService', 'OvapiService', 'FxService', 'CryptoService', 'OpenHabService'];
+    function HomeController($interval, NsApiService, BuienRadarService, OvapiService, FxService, CryptoService, OpenHabService) {
         var vm = this;
         var trainDepTimesStation = 'htnc';   // Houten Castellum
         var travelAdvFromStation = 'htnc';   // Houten Castellum
         var travelAdvToStation   = 'gvc';    // Den Haag Centraal
         var ovapiBusStopCode     = 'hoterv'; // De Erven/De Schaft
         var buienRadarStationId  = '6260';   // Meetstation De Bilt
-        var domoticzUrl          = 'http://pihub/';
+        var openHabServerUrl     = 'http://pihub:8080';
 
         // Publish VM properties
         vm.updateNow            = updateNow;
@@ -28,7 +28,7 @@
             {ccy: 'GBP', label: '£'},
             {ccy: 'JPY', label: '¥'},
             {ccy: 'CHF', label: 'Fr'}];
-        vm.updateSensors        = updateSensors;
+        vm.updateSecurity       = updateSecurity;
 
         // Initially update the data
         init();
@@ -94,16 +94,16 @@
                 })
         }
 
-        function updateSensors() {
-            DomoticzService(domoticzUrl, 'devices', {used: true})
+        function updateSecurity() {
+            OpenHabService(openHabServerUrl, 'gSecurity')
                 .then(function (data) {
-                    // "result" should be an array of device entries
-                    vm.sensors = data.result;
-                    // Store the SecurityPanel as a separate object
-                    vm.securityPanel = {};
-                    for (var i = 0; i < vm.sensors.length; i++)
-                        if (vm.sensors[i].Name === 'SecurityPanel') {
-                            vm.securityPanel = vm.sensors[i];
+                    // Read members of the gSecurity group
+                    vm.securityDevices = data.members;
+                    // Store the securityAccessControl as a separate object
+                    vm.securityAccessControl = {};
+                    for (var i = 0; i < vm.securityDevices.length; i++)
+                        if (vm.securityDevices[i].name === 'GF_Hallway_RfidKeypad_AccessControl') {
+                            vm.securityAccessControl = vm.securityDevices[i];
                             break;
                         }
                 });
@@ -119,7 +119,7 @@
             updateTravelAdvice();
             updateBusData();
             updateFx();
-            updateSensors();
+            updateSecurity();
             // Schedule regular updates
             $interval(updateNow,            10 * 1000);       // 10 sec
             $interval(updateWeather,        10 * 60 * 1000);  // 10 min
@@ -127,7 +127,7 @@
             $interval(updateTravelAdvice,   1  * 60 * 1000);  // 1 min
             $interval(updateBusData,        30 * 1000);       // 30 sec
             $interval(updateFx,             60 * 60 * 1000);  // 1 hour
-            $interval(updateSensors,        10 * 1000);       // 10 sec
+            $interval(updateSecurity,       10 * 1000);       // 10 sec
         }
 
     }

@@ -165,17 +165,14 @@ body, html {
 }
 
 /* Security */
-.table.sensors {
+.table.security {
     font-size: 18px;
 }
-.table.sensors tr.warning td {
+.table.security tr.warning td {
     color: #f00;
 }
-.sens-name {
+.security-dev-name {
     font-weight: bold;
-}
-.sens-updated {
-    font-size: 14px;
 }
 .security-armed {
     background-color: #ff2a00;

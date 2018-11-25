@@ -154,13 +154,13 @@
             </td>
 
             <!-- Security -->
-            <td class="width50" ng-click="vm.updateSensors()">
-                <h2 ng-class="{'security-armed': vm.securityPanel.Status !== 'Normal'}">Security</h2>
-                <table class="table sensors">
-                    <tr ng-repeat="sensor in vm.sensors | filter:{Name:':mcs'} | orderBy:'Name'" ng-class="{warning: sensor.Status !== 'Closed'}">
-                        <td class="sens-name">{{sensor.Description || sensor.Name}}</td>
-                        <td class="sens-status">{{sensor.Status}}</td>
-                        <td class="sens-updated">{{sensor.LastUpdate}}</td>
+            <td class="width50" ng-click="vm.updateSecurity()">
+                <h2 ng-class="{'security-armed': vm.securityAccessControl.state !== 'ON'}">Security</h2>
+                <table class="table security">
+                    <tr ng-repeat="device in vm.securityDevices | filter:{name:'Door'} | orderBy:'name'"
+                        ng-class="{warning: device.state === 'OPEN', info: device.state === 'NULL'}">
+                        <td class="security-dev-name">{{device.label || device.name}}</td>
+                        <td class="security-dev-state">{{device.state}}</td>
                     </tr>
                 </table>
             </td>
@@ -190,7 +190,7 @@
     <script src="app-services/buienRadar.service.js"></script>
     <script src="app-services/fx.service.js"></script>
     <script src="app-services/crypto.service.js"></script>
-    <script src="app-services/domoticz.service.js"></script>
+    <script src="app-services/openhab.service.js"></script>
     <script src="home/controller.js"></script>
 </body>
 </html>
