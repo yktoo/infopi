@@ -155,12 +155,13 @@
 
             <!-- Security -->
             <td class="width50" ng-click="vm.updateSecurity()">
-                <h2 ng-class="{'security-armed': vm.securityAccessControl.state !== 'ON'}">Security</h2>
+                <h2 ng-class="{'security-armed': vm.securityAccessControl.state === 'ON'}">Security</h2>
                 <table class="table security">
-                    <tr ng-repeat="device in vm.securityDevices | filter:{name:'Door'} | orderBy:'name'"
-                        ng-class="{warning: device.state === 'OPEN', info: device.state === 'NULL'}">
+                    <tr ng-repeat="device in vm.securityDevices | filter:{name:'Door'} | orderBy:'name'" ng-class="{warning: device.state === 'OPEN'}">
                         <td class="security-dev-name">{{device.label || device.name}}</td>
-                        <td class="security-dev-state">{{device.state}}</td>
+                        <td class="security-dev-state" ng-class="{'security-status-unknown': device.state === 'NULL'}">
+                            {{device.state === 'NULL' ? '?' : device.state}}
+                        </td>
                     </tr>
                 </table>
             </td>
