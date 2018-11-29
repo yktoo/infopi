@@ -99,7 +99,7 @@
         <td class="width50" ng-click="vm.updateDepartureTimes()">
             <h2>Houten Castellum</h2>
             <table class="table">
-                <tr ng-repeat="train in vm.trainDepartureTimes | limitTo:12">
+                <tr ng-repeat="train in vm.trainDepartureTimes1 | limitTo:12">
                     <td class="train-time" >{{train.time | date:'HH:mm'}}</td>
                     <td class="train-delay">{{train.delay}}</td>
                     <td class="train-dest" >
@@ -113,25 +113,18 @@
         </td>
 
         <!-- Travel advice -->
-        <td class="width50" ng-click="vm.updateTravelAdvice()">
-            <h2>Castellum → Den Haag</h2>
-            <table class="table advice">
-                <tr ng-repeat="advice in vm.travelAdvices | limitTo:12" ng-class="advice.classes">
-                    <td class="adv-time">
-                        {{advice.plannedDepTime | date:'HH:mm'}}
-                        <span class="adv-delay">{{advice.depDelay}}</span>
-                        →
-                        {{advice.plannedArrTime | date:'HH:mm'}}
-                        <span class="adv-delay">{{advice.arrDelay}}</span>
+        <td class="width50" ng-click="vm.updateDepartureTimes()">
+            <h2>Utrecht Centraal</h2>
+            <table class="table">
+                <tr ng-repeat="train in vm.trainDepartureTimes2 | limitTo:12">
+                    <td class="train-time" >{{train.time | date:'HH:mm'}}</td>
+                    <td class="train-delay">{{train.delay}}</td>
+                    <td class="train-dest" >
+                        {{train.dest}}
+                        <div class="train-notes" ng-bind="train.notes"></div>
                     </td>
-                    <td class="adv-dura" ng-class="{'adv-delay': advice.plannedDuration !== advice.actualDuration}">
-                        {{advice.actualDuration}}
-                    </td>
-                    <td class="adv-chgs">{{advice.numChanges}}</td>
-                    <td class="adv-stat">
-                        <span class="adv-warning" ng-if="advice.status !== 'ok'"></span>
-                        {{advice.status === 'ok' ? '' : advice.status}}
-                    </td>
+                    <td class="train-type" >{{train.type}}</td>
+                    <td class="train-platf">{{train.platf}}</td>
                 </tr>
             </table>
         </td>

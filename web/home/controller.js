@@ -8,18 +8,16 @@
     HomeController.$inject = ['$interval', 'NsApiService', 'BuienRadarService', 'OvapiService', 'FxService', 'CryptoService', 'OpenHabService'];
     function HomeController($interval, NsApiService, BuienRadarService, OvapiService, FxService, CryptoService, OpenHabService) {
         var vm = this;
-        var trainDepTimesStation = 'htnc';   // Houten Castellum
-        var travelAdvFromStation = 'htnc';   // Houten Castellum
-        var travelAdvToStation   = 'gvc';    // Den Haag Centraal
-        var ovapiBusStopCode     = 'hoterv'; // De Erven/De Schaft
-        var buienRadarStationId  = '6260';   // Meetstation De Bilt
-        var openHabServerUrl     = 'http://pihub:8080';
+        var trainDepTimesStation1 = 'htnc';   // Houten Castellum
+        var trainDepTimesStation2 = 'ut';     // Utrecht Centraal
+        var ovapiBusStopCode      = 'hoterv'; // De Erven/De Schaft
+        var buienRadarStationId   = '6260';   // Meetstation De Bilt
+        var openHabServerUrl      = 'http://pihub:8080';
 
         // Publish VM properties
         vm.updateNow            = updateNow;
         vm.updateWeather        = updateWeather;
         vm.updateDepartureTimes = updateDepartureTimes;
-        vm.updateTravelAdvice   = updateTravelAdvice;
         vm.updateBusData        = updateBusData;
         vm.updateFx             = updateFx;
         vm.fx                   = [
@@ -43,20 +41,8 @@
         }
 
         function updateDepartureTimes() {
-            NsApiService.getTrainTimes(trainDepTimesStation).then(function (data) { vm.trainDepartureTimes = data});
-        }
-
-        function updateTravelAdvice() {
-            NsApiService
-                .getTravelAdvice({
-                    from: travelAdvFromStation,
-                    to:   travelAdvToStation,
-                    prev: 1,
-                    next: 5
-                })
-                .then(function (data) {
-                    vm.travelAdvices = data;
-                });
+            NsApiService.getTrainTimes(trainDepTimesStation1).then(function (data) { vm.trainDepartureTimes1 = data});
+            NsApiService.getTrainTimes(trainDepTimesStation2).then(function (data) { vm.trainDepartureTimes2 = data});
         }
 
         function updateBusData() {
@@ -124,7 +110,6 @@
             $interval(updateNow,            10 * 1000);       // 10 sec
             $interval(updateWeather,        10 * 60 * 1000);  // 10 min
             $interval(updateDepartureTimes, 30 * 1000);       // 30 sec
-            $interval(updateTravelAdvice,   1  * 60 * 1000);  // 1 min
             $interval(updateBusData,        30 * 1000);       // 30 sec
             $interval(updateFx,             60 * 60 * 1000);  // 1 hour
             $interval(updateSecurity,       10 * 1000);       // 10 sec
