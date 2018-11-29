@@ -102,7 +102,6 @@
             updateNow();
             updateWeather();
             updateDepartureTimes();
-            updateTravelAdvice();
             updateBusData();
             updateFx();
             updateSecurity();
