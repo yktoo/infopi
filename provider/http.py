@@ -1,7 +1,6 @@
 import logging
 from abc import ABCMeta, abstractmethod
-import urllib.request
-import urllib.parse
+from urllib import request, parse
 
 from .data_provider import DataProvider
 
@@ -11,9 +10,16 @@ class HttpDataProvider(DataProvider, metaclass=ABCMeta):
 
     def get(self):
         try:
+            # Construct a HTTP request
+            url = self.get_url() + '?' + parse.urlencode(self.get_query_params())
+            req = request.Request(url)
+
+            # Add headers, if any
+            for hdr_name, hdr_value in self.get_query_headers().items():
+                req.add_header(hdr_name, hdr_value)
+
             # Fetch data from the server
-            url = self.get_url() + '?' + urllib.parse.urlencode(self.get_query_params())
-            data = urllib.request.urlopen(url).read().decode('utf-8')
+            data = request.urlopen(req).read().decode('utf-8')
 
             # Process and return the data
             return self.process_data(data)
@@ -28,6 +34,11 @@ class HttpDataProvider(DataProvider, metaclass=ABCMeta):
     # noinspection PyMethodMayBeStatic
     def get_query_params(self) -> dict:
         """Return parameters for the URL query string, as a dictionary. Base class returns an empty dictionary."""
+        return {}
+
+    # noinspection PyMethodMayBeStatic
+    def get_query_headers(self) -> dict:
+        """Return additional headers for the URL query, as a dictionary. Base class returns an empty dictionary."""
         return {}
 
     @abstractmethod

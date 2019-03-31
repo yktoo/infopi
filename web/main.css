@@ -109,6 +109,7 @@ body, html {
 }
 .train-delay {
     color: #f00;
+    font-size: 18px;
     font-weight: bold;
     padding-left: 4px;
 }
@@ -124,6 +125,13 @@ body, html {
     font-size: 18px;
     font-weight: bold;
     text-align: center;
+}
+.train-delayed {
+    background-color: #444;
+}
+.train-canceled {
+    background-color: #600;
+    text-decoration: line-through;
 }
 
 /* Travel advice */

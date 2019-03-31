@@ -99,15 +99,16 @@
         <td class="width50" ng-click="vm.updateDepartureTimes()">
             <h2>Houten Castellum</h2>
             <table class="table">
-                <tr ng-repeat="train in vm.trainDepartureTimes1 | limitTo:12">
-                    <td class="train-time" >{{train.time | date:'HH:mm'}}</td>
+                <tr ng-repeat="train in vm.trainDepartureTimes1 | limitTo:12"
+                    ng-class="{'train-delayed': train.delay, 'train-canceled': train.cancelled}">
+                    <td class="train-time" >{{train.plannedDateTime | date:'HH:mm'}}</td>
                     <td class="train-delay">{{train.delay}}</td>
                     <td class="train-dest" >
-                        {{train.dest}}
-                        <div class="train-notes" ng-bind="train.notes"></div>
+                        {{train.direction}}
+                        <div class="train-notes" ng-bind="train.journeyDetailRef"></div>
                     </td>
-                    <td class="train-type" >{{train.type}}</td>
-                    <td class="train-platf">{{train.platf}}</td>
+                    <td class="train-type" >{{train.product.longCategoryName}}</td>
+                    <td class="train-platf">{{train.actualTrack || train.plannedTrack}}</td>
                 </tr>
             </table>
         </td>
@@ -116,15 +117,16 @@
         <td class="width50" ng-click="vm.updateDepartureTimes()">
             <h2>Utrecht Centraal</h2>
             <table class="table">
-                <tr ng-repeat="train in vm.trainDepartureTimes2 | limitTo:12">
-                    <td class="train-time" >{{train.time | date:'HH:mm'}}</td>
+                <tr ng-repeat="train in vm.trainDepartureTimes2 | limitTo:12"
+                    ng-class="{'train-delayed': train.delay, 'train-canceled': train.cancelled}">
+                    <td class="train-time" >{{train.plannedDateTime | date:'HH:mm'}}</td>
                     <td class="train-delay">{{train.delay}}</td>
                     <td class="train-dest" >
-                        {{train.dest}}
-                        <div class="train-notes" ng-bind="train.notes"></div>
+                        {{train.direction}}
+                        <div class="train-notes" ng-bind="train.journeyDetailRef"></div>
                     </td>
-                    <td class="train-type" >{{train.type}}</td>
-                    <td class="train-platf">{{train.platf}}</td>
+                    <td class="train-type" >{{train.product.longCategoryName}}</td>
+                    <td class="train-platf">{{train.actualTrack || train.plannedTrack}}</td>
                 </tr>
             </table>
         </td>

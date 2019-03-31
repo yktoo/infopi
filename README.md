@@ -38,7 +38,7 @@ Getting started
 
     `pip3 install astral`
 
-4. Request an NS API key [here](http://www.ns.nl/en/travel-information/ns-api).
+4. Request an NS API key [here](https://apiportal.ns.nl/).
 5. Once you have the key, open the file `ns_api_key.sample.py`, update the properties and save it as `ns_api_key.py`.
 6. Start the server:
 
