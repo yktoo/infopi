@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/vendor/weather-icons/css/weather-icons.min.css" rel="stylesheet">
+    <link href="/vendor/weather-icons/css/weather-icons-wind.min.css" rel="stylesheet">
     <link href="/main.css" rel="stylesheet">
     <title>infopi</title>
 </head>
@@ -38,7 +39,12 @@
         <tr>
             <!-- Wind direction and speed -->
             <td class="w-smallicon"><i class="wi w-wind" ng-class="'wi-wind-beaufort-' + vm.weather.current.wind.speed"></i></td>
-            <td class="w-smalltext">{{vm.weather.current.wind.dirText}}</td>
+            <td class="w-smalltext">
+                {{vm.weather.current.wind.dirText}}
+                <div class="w-wind-dir">
+                    <i class="wi wi-wind" ng-class="'from-' + vm.weather.current.wind.dirDegrees + '-deg'"></i>
+                </div>
+            </td>
             <!-- Rain radar -->
             <td class="w-radar-map" rowspan="4">
                 <iframe class="radar-map" ng-src="{{vm.radarMapUrl}}" scrolling="no" width="550" height="512" frameborder="no"></iframe>

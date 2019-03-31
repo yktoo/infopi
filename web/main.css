@@ -68,6 +68,7 @@ body, html {
 .w-smallicon .wi-sunrise     { color: #9f9; }
 .w-smallicon .wi-sunset      { color: #f99; }
 .w-smallicon .w-moon         { color: #ffd452; }
+.w-wind-dir { font-size: 36px; display: inline-block; padding-left: 20px; }
 
 .w-updated   { font-size: 11px; float: right; }
 
