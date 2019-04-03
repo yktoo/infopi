@@ -1,6 +1,5 @@
 from abc import ABCMeta
 import json
-import dateutil.parser
 
 from .http import HttpDataProvider
 from ns_api_key import NSAPIKey
@@ -49,15 +48,12 @@ class NSDepartureTimesProvider(NSDataProvider):
 
     def process_data(self, data: str):
         # Parse and return the JSON data
-        data = json.loads(data)['payload']['departures']
+        departures = json.loads(data)['payload']['departures']
 
         # Calculate delays in minutes
-        for dep in data:
-            planned = dateutil.parser.parse(dep['plannedDateTime'])
-            actual  = dateutil.parser.parse(dep['actualDateTime'])
-            diff = round((actual - planned).total_seconds() / 60)
-            dep['delay'] = '' if diff <= 0 else '+{}'.format(diff)
-        return data
+        for dep in departures:
+            dep['delay'] = self.calc_delay(dep['plannedDateTime'], dep['actualDateTime'])
+        return departures
 
 
 class NSTravelAdviceProvider(NSDataProvider):

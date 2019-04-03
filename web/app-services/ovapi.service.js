@@ -23,12 +23,9 @@
                 .then(function (data) {
                     var passes = [];
                     // Extract and "flatten" the passes
-                    angular.forEach(data[stopCode], function (stop) {
+                    angular.forEach(data, function (stop) {
                         angular.forEach(stop.Passes, function (pass) {
                             passes.push(pass);
-                            // Calculate delay time (as Date)
-                            var diff = new Date(pass.ExpectedDepartureTime) - new Date(pass.TargetDepartureTime);
-                            pass.delay = diff ? new Date(diff) : null;
                         });
                     });
                     // Sort passes by target departure time

@@ -108,7 +108,7 @@
                 <tr ng-repeat="train in vm.trainDepartureTimes1 | limitTo:12"
                     ng-class="{'train-delayed': train.delay, 'train-canceled': train.cancelled}">
                     <td class="train-time" >{{train.plannedDateTime | date:'HH:mm'}}</td>
-                    <td class="train-delay">{{train.delay}}</td>
+                    <td class="train-delay"><span class="delay-value">{{train.delay}}</span></td>
                     <td class="train-dest" >
                         {{train.direction}}
                         <div class="train-notes" ng-repeat="msg in train.messages | filter:{style:'WARNING'}">{{msg.message}}</div>
@@ -126,7 +126,7 @@
                 <tr ng-repeat="train in vm.trainDepartureTimes2 | limitTo:12"
                     ng-class="{'train-delayed': train.delay, 'train-canceled': train.cancelled}">
                     <td class="train-time" >{{train.plannedDateTime | date:'HH:mm'}}</td>
-                    <td class="train-delay">{{train.delay}}</td>
+                    <td class="train-delay"><span class="delay-value">{{train.delay}}</span></td>
                     <td class="train-dest" >
                         {{train.direction}}
                         <div class="train-notes" ng-repeat="msg in train.messages | filter:{style:'WARNING'}">{{msg.message}}</div>
@@ -145,9 +145,9 @@
             <td class="width50" ng-click="vm.updateBusData()">
                 <h2>De Erven/De Schaft</h2>
                 <table class="table">
-                    <tr ng-repeat="bus in vm.busData">
+                    <tr ng-repeat="bus in vm.busData" ng-class="{'bus-delayed': bus.delay}">
                         <td class="bus-time">{{bus.TargetDepartureTime | date:'HH:mm'}}</td>
-                        <td class="bus-delay">{{bus.delay ? '+' : ''}}{{bus.delay | date:'m:ss'}}</td>
+                        <td class="bus-delay"><span class="delay-value">{{bus.delay}}</span></td>
                         <td class="bus-line">{{bus.LinePublicNumber}}</td>
                         <td class="bus-dest">{{bus.DestinationName50}}</td>
                     </tr>

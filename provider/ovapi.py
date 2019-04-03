@@ -23,4 +23,10 @@ class OvApiDataProvider(HttpDataProvider):
 
     def process_data(self, data: str):
         # Parse and return the JSON data
-        return json.loads(data)
+        stops = json.loads(data)[self.stop_code]
+
+        # Calculate delays in minutes
+        for stop in stops.values():
+            for pss in stop['Passes'].values():
+                pss['delay'] = self.calc_delay(pss['TargetDepartureTime'], pss['ExpectedDepartureTime'])
+        return stops

@@ -109,16 +109,21 @@ body, html {
     font-size: 18px;
 }
 .train-delay {
-    color: #f00;
+    color: #f44;
     font-size: 18px;
     font-weight: bold;
-    padding-left: 4px;
+}
+.train-delay .delay-value, .bus-delay .delay-value {
+    background-color: #000;
+    border-radius: 50%;
+    padding: 6px;
 }
 .train-dest {
 }
 .train-notes {
     color: #f00;
     font-weight: bold;
+    text-decoration: none;
 }
 .train-type {
 }
@@ -127,7 +132,7 @@ body, html {
     font-weight: bold;
     text-align: center;
 }
-.train-delayed {
+.train-delayed, .bus-delayed {
     background-color: #444;
 }
 .train-canceled {
@@ -160,9 +165,8 @@ body, html {
     font-size: 18px;
 }
 .bus-delay {
-    color: #f00;
+    color: #f44;
     font-weight: bold;
-    padding-left: 4px;
 }
 .bus-line {
     font-size: 18px;
