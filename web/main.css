@@ -6,7 +6,12 @@ body, html {
 .table {
     margin-bottom: 0;
 }
+.table .table {
+    /* Fix forceful background setting in Bootstrap */
+    background: none;
+}
 .width50 { width: 50.000% }
+.outdated { background: repeating-linear-gradient(135deg, #444, #222 3px, #000 3px, #000 6px); }
 
 /* Date and time */
 .table.datetime td {
@@ -17,7 +22,9 @@ body, html {
 }
 .table.datetime td.dt-date { font-size: 70px; }
 .table.datetime td.dt-dow  { font-size: 35px; }
-.table.datetime td.dt-time { font-size: 80px; font-weight: bold; }
+.table.datetime td.dt-time { font-size: 80px; }
+.table.datetime .dt-time-hhmm { font-weight: bold; }
+.table.datetime .dt-time-ss   { font-size: 40%; vertical-align: super; }
 
 /* Weather */
 .table.weather td {
@@ -108,25 +115,21 @@ body, html {
 .train-time {
     font-size: 18px;
 }
-.train-delay {
-    color: #f44;
-    font-size: 18px;
-    font-weight: bold;
-}
+.train-delay {}
 .train-delay .delay-value, .bus-delay .delay-value {
+    color: #f44;
     background-color: #000;
     border-radius: 50%;
     padding: 6px;
+    font-size: 14px;
+    font-weight: bold;
 }
-.train-dest {
-}
+.train-dest {}
 .train-notes {
     color: #f00;
     font-weight: bold;
-    text-decoration: none;
 }
-.train-type {
-}
+.train-type {}
 .train-platf {
     font-size: 18px;
     font-weight: bold;
@@ -137,6 +140,8 @@ body, html {
 }
 .train-canceled {
     background-color: #600;
+}
+.train-canceled .train-dest-name {
     text-decoration: line-through;
 }
 
@@ -164,10 +169,7 @@ body, html {
 .bus-time {
     font-size: 18px;
 }
-.bus-delay {
-    color: #f44;
-    font-weight: bold;
-}
+.bus-delay {}
 .bus-line {
     font-size: 18px;
     font-weight: bold;
