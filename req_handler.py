@@ -37,12 +37,25 @@ class InfoPiRequestHandler(SimpleHTTPRequestHandler):
         # Instantiate and run the handler
         data = ROUTE_MAP[url_path](**url_params).get()
 
-        # Send response status code
-        self.send_response(200)
+        # None means data fetching failed - return a 500 error
+        if data is None:
+            self.send_response(500)
 
-        # Send headers
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
+            # Send headers
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
 
-        # Write the response
-        self.wfile.write(bytes(json.dumps(data), 'utf8'))
+            # Write the response
+            self.wfile.write(b'Data fetching failed')
+
+        # Data fetched successfully
+        else:
+            # Send response status code
+            self.send_response(200)
+
+            # Send headers
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+
+            # Write the response
+            self.wfile.write(bytes(json.dumps(data), 'utf8'))
