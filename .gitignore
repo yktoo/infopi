@@ -5,6 +5,7 @@ __pycache__/
 *.sublime-workspace
 *.json
 *.log
+*.iml
 
 # Private credential info
 ns_api_key.py
