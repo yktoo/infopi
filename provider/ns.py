@@ -41,7 +41,7 @@ class NSDepartureTimesProvider(NSDataProvider):
         self.station = station
 
     def get_url(self):
-        return 'https://gateway.apiportal.ns.nl/public-reisinformatie/api/v2/departures'
+        return 'https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/departures'
 
     def get_query_params(self) -> dict:
         return {'station': self.station, 'lang': 'en'}
