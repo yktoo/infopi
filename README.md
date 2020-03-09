@@ -36,7 +36,7 @@ Getting started
 
 3. Install `astral`:
 
-    `pip3 install astral`
+    `sudo pip3 install astral`
 
 4. Request an NS API key [here](https://apiportal.ns.nl/).
 5. Once you have the key, open the file `ns_api_key.sample.py`, update the properties and save it as `ns_api_key.py`.
@@ -75,8 +75,8 @@ Credits
 
 * [AngularJS](https://angularjs.org/)
 * [Twitter Bootstrap](http://getbootstrap.com/)
-* Weather Icons by [Erik Flowers](http://weathericons.io/)
-* Python [Astral](https://pythonhosted.org/astral/)
+* Weather Icons by [Erik Flowers](https://erikflowers.github.io/weather-icons/)
+* Python [Astral](https://pypi.org/project/astral/)
 
 
 Data providers
