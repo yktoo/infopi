@@ -18,9 +18,9 @@ This is how the information page looks like:
 Dependencies
 ============
 
-1. Python 3.4
+1. Python 3.6
 2. dateutil
-3. Astral 1.0 (used for displaying moon phases)
+3. Astral 2.1 (used for displaying moon phases)
 
 
 Getting started

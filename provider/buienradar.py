@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from xml.etree import ElementTree
-from astral import Astral
+from astral import moon
 
 from .http import HttpDataProvider
 
@@ -185,7 +185,7 @@ class BuienRadarDataProvider(HttpDataProvider):
 
         # Process sunrise/sunset
         e_buienradar = get_element(e_root, './weergegevens/actueel_weer/buienradar')
-        moon_phase = Astral().moon_phase(date.today())
+        moon_phase = int(moon.phase(date.today()))
         sunmoon = {
             'sunrise':          iso_datetime(e_buienradar.findtext('zonopkomst')),  # ISO8601 sunrise time
             'sunset':           iso_datetime(e_buienradar.findtext('zononder')),    # ISO8601 sunset time
