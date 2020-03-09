@@ -85,7 +85,7 @@
                     function (data) {
                         curRates = data;
                         // Get quotes for the day before
-                        return FxService.getFxRates('RUB', new Date(new Date(data.date) - 1000 * 3600 * 24));
+                        return FxService.getFxRates('RUB', 'previous');
                     },
                     function (reason) {
                         vm.fxErr = true;

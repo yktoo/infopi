@@ -19,7 +19,7 @@ class FxDataProvider(HttpDataProvider):
     def __init__(self, base_currency: str=None, date: str=None):
         """Constructor. Initialises the instance.
         :param base_currency base currency name.
-        :param date date get quotes for in the format 'yyyy-mm-dd'. If None, the latest quotes are fetched.
+        :param date date get quotes for in the format 'yyyy-mm-dd' or 'previous'. If None, the latest quotes are fetched
         """
         if base_currency is None:
             raise FxError('FxDataProvider(): parameter "base_currency" is mandatory')
@@ -42,10 +42,13 @@ class FxDataProvider(HttpDataProvider):
 
         # Find the requested date node
         e_selected_date = None
+        idx = 0
         for e_date in e_dates:
-            if self.date is None or e_date.attrib['time'] == self.date:
+            # Date of None means we're grabbing the topmost one, 'previous' means second latest
+            if self.date is None or (self.date == 'previous' and idx == 1) or e_date.attrib['time'] == self.date:
                 e_selected_date = e_date
                 break
+            idx += 1
 
         # Validate the date
         if not e_selected_date:
