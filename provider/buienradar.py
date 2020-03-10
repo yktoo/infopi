@@ -1,6 +1,5 @@
-from datetime import date, datetime
+from datetime import datetime
 from xml.etree import ElementTree
-from astral import moon
 
 from .http import HttpDataProvider
 
@@ -116,6 +115,12 @@ class BuienRadarDataProvider(HttpDataProvider):
     def get_url(self):
         return 'http://xml.buienradar.nl/'
 
+    @staticmethod
+    def get_moon_phase() -> int:
+        """Calculate the current moon phase and return it as a number in the range 0..27."""
+        # Determine the moon's position
+        return int((datetime.now() - datetime(1999, 8, 11)).days % 29.530588853 * 0.914306184)
+
     def process_data(self, data: str):
         # Parse the XML
         e_root = ElementTree.fromstring(data)
@@ -185,7 +190,7 @@ class BuienRadarDataProvider(HttpDataProvider):
 
         # Process sunrise/sunset
         e_buienradar = get_element(e_root, './weergegevens/actueel_weer/buienradar')
-        moon_phase = int(moon.phase(date.today()))
+        moon_phase = self.get_moon_phase()
         sunmoon = {
             'sunrise':          iso_datetime(e_buienradar.findtext('zonopkomst')),  # ISO8601 sunrise time
             'sunset':           iso_datetime(e_buienradar.findtext('zononder')),    # ISO8601 sunset time

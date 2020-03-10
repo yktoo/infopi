@@ -20,7 +20,6 @@ Dependencies
 
 1. Python 3.6
 2. dateutil
-3. Astral 2.1 (used for displaying moon phases)
 
 
 Getting started
@@ -34,22 +33,18 @@ Getting started
 
     `sudo apt-get install python3-dateutil`
 
-3. Install `astral`:
-
-    `sudo pip3 install astral`
-
-4. Request an NS API key [here](https://apiportal.ns.nl/).
-5. Once you have the key, open the file `ns_api_key.sample.py`, update the properties and save it as `ns_api_key.py`.
-6. Start the server:
+3. Request an NS API key [here](https://apiportal.ns.nl/).
+4. Once you have the key, open the file `ns_api_key.sample.py`, update the properties and save it as `ns_api_key.py`.
+5. Start the server:
 
     `./infopi`
 
-7. Open a web browser and direct it to [localhost:8000](http://localhost:8000/). If you're using Chrome or Chromium,
+6. Open a web browser and direct it to [localhost:8000](http://localhost:8000/). If you're using Chrome or Chromium,
    the command line is:
 
    `chromium-browser --incognito --kiosk http://localhost:8000/`
 
-8. In order to make InfoPi start at bootup, you can add the following commands to `~/.config/lxsession/LXDE-pi/autostart`:
+7. In order to make InfoPi start at bootup, you can add the following commands to `~/.config/lxsession/LXDE-pi/autostart`:
 
 ```bash
 # Optional: remote desktop server that would allow
@@ -76,7 +71,6 @@ Credits
 * [AngularJS](https://angularjs.org/)
 * [Twitter Bootstrap](http://getbootstrap.com/)
 * Weather Icons by [Erik Flowers](https://erikflowers.github.io/weather-icons/)
-* Python [Astral](https://pypi.org/project/astral/)
 
 
 Data providers
