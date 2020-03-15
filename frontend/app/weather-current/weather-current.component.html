@@ -1,0 +1,14 @@
+<table class="weather" *ngIf="currentWeather" (click)="update()">
+    <tr ng-class="{outdated: vm.weatherErr}">
+        <td class="w-icon">
+            <i class="wi" ng-class="currentWeather.iconWiClass"></i>
+            <div class="w-icon-text" ng-bind="currentWeather.iconText"></div>
+        </td>
+        <td class="w-text">{{ currentWeather.text }}</td>
+        <td class="w-temp">
+            {{ currentWeather.temperature }} <i class="wi wi-celsius"></i>
+            <p class="w-updated">{{ currentWeather.station.updated | date:'HH:mm' }}</p>
+        </td>
+    </tr>
+</table>
+<button (click)="update()">Reload!</button>

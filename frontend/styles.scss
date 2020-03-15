@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
+
+/***********************************************************************************************************************
+ Variables
+***********************************************************************************************************************/
+
+// Font sizes
+$font-size: 18px;
+$font-size-l: $font-size * 1.5;
+$font-size-xl: $font-size * 2;
+$font-size-xxl: $font-size * 4;
+
+// Base colours
+$color-body-bg: #000;
+$color-body-fg: #fff;
+
+/***********************************************************************************************************************
+ Elements
+***********************************************************************************************************************/
+
+body {
+    background-color: $color-body-bg;
+    color: $color-body-fg;
+    height: 100%;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: $font-size;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+
+    td {
+        vertical-align: middle;
+        border: none;
+    }
+}

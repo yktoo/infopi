@@ -1,0 +1,10 @@
+<table class="datetime" *ngIf="now" (click)="update()">
+    <tr>
+        <td class="date" >{{ now | date:'d.MM' }}</td>
+        <td class="day-of-week" >{{ now | date:'EEEE' }}</td>
+        <td class="time">
+            <span class="hhmm">{{ now | date:'HH:mm' }}</span>
+            <span class="ss">{{ now | date:':ss' }}</span>
+        </td>
+    </tr>
+</table>

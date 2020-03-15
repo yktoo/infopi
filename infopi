@@ -2,7 +2,7 @@
 import os
 import logging
 
-from server import InfoPiServer
+from backend.server import InfoPiServer
 
 if __name__ == "__main__":
     dir_root = os.path.dirname(os.path.abspath(__file__))
