@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false
+    production:            false,
+    trainDepTimesStation1: 'htnc',   // Houten Castellum
+    trainDepTimesStation2: 'ut',     // Utrecht Centraal
+    ovapiBusStopCode:      'hoterv', // De Erven/De Schaft
+    buienRadarStationId:   '6260',   // Meetstation De Bilt
+    openHabServerUrl:      'http://pihub:8080'
 };
 
 /*
