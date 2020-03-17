@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "infopi": {
@@ -28,7 +28,8 @@
               "frontend/assets"
             ],
             "styles": [
-              "frontend/styles.scss"
+              "frontend/styles.scss",
+              "node_modules/weather-icons/css/weather-icons.css"
             ],
             "scripts": []
           },
@@ -92,7 +93,8 @@
               "frontend/assets"
             ],
             "styles": [
-              "frontend/styles.scss"
+              "frontend/styles.scss",
+              "node_modules/weather-icons/css/weather-icons.css"
             ],
             "scripts": []
           }

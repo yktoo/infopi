@@ -6,6 +6,7 @@
 
 // Font sizes
 $font-size: 18px;
+$font-size-s: $font-size * 0.75;
 $font-size-l: $font-size * 1.5;
 $font-size-xl: $font-size * 2;
 $font-size-xxl: $font-size * 4;
@@ -14,20 +15,65 @@ $font-size-xxl: $font-size * 4;
 $color-body-bg: #000;
 $color-body-fg: #fff;
 
+// Number of columns
+$columns: 12;
+
+/***********************************************************************************************************************
+ Establish base rules
+***********************************************************************************************************************/
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: $font-size;
+    line-height: 1.15;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
 /***********************************************************************************************************************
  Elements
 ***********************************************************************************************************************/
 
 body {
+    margin: 0; // 1
     background-color: $color-body-bg;
     color: $color-body-fg;
     height: 100%;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: $font-size;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.card {
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+@for $i from 1 through $columns {
+    .w-#{$i} {
+        flex: 0 0 percentage($i / $columns);
+        max-width: percentage($i / $columns);
+    }
 }
 
 table {
-    border-collapse: collapse;
     width: 100%;
 
     td {

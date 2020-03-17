@@ -1,1 +1,27 @@
 @import "../../styles.scss";
+
+.w-icon {
+    font-size: $font-size-xxl;
+}
+
+.w-icon-text {
+    font-size: $font-size-l;
+}
+
+.w-text {
+    font-size: $font-size;
+}
+
+.w-temp {
+    font-size: $font-size-xxl;
+}
+
+.w-temp .wi-celsius {
+    font-size: $font-size-xxl;
+    vertical-align: text-top;
+}
+
+.w-updated {
+    font-size: $font-size-s;
+    float: right;
+}

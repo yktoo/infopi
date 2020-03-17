@@ -1,31 +1,23 @@
 @import "../../styles.scss";
 
-.datetime {
-    text-align: center;
+.date {
+    font-size: $font-size-xxl;
+}
 
-    td {
-        width: 33.333%;
+.day-of-week {
+    font-size: $font-size-xl;
+}
+
+.time {
+    font-size: $font-size-xxl;
+
+
+    .hhmm {
+        font-weight: bold;
     }
 
-    .date {
-        font-size: $font-size-xxl;
-    }
-
-    .day-of-week {
-        font-size: $font-size-xl;
-    }
-
-    .time {
-        font-size: $font-size-xxl;
-
-
-        .hhmm {
-            font-weight: bold;
-        }
-
-        .ss {
-            font-size: $font-size;
-            vertical-align: super;
-        }
+    .ss {
+        font-size: $font-size-l;
+        vertical-align: super;
     }
 }

@@ -1,10 +1,8 @@
-<table class="datetime" *ngIf="now" (click)="update()">
-    <tr>
-        <td class="date" >{{ now | date:'d.MM' }}</td>
-        <td class="day-of-week" >{{ now | date:'EEEE' }}</td>
-        <td class="time">
-            <span class="hhmm">{{ now | date:'HH:mm' }}</span>
-            <span class="ss">{{ now | date:':ss' }}</span>
-        </td>
-    </tr>
-</table>
+<section class="row" *ngIf="now" (click)="update()">
+    <div class="card w-4 date" >{{ now | date:'d.MM' }}</div>
+    <div class="card w-4 day-of-week" >{{ now | date:'EEEE' }}</div>
+    <div class="card w-4 time">
+        <span class="hhmm">{{ now | date:'HH:mm' }}</span>
+        <span class="ss">{{ now | date:':ss' }}</span>
+    </div>
+</section>

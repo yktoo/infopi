@@ -13,7 +13,7 @@ export class ClockComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
-        timer(1000, 1000).subscribe(event => this.update());
+        timer(1000, 1000).subscribe(() => this.update());
     }
 
     update() {
