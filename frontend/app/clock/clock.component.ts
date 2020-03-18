@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
+import { ConfigService } from '../_services/config.service';
 
 @Component({
     selector: 'app-clock',
@@ -10,10 +11,10 @@ export class ClockComponent implements OnInit {
 
     now: Date = new Date();
 
-    constructor() { }
+    constructor(private config: ConfigService) { }
 
     ngOnInit(): void {
-        timer(1000, 1000).subscribe(() => this.update());
+        timer(0, this.config.refreshRate('clock')).subscribe(() => this.update());
     }
 
     update() {

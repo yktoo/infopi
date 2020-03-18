@@ -23,7 +23,7 @@
     "stream": "0.0.2",
     "timers": "^0.1.1",
     "tslib": "^1.10.0",
-    "weather-icons": "^1.3.2",
+    "weather-icons": "github:erikflowers/weather-icons",
     "xml2js": "^0.4.23",
     "zone.js": "~0.10.2"
   },

@@ -5,7 +5,7 @@
 }
 
 .w-icon-text {
-    font-size: $font-size-l;
+    font-size: $font-size;
 }
 
 .w-text {
@@ -24,4 +24,43 @@
 .w-updated {
     font-size: $font-size-s;
     float: right;
+}
+
+.w-smallicon {
+    font-size: $font-size-xl;
+
+    // Colorise the wind speeds
+    .wi-wind-beaufort-0  { color: #ffffff; }
+    .wi-wind-beaufort-1  { color: #ddfff7; }
+    .wi-wind-beaufort-2  { color: #b9ffee; }
+    .wi-wind-beaufort-3  { color: #86ffe1; }
+    .wi-wind-beaufort-4  { color: #e1ff86; }
+    .wi-wind-beaufort-5  { color: #ffe614; }
+    .wi-wind-beaufort-6  { color: #ffba00; }
+    .wi-wind-beaufort-7  { color: #ff9600; }
+    .wi-wind-beaufort-8  { color: #ff6f00; }
+    .wi-wind-beaufort-9  { color: #ff4d00; }
+    .wi-wind-beaufort-10 { color: #ff3c00; }
+    .wi-wind-beaufort-11 { color: #ff2a00; }
+    .wi-wind-beaufort-12 { color: #ff0000; }
+
+    // Colorise other weather icons
+    .wi-strong-wind { color: #ceeaa2; }
+    .wi-humidity    { color: #dddddd; }
+    .wi-barometer   { color: #c392ff; }
+    .wi-raindrops   { color: #99ccff; }
+    .wi-sunrise     { color: #99ff99; }
+    .wi-sunset      { color: #ff9999; }
+    .w-moon         { color: #ffd452; }
+
+}
+.w-smalltext {
+    font-size: $font-size-l;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.w-wind-dir {
+    font-size: $font-size-xl;
 }

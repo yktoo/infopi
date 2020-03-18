@@ -1,11 +1,86 @@
-<section class="row" *ngIf="currentWeather" (click)="update()" ng-class="{outdated: vm.weatherErr}">
-    <div class="card w-4 w-icon">
-        <i [ngClass]="['wi', currentWeather.icon.wiClass]"></i>
-        <div class="w-icon-text">{{ currentWeather.icon.text }}</div>
+<section *ngIf="currentWeather" (click)="update()" ng-class="{outdated: vm.weatherErr}">
+    <div class="row">
+        <!-- Current weather icon and text -->
+        <div class="card w-2 w-icon">
+            <i [ngClass]="['wi', currentWeather.icon.wiClass]"></i>
+            <div class="w-icon-text">{{ currentWeather.icon.text }}</div>
+        </div>
+        <!-- Weather message -->
+        <div class="card w-7 w-text">{{ currentWeather.message }}</div>
+        <!-- Temperature -->
+        <div class="card w-3 w-temp">
+            {{ currentWeather.temperatuurGC }} <i class="wi wi-celsius"></i>
+            <p class="w-updated">{{ currentWeather.datum | date:'HH:mm' }}</p>
+        </div>
     </div>
-    <div class="card w-4 w-text">{{ currentWeather.message }}</div>
-    <div class="card w-4 w-temp">
-        {{ currentWeather.temperatuurGC }} <i class="wi wi-celsius"></i>
-        <p class="w-updated">{{ currentWeather.datum | date:'HH:mm' }}</p>
+    <div class="row">
+        <!-- Left column -->
+        <div class="w-3">
+            <!-- Wind direction and speed -->
+            <div class="card">
+                <span class="w-smallicon">
+                    <i class="wi w-wind" [ngClass]="'wi-wind-beaufort-' + currentWeather.windsnelheidBF"></i>
+                </span>
+                <span class="w-smalltext">
+                    {{ currentWeather.windrichting }}
+                    <span class="w-wind-dir">
+                        <i class="wi wi-wind" [ngClass]="'from-' + currentWeather.windrichtingGR + '-deg'"></i>
+                    </span>
+                </span>
+            </div>
+
+            <!-- Wind gusts -->
+            <div class="card">
+                <span class="w-smallicon"><i class="wi wi-strong-wind"></i></span>
+                <span class="w-smalltext">{{ currentWeather.windstotenMS }} m/s</span>
+            </div>
+
+            <!-- Humidity -->
+            <div class="card">
+                <span class="w-smallicon"><i class="wi wi-humidity"></i></span>
+                <span class="w-smalltext">{{ currentWeather.luchtvochtigheid }}%</span>
+            </div>
+
+            <!-- Pressure -->
+            <div class="card">
+                <span class="w-smallicon"><i class="wi wi-barometer"></i></span>
+                <span class="w-smalltext">{{ currentWeather.luchtdruk }} hPa</span>
+            </div>
+
+        </div>
+        <!-- Center column with the rain radar -->
+        <div class="w-6">
+            <div class="card">
+                <iframe class="radar-map" [src]="radarMapUrl" width="550" height="512" frameborder="no"></iframe>
+                <img class="radar-cross" src="/assets/crosshair.png" alt="">
+            </div>
+        </div>
+        <!-- Right column -->
+        <div class="w-3">
+            <!-- Rain -->
+            <div class="card">
+                <span class="w-smallicon"><i class="wi wi-raindrops"></i></span>
+                <span class="w-smalltext">{{ currentWeather.regenMMPU[0] === '-' ? 0 : currentWeather.regenMMPU }} mm/h</span>
+            </div>
+
+            <!-- Sunrise -->
+            <div class="card">
+                <span class="w-smallicon"><i class="wi wi-sunrise"></i></span>
+                <span class="w-smalltext">{{ currentWeather.sunrise | date:'HH:mm' }}</span>
+            </div>
+
+            <!-- Sunset -->
+            <div class="card">
+                <span class="w-smallicon"><i class="wi wi-sunset"></i></span>
+                <span class="w-smalltext">{{ currentWeather.sunset | date:'HH:mm' }}</span>
+            </div>
+
+            <!-- Moon phase -->
+            <div class="card">
+                <span class="w-smallicon"><i class="wi w-moon" ng-class="currentWeather.weather.sunMoon.moonPhaseWiClass"></i></span>
+                <span class="w-smalltext">{{ currentWeather.moonPhaseText }}</span>
+            </div>
+        </div>
     </div>
+
 </section>

@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production:            false,
+    production: false,
+    refreshRates: {
+        clock:   500,
+        weather: 10 * 60 * 1000,     // Once in 10 minutes
+        departures: 30 * 1000,       // Once half a minute
+    },
     trainDepTimesStation1: 'htnc',   // Houten Castellum
     trainDepTimesStation2: 'ut',     // Utrecht Centraal
     ovapiBusStopCode:      'hoterv', // De Erven/De Schaft
