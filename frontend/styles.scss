@@ -62,12 +62,28 @@ body {
     border-bottom: 1px $color-ruler solid;
 }
 
+.column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &.col-grow {
+        flex-grow: 1;
+    }
+
+    .card {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px $color-ruler solid;
+        padding: 0 0.5rem;
+    }
+}
+
 .card {
     position: relative;
     text-align: center;
-    width: 100%;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    flex-grow: 1;
+    padding: 0.5rem 0;
 }
 
 @for $i from 1 through $columns {

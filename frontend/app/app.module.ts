@@ -3,14 +3,14 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ClockComponent } from './clock/clock.component';
-import { WeatherCurrentComponent } from './weather-current/weather-current.component';
+import { WeatherComponent } from './weather/weather.component';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [
         AppComponent,
         ClockComponent,
-        WeatherCurrentComponent,
+        WeatherComponent,
     ],
     imports: [
         BrowserModule,

@@ -67,6 +67,38 @@ export class WeatherService {
         zz: 'wi-snow-wind',
     };
 
+    private moonPhaseMap = [
+        {text: 'New',             wicls: 'wi-moon-new'},
+        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-1'},
+        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-2'},
+        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-3'},
+        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-4'},
+        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-5'},
+        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-6'},
+        {text: 'First quarter',   wicls: 'wi-moon-first-quarter'},
+        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-1'},
+        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-2'},
+        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-3'},
+        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-4'},
+        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-5'},
+        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-6'},
+        {text: 'Full',            wicls: 'wi-moon-full'},
+        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-1'},
+        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-2'},
+        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-3'},
+        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-4'},
+        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-5'},
+        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-6'},
+        {text: 'Third quarter',   wicls: 'wi-moon-third-quarter'},
+        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-1'},
+        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-2'},
+        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-3'},
+        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-4'},
+        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-5'},
+        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-6'},
+    ];
+
+
     constructor(private http: HttpClient, private domSanitizer: DomSanitizer) { }
 
     getWeather(): Observable<any> {
@@ -95,4 +127,18 @@ export class WeatherService {
             '&voor=1' +
             '&random=' + Math.random());
     }
+
+    /**
+     * Calculate the current moon phase and return it as an object.
+     */
+    getMoonPhase(): any {
+        let diffMsec = new Date().getTime() - new Date('1999-08-11').getTime();
+        let phase = Math.round((diffMsec / (1000 * 3600 * 24)) % 29.530588853 * 0.914306184);
+        return {
+            phase: phase,
+            text:  this.moonPhaseMap[phase].text,
+            wicls: this.moonPhaseMap[phase].wicls,
+        };
+    }
+
 }
