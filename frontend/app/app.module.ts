@@ -6,6 +6,7 @@ import { ClockComponent } from './clock/clock.component';
 import { WeatherComponent } from './weather/weather.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TrainComponent } from './train/train.component';
+import { BusComponent } from './bus/bus.component';
 
 @NgModule({
     declarations: [
@@ -13,6 +14,7 @@ import { TrainComponent } from './train/train.component';
         ClockComponent,
         WeatherComponent,
         TrainComponent,
+        BusComponent,
     ],
     imports: [
         BrowserModule,

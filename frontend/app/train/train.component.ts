@@ -1,4 +1,4 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NsService } from '../_services/ns.service';
 import { ConfigService } from '../_services/config.service';
 import { timer } from 'rxjs';
@@ -36,7 +36,6 @@ export class TrainComponent implements OnInit {
                         }
                         return e;
                     });
-console.log(this.departures)
             });
     }
 
