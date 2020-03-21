@@ -102,7 +102,7 @@ export class WeatherService {
     constructor(private http: HttpClient, private domSanitizer: DomSanitizer) { }
 
     getWeather(): Observable<any> {
-        return this.http.get('https://data.buienradar.nl/1.0/feed/xml', { responseType: 'text'})
+        return this.http.get('https://data.buienradar.nl/1.0/feed/xml', {responseType: 'text'})
             // Parse the XML response from Buienradar
             .pipe(switchMap(res => parseStringPromise(res)))
             // Unwrap the top two levels
@@ -119,13 +119,13 @@ export class WeatherService {
 
     getRadarMapUrl(): SafeResourceUrl {
         return this.domSanitizer.bypassSecurityTrustResourceUrl(
-        'http://gadgets.buienradar.nl/gadget/zoommap/' +
-            '?lat=52.02833&lng=5.16806'+
-            '&overname=2' +
-            '&zoom=8' +
-            '&size=3' +
-            '&voor=1' +
-            '&random=' + Math.random());
+            'http://gadgets.buienradar.nl/gadget/zoommap/' +
+                '?lat=52.02833&lng=5.16806'+
+                '&overname=2' +
+                '&zoom=8' +
+                '&size=3' +
+                '&voor=1' +
+                '&random=' + Math.random());
     }
 
     /**

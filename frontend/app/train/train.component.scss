@@ -1,0 +1,53 @@
+@import "../../styles.scss";
+
+.departures {
+    font-size: $font-size;
+
+    tr {
+        border-bottom: 1px $color-ruler solid;
+
+        td {
+            padding: 0.5rem 0.2rem;
+        }
+    }
+
+    .train-time { }
+
+    .train-delay {
+        .delay-value {
+            color: #f44;
+            background-color: #000;
+            border-radius: 50%;
+            padding: 6px;
+            font-size: $font-size-s;
+            font-weight: bold;
+        }
+    }
+
+    .train-dest { }
+
+    .train-notes {
+        color: #f00;
+        font-size: $font-size-s;
+        font-weight: bold;
+    }
+
+    .train-type { }
+
+    .train-platf {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .train-delayed {
+        background-color: #444;
+    }
+
+    .train-canceled {
+        background-color: #600;
+
+        .train-dest-name {
+            text-decoration: line-through;
+        }
+    }
+}

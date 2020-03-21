@@ -19,7 +19,7 @@ export class WeatherComponent implements OnInit {
 constructor(private weather: WeatherService, private config: ConfigService) { }
 
     ngOnInit(): void {
-        timer(0, this.config.refreshRate('weather')).subscribe(() => this.update());
+        timer(0, this.config.configuration.weather.refreshRate).subscribe(() => this.update());
     }
 
     /**
@@ -32,10 +32,10 @@ constructor(private weather: WeatherService, private config: ConfigService) { }
     update() {
         this.weather.getWeather().subscribe(data => {
             // Find the desired weather station by its ID
-            const id = this.config.buienRadarStationId;
             let curWeather = data.actueel_weer[0];
 
             // Prepare the current weather
+            const id = this.config.configuration.weather.buienRadarStationId;
             let station = curWeather.weerstations[0].weerstation.find(e => e.$.id === id);
             if (station) {
                 let icon = station.icoonactueel[0].$;

@@ -14,7 +14,7 @@ export class ClockComponent implements OnInit {
     constructor(private config: ConfigService) { }
 
     ngOnInit(): void {
-        timer(0, this.config.refreshRate('clock')).subscribe(() => this.update());
+        timer(0, this.config.configuration.clock.refreshRate).subscribe(() => this.update());
     }
 
     update() {

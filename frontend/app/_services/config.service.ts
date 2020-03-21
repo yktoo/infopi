@@ -6,13 +6,10 @@ import { environment } from '../../environments/environment';
 })
 export class ConfigService {
 
-    refreshRate(key: string): number {
-        return environment.refreshRates[key];
-    }
-
-    get buienRadarStationId(): string {
-        return environment.buienRadarStationId;
-    }
-
     constructor() { }
+
+    get configuration(): any {
+        return environment.configuration;
+    }
+
 }

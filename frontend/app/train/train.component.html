@@ -1,0 +1,18 @@
+<section *ngIf="departures" (click)="update()" ng-class="{outdated: vm.trainErr}">
+    <!-- Heading -->
+    <h2>{{ departureStation }}</h2>
+
+    <!-- Departure times table -->
+    <table class="departures">
+        <tr *ngFor="let train of departures" [ngClass]="{'train-delayed': train.delay, 'train-canceled': train.cancelled}">
+            <td class="train-time" >{{ train.plannedDateTime | date:'HH:mm' }}</td>
+            <td class="train-delay"><span class="delay-value" *ngIf="train.delay">{{ train.delay }}</span></td>
+            <td class="train-dest" >
+                <div class="train-dest-name">{{ train.direction }}</div>
+                <div class="train-notes" *ngFor="let msg of train.warnings">{{ msg.message }}</div>
+            </td>
+            <td class="train-type" >{{ train.product.longCategoryName }}</td>
+            <td class="train-platf">{{ train.actualTrack || train.plannedTrack }}</td>
+        </tr>
+    </table>
+</section>
