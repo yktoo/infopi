@@ -32,6 +32,11 @@ export class BusComponent implements OnInit {
                         if (delay > 0) pass['delay'] = '+' + delay;
                         return pass;
                     })
+                    // Sort passes by departure time
+                    .sort((a, b) => a['TargetDepartureTime'] < b['TargetDepartureTime'] ?
+                            -1 :
+                            (a['TargetDepartureTime'] == b['TargetDepartureTime'] ? 0 : 1)
+                    )
                     // Limit the number of items
                     .slice(0, this.config.configuration.busses.maxDepartureCount);
             });
