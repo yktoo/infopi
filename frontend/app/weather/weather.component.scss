@@ -101,21 +101,21 @@
     }
 }
 
-.w-fcast-columns {
-    flex-wrap: nowrap;
+.w-fcast {
     font-size: $font-size;
 
-    .column {
-        .card {
-            padding: 0.3rem;
-            justify-content: center;
-            border: none;
-        }
+    th {
+        background-color: #666666;
+        font-size: $font-size-l;
+        font-weight: bold;
     }
 
-    .w-fcast-day {
-        background-color: #666666;
-        font-weight: bold;
+    td {
+        text-align: center;
+    }
+
+    .w-fcast-icon {
+        font-size: $font-size-xl;
     }
 
     .w-fcast-temp:after {
@@ -123,8 +123,12 @@
         padding-left: 3px;
     }
 
-    .w-fcast-prob:after {
-        content: '%';
+    .w-fcast-prob {
+        padding-left: 0.1rem;
+        padding-right: 0.5rem;
+        &:after {
+            content: '%';
+        }
     }
 
     .w-fcast-probs .wi-raindrop {

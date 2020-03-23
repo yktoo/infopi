@@ -1,5 +1,5 @@
 <section (click)="update()" ng-class="{outdated: vm.weatherErr}">
-    <div class="row" *ngIf="currentWeather">
+    <div class="row ruler" *ngIf="currentWeather">
         <!-- Current weather icon and text -->
         <div class="card w-2 w-icon">
             <i [ngClass]="['wi', currentWeather.icon.wiClass]"></i>
@@ -17,7 +17,7 @@
         <!-- Left column -->
         <div class="column col-grow">
             <!-- Wind direction and speed -->
-            <div class="card">
+            <div class="card ruler">
                 <span class="w-smallicon">
                     <i class="wi w-wind" [ngClass]="'wi-wind-beaufort-' + currentWeather.wind.speed"></i>
                 </span>
@@ -30,13 +30,13 @@
             </div>
 
             <!-- Wind gusts -->
-            <div class="card">
+            <div class="card ruler">
                 <span class="w-smallicon"><i class="wi wi-strong-wind"></i></span>
                 <span class="w-smalltext">{{ currentWeather.wind.gusts }} m/s</span>
             </div>
 
             <!-- Humidity -->
-            <div class="card">
+            <div class="card ruler">
                 <span class="w-smallicon"><i class="wi wi-humidity"></i></span>
                 <span class="w-smalltext">{{ currentWeather.humidity }}%</span>
             </div>
@@ -58,19 +58,19 @@
         <!-- Right column -->
         <div class="column col-grow">
             <!-- Rain -->
-            <div class="card">
+            <div class="card ruler">
                 <span class="w-smallicon"><i class="wi wi-raindrops"></i></span>
                 <span class="w-smalltext">{{ currentWeather.rain === '-' ? 0 : currentWeather.rain }} mm/h</span>
             </div>
 
             <!-- Sunrise -->
-            <div class="card">
+            <div class="card ruler">
                 <span class="w-smallicon"><i class="wi wi-sunrise"></i></span>
                 <span class="w-smalltext">{{ sunMoon.sunrise | date:'HH:mm' }}</span>
             </div>
 
             <!-- Sunset -->
-            <div class="card">
+            <div class="card ruler">
                 <span class="w-smallicon"><i class="wi wi-sunset"></i></span>
                 <span class="w-smalltext">{{ sunMoon.sunset | date:'HH:mm' }}</span>
             </div>
@@ -84,18 +84,25 @@
     </div>
 
     <!-- Weather forecast -->
-    <div class="row w-fcast-columns" *ngIf="weatherForecast">
-        <div class="column col-grow" *ngFor="let day of weatherForecast">
-            <div class="card w-fcast-day">{{ day.dow }}</div>
-            <div class="card w-fcast">
-                <i [ngClass]="['wi', day.icon.wiClass]"></i>
-                <span class="w-fcast-temp">{{ day.temperature.lowMin }} ··· {{ day.temperature.highMax }}</span>
-            </div>
-            <div class="card w-fcast w-fcast-probs">
+    <table class="w-fcast ruler" *ngIf="weatherForecast">
+        <tr>
+            <th *ngFor="let day of weatherForecast">{{ day.dow }}</th>
+        </tr>
+        <tr>
+            <td *ngFor="let day of weatherForecast" class="w-fcast-icon"><i [ngClass]="['wi', day.icon.wiClass]"></i></td>
+        </tr>
+        <tr>
+            <td *ngFor="let day of weatherForecast">
+                <div class="w-fcast-temp">{{ day.temperature.highMax }}</div>
+                <div class="w-fcast-temp">{{ day.temperature.lowMin }}</div>
+            </td>
+        </tr>
+        <tr>
+            <td *ngFor="let day of weatherForecast" class="w-fcast w-fcast-probs">
                 <i class="wi wi-raindrop"></i> <span class="w-fcast-prob">{{ day.rain.probability }}</span>
                 <i class="wi wi-day-sunny"></i> <span class="w-fcast-prob">{{ day.probSun }}</span>
-            </div>
-        </div>
-    </div>
+            </td>
+        </tr>
+    </table>
 
 </section>

@@ -1,0 +1,33 @@
+@import "../../styles.scss";
+
+.fx {
+
+    td {
+        text-align: center;
+    }
+
+    .fx-ccy {
+        font-size: $font-size-xl;
+        font-weight: bold;
+    }
+
+    .fx-rate {
+        font-size: $font-size-l;
+    }
+
+    .fx-move-up {
+        color: #1dac05;
+
+        &:before {
+            content: '\25b2';
+        }
+    }
+
+    .fx-move-down {
+        color: #ff2d2d;
+
+        &:before {
+            content: '\25bc';
+        }
+    }
+}

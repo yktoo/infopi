@@ -7,6 +7,7 @@ import { WeatherComponent } from './weather/weather.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TrainComponent } from './train/train.component';
 import { BusComponent } from './bus/bus.component';
+import { FxComponent } from './fx/fx.component';
 
 @NgModule({
     declarations: [
@@ -15,6 +16,7 @@ import { BusComponent } from './bus/bus.component';
         WeatherComponent,
         TrainComponent,
         BusComponent,
+        FxComponent,
     ],
     imports: [
         BrowserModule,

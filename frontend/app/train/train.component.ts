@@ -27,7 +27,7 @@ export class TrainComponent implements OnInit {
                     .slice(0, this.config.configuration.trains.maxDepartureCount)
                     .map(e => {
                         // Calculate delays
-                        let delay = (new Date(e.plannedDateTime).getTime() - new Date(e.actualDateTime).getTime()) / (1000 * 60);
+                        let delay = Math.round((new Date(e.plannedDateTime).getTime() - new Date(e.actualDateTime).getTime()) / (1000 * 60));
                         if (delay > 0) e.delay = '+' + delay;
 
                         // Filter warnings

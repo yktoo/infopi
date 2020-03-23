@@ -28,7 +28,7 @@ export class BusComponent implements OnInit {
                     .flatMap(stop => Object.values(stop['Passes']))
                     // Calculate delays
                     .map(pass => {
-                        let delay = (new Date(pass['TargetDepartureTime']).getTime() - new Date(pass['ExpectedDepartureTime']).getTime()) / (1000 * 60);
+                        let delay = Math.round((new Date(pass['TargetDepartureTime']).getTime() - new Date(pass['ExpectedDepartureTime']).getTime()) / (1000 * 60));
                         if (delay > 0) pass['delay'] = '+' + delay;
                         return pass;
                     })

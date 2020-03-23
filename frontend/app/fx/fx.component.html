@@ -1,0 +1,20 @@
+<section *ngIf="fxRates" (click)="update()" ng-class="{outdated: vm.fxErr}">
+    <h2>Exchange rates</h2>
+
+    <!-- FX rates -->
+    <table class="fx">
+        <tr>
+            <td class="fx-ccy" *ngFor="let rate of fxRates">{{ rate.symbol }}</td>
+        </tr>
+        <tr>
+            <td class="fx-rate" *ngFor="let rate of fxRates">{{ rate.rate | number:'.2-2' }}</td>
+        </tr>
+        <tr>
+            <td class="fx-move" *ngFor="let rate of fxRates">
+                <span [ngClass]="{'fx-move-up': rate.move > 0, 'fx-move-down': rate.move < 0}">
+                    {{ rate.move | number:'.2-2' }}
+                </span>
+            </td>
+        </tr>
+    </table>
+</section>
