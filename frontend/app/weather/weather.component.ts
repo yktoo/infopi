@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WeatherService } from '../_services/weather.service';
+import { BuienradarService } from '../_services/buienradar.service';
 import { ConfigService } from '../_services/config.service';
 import { timer } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
@@ -16,7 +16,7 @@ export class WeatherComponent implements OnInit {
     sunMoon: any;
     radarMapUrl: SafeResourceUrl;
 
-constructor(private weather: WeatherService, private config: ConfigService) { }
+constructor(private weather: BuienradarService, private config: ConfigService) { }
 
     ngOnInit(): void {
         timer(0, this.config.configuration.weather.refreshRate).subscribe(() => this.update());

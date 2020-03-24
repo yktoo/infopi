@@ -8,7 +8,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Injectable({
     providedIn: 'root'
 })
-export class WeatherService {
+export class BuienradarService {
 
     private iconToWiClassMap = {
         // Day

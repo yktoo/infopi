@@ -1,0 +1,14 @@
+<section *ngIf="items" (click)="update()" ng-class="{outdated: vm.trainErr}">
+    <!-- Heading -->
+    <h2>Security</h2>
+
+    <!-- Security items -->
+    <table class="items">
+        <tr>
+            <th *ngFor="let item of items">{{ item.label || item.name }}</th>
+        </tr>
+        <tr>
+            <td *ngFor="let item of items" class="state" [ngClass]="item.state | lowercase">{{ item.state | lowercase }}</td>
+        </tr>
+    </table>
+</section>

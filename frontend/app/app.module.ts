@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TrainComponent } from './train/train.component';
 import { BusComponent } from './bus/bus.component';
 import { FxComponent } from './fx/fx.component';
+import { DomoticsComponent } from './domotics/domotics.component';
 
 @NgModule({
     declarations: [
@@ -17,6 +18,7 @@ import { FxComponent } from './fx/fx.component';
         TrainComponent,
         BusComponent,
         FxComponent,
+        DomoticsComponent,
     ],
     imports: [
         BrowserModule,
