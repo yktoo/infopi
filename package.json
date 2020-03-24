@@ -1,13 +1,17 @@
 {
   "name": "infopi",
-  "version": "0.0.0",
+  "version": "2.0.0",
+  "main": "bootstrap.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "dist": "ng build --prod --base-href ./",
+    "electron": "npm run dist && electron .",
+    "package": "npm run dist && node package.js"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +41,8 @@
     "@types/node": "^12.11.1",
     "@types/xml2js": "^0.4.5",
     "codelyzer": "^5.1.2",
+    "electron": "^8.1.1",
+    "electron-packager": "^14.2.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.3.0",

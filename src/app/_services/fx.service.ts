@@ -18,7 +18,7 @@ export class FxService {
      * Request train departure times for the specified station and return them wrapped in an Observable.
      */
     getFxRates(): Observable<any> {
-        return this.http.get(this.config.configuration.corsProxy + FxService.baseUrl, {responseType: 'text'})
+        return this.http.get(this.config.corsProxy + FxService.baseUrl, {responseType: 'text'})
             // Parse the XML response
             .pipe(switchMap(res => parseStringPromise(res)))
             // Unwrap the top level

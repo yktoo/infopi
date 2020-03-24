@@ -2,6 +2,8 @@ import { configuration } from './config';
 
 export const environment = {
     production:    false,
+    // Proxy to bypass the browser CORS police enforcement
+    corsProxy:     'https://cors-anywhere.herokuapp.com/',
     configuration: configuration,
 };
 

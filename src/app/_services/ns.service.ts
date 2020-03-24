@@ -28,7 +28,7 @@ export class NsService {
                 lang: 'en',
             }
         };
-        return this.http.get(this.config.configuration.corsProxy + NsService.baseUrl + 'departures', httpOptions)
+        return this.http.get(this.config.corsProxy + NsService.baseUrl + 'departures', httpOptions)
             // Unwrap the top level
             .pipe(map(res => res['payload'].departures));
     }
