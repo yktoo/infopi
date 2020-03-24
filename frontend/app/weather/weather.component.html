@@ -92,10 +92,10 @@
             <td *ngFor="let day of weatherForecast" class="w-fcast-icon"><i [ngClass]="['wi', day.icon.wiClass]"></i></td>
         </tr>
         <tr>
-            <td *ngFor="let day of weatherForecast">
-                <div class="w-fcast-temp">{{ day.temperature.highMax }}</div>
-                <div class="w-fcast-temp">{{ day.temperature.lowMin }}</div>
-            </td>
+            <td *ngFor="let day of weatherForecast" class="w-fcast-temp">{{ day.temperature.highMax }}</td>
+        </tr>
+        <tr>
+            <td *ngFor="let day of weatherForecast" class="w-fcast-temp">{{ day.temperature.lowMin }}</td>
         </tr>
         <tr>
             <td *ngFor="let day of weatherForecast" class="w-fcast w-fcast-probs">

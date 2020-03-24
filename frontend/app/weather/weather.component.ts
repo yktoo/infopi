@@ -18,6 +18,16 @@ export class WeatherComponent implements OnInit {
 
 constructor(private weather: BuienradarService, private config: ConfigService) { }
 
+    private WEEKDAY_NAME_MAP = {
+        mo: 'Mon',
+        di: 'Tue',
+        wo: 'Wed',
+        do: 'Thu',
+        vr: 'Fri',
+        za: 'Sat',
+        zo: 'Sun',
+    };
+
     ngOnInit(): void {
         timer(0, this.config.configuration.weather.refreshRate).subscribe(() => this.update());
     }
@@ -76,7 +86,7 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
                 let dayIcon = dayWeather.icoon[0];
                 forecast.push({
                     date:            dayWeather.datum[0],        // Full date, eg 'zondag 17 april 2016'
-                    dow:             dayWeather.dagweek[0],      // Weekday name
+                    dow:             this.WEEKDAY_NAME_MAP[dayWeather.dagweek[0]],
                     probSun:         dayWeather.kanszon[0],      // Probability in percent
                     probSnow:        dayWeather.sneeuwcms[0],    // Probability in percent
                     rain: {
