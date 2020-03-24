@@ -35,5 +35,4 @@ testem.log
 /typings
 
 # Private credential info
-ns_api_key.py
-frontend/environments/config.ts
+src/environments/config.ts
