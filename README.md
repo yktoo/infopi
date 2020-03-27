@@ -3,14 +3,11 @@
 InfoPi Information server application
 =====================================
 
-Represents a single-page web application that displays various live data, like weather forecast and train departure
-times.
-
-The back-end (web server) part is using [Python 3](https://docs.python.org/3/). The front-end is developed with [Angular](https://angular.io/) 9.x.
+Represents a single-page all-in-one web application that displays various live data, like weather forecast and train departure times. The application is developed with [Angular](https://angular.io/) 9.x.
 
 My own implementation is specifically crafted for:
 
-* RaspberryPi running [Raspbian Jessie](https://www.raspberrypi.org/downloads/raspbian/).
+* RaspberryPi running [Raspbian Stretch](https://www.raspberrypi.org/downloads/raspbian/).
 * Full HD monitor (1920&times;1080 pixels) in the portrait orientation.
 
 This is how the information page looks like:
@@ -20,44 +17,44 @@ This is how the information page looks like:
 Dependencies
 ============
 
-1. Python 3.6
-2. dateutil
+In order to build the package:
 
+* Node 13+
+* npm 6+
 
 Getting started
 ===============
 
-1. Clone the `infopi` git repo *with submodules*:
+1. Clone the `infopi` git repo:
 
-    `git clone --recurse https://github.com/yktoo/infopi.git`
+    `git clone https://github.com/yktoo/infopi.git`
 
-2. Install `dateutil`. In Ubuntu/Debian:
+2. Run in the project directory:
 
-    `sudo apt-get install python3-dateutil`
+    `npm install`
 
 3. Request an NS API key [here](https://apiportal.ns.nl/).
-4. Once you have the key, open the file `ns_api_key.sample.py`, update the properties and save it as `ns_api_key.py`.
-5. Start the server:
+4. Once you have the key, open the file `src/environments/config.sample.ts`, update the properties and save it as `config.ts`.
+5. Test the application:
 
-    `./infopi`
+    `npm electron`
 
-6. Open a web browser and direct it to [localhost:8000](http://localhost:8000/). If you're using Chrome or Chromium,
-   the command line is:
+6. To create a DEB package for your current architecture run `npm package`, to create a package for Raspberry Pi run `npm package:rpi`. The package will be created as `dist/installers/infopi_XXX_YYY.deb`
 
-   `chromium-browser --incognito --kiosk http://localhost:8000/`
+7. Once you have the `.deb`, copy it onto your Raspberry Pi and install using:
 
-7. In order to make InfoPi start at bootup, you can add the following commands to `~/.config/lxsession/LXDE-pi/autostart`:
+    `sudo dpkg -i infopi_XXX_YYY.deb`
+    
+8. Test your setup: run `infopi`
+
+9. In order to make InfoPi start at bootup, you can add the following commands to `~/.config/lxsession/LXDE-pi/autostart`:
 
 ```bash
-# Optional: remote desktop server that would allow
-# to connect to your Pi via VNC
+# Optional: remote desktop server that would allow to connect to your Pi via VNC
 x11vnc -forever
 
-# InfoPi web server
-/path/to/your/infopi/infopi
-
-# Browser
-chromium-browser --incognito --kiosk http://localhost:8000/
+# InfoPi app
+infopi
 ```
 
 
