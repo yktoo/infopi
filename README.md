@@ -21,6 +21,7 @@ In order to build the package:
 
 * Node 13+
 * npm 6+
+* [Angular CLI](https://angular.io/cli)
 
 Getting started
 ===============

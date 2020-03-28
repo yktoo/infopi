@@ -11,15 +11,15 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 })
 export class WeatherComponent implements OnInit {
 
+constructor(private weather: BuienradarService, private config: ConfigService) { }
+
     currentWeather: any;
     weatherForecast: any[];
     sunMoon: any;
     radarMapUrl: SafeResourceUrl;
 
-constructor(private weather: BuienradarService, private config: ConfigService) { }
-
     private WEEKDAY_NAME_MAP = {
-        mo: 'Mon',
+        ma: 'Mon',
         di: 'Tue',
         wo: 'Wed',
         do: 'Thu',
@@ -28,10 +28,6 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
         zo: 'Sun',
     };
 
-    ngOnInit(): void {
-        timer(0, this.config.configuration.weather.refreshRate).subscribe(() => this.update());
-    }
-
     /**
      * Convert Buienradar's datetime of the format 'mm/dd/yyyy hh:mm:ss' into the ISO 8601 format.
      */
@@ -39,16 +35,20 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
         return new Date(s.replace(/(\d\d)\/(\d\d)\/(\d\d\d\d)\s+([\d:]+)/, '$3-$1-$2T$4'));
     }
 
+    ngOnInit(): void {
+        timer(0, this.config.configuration.weather.refreshRate).subscribe(() => this.update());
+    }
+
     update() {
         this.weather.getWeather().subscribe(data => {
             // Find the desired weather station by its ID
-            let curWeather = data.actueel_weer[0];
+            const curWeather = data.actueel_weer[0];
 
             // Prepare the current weather
             const id = this.config.configuration.weather.buienRadarStationId;
-            let station = curWeather.weerstations[0].weerstation.find(e => e.$.id === id);
+            const station = curWeather.weerstations[0].weerstation.find(e => e.$.id === id);
             if (station) {
-                let icon = station.icoonactueel[0].$;
+                const icon = station.icoonactueel[0].$;
                 this.currentWeather = {
                     station: {
                         code:       station.stationcode[0],
@@ -80,10 +80,10 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
             }
 
             // Prepare weather forecast
-            let forecast = [];
+            const forecast = [];
             for (let i = 1; i <= 5; i++) {
-                let dayWeather = data.verwachting_meerdaags[0]['dag-plus' + i][0];
-                let dayIcon = dayWeather.icoon[0];
+                const dayWeather = data.verwachting_meerdaags[0]['dag-plus' + i][0];
+                const dayIcon = dayWeather.icoon[0];
                 forecast.push({
                     date:            dayWeather.datum[0],        // Full date, eg 'zondag 17 april 2016'
                     dow:             this.WEEKDAY_NAME_MAP[dayWeather.dagweek[0]],
@@ -113,7 +113,7 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
             this.weatherForecast = forecast;
 
             // Prepare sunrise, sunset and moon phase
-            let moonPhase = this.weather.getMoonPhase();
+            const moonPhase = this.weather.getMoonPhase();
             this.sunMoon = {
                 sunrise:          WeatherComponent.convertDate(curWeather.buienradar[0].zonopkomst[0]),
                 sunset:           WeatherComponent.convertDate(curWeather.buienradar[0].zononder[0]),

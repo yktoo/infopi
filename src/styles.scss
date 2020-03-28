@@ -15,6 +15,7 @@ $font-size-xxl: $font-size * 4;
 $color-body-bg: #000;
 $color-body-fg: #fff;
 $color-ruler: #666;
+$color-ruler-pale: #333;
 
 // Number of columns
 $columns: 12;
@@ -98,6 +99,36 @@ table {
         vertical-align: middle;
         border: none;
     }
+
+    // Table with horizontal rulers
+    &.h-ruled {
+        tr {
+            border-bottom: 1px $color-ruler-pale solid;
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+
+    // Table with vertical rulers
+    &.v-ruled {
+        td, th {
+            border-right: 1px $color-ruler-pale solid;
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+}
+
+// Headings
+@for $i from 1 through 6 {
+    h#{$i} {
+        text-align: center;
+        margin: 1em 0 0.14em 0;
+    }
 }
 
 /***********************************************************************************************************************
@@ -119,6 +150,10 @@ table {
 }
 .pr-2 {
     padding-right: 0.6rem;
+}
+
+.text-center {
+    text-align: center;
 }
 
 .flex-start {

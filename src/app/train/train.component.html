@@ -3,7 +3,7 @@
     <h2>{{ departureStation }}</h2>
 
     <!-- Departure times table -->
-    <table class="departures">
+    <table class="departures h-ruled">
         <tr *ngFor="let train of departures" [ngClass]="{'train-delayed': train.delay, 'train-canceled': train.cancelled}">
             <td class="train-time" >{{ train.plannedDateTime | date:'HH:mm' }}</td>
             <td class="train-delay"><span class="delay-value" *ngIf="train.delay">{{ train.delay }}</span></td>
