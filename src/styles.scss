@@ -14,6 +14,7 @@ $font-size-xxl: $font-size * 4;
 // Base colours
 $color-body-bg: #000;
 $color-body-fg: #fff;
+$color-pale-fg: #777;
 $color-ruler: #666;
 $color-ruler-pale: #333;
 
@@ -135,8 +136,15 @@ table {
  Utilities
 ***********************************************************************************************************************/
 
+.opaque {
+    background-color: #000000;
+}
+
 .ruler {
     border-bottom: 1px $color-ruler solid;
+}
+.ruler-top {
+    border-top: 1px $color-ruler solid;
 }
 
 .pl-1 {
@@ -150,6 +158,12 @@ table {
 }
 .pr-2 {
     padding-right: 0.6rem;
+}
+.pb-1 {
+    padding-bottom: 0.3rem;
+}
+.pb-2 {
+    padding-bottom: 0.6rem;
 }
 
 .text-center {

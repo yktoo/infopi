@@ -11,7 +11,7 @@ import { BusComponent } from './bus/bus.component';
 import { FxComponent } from './fx/fx.component';
 import { DomoticsComponent } from './domotics/domotics.component';
 import { NewsComponent } from './news/news.component';
-import { IfChangesDirective } from './_services/if-changes.directive';
+import { IfChangesDirective } from './_directives/if-changes.directive';
 
 @NgModule({
     declarations: [

@@ -1,6 +1,7 @@
-<section *ngIf="newsItem" (click)="update()" ng-class="{outdated: vm.newsErr}">
-    <div class="news-item" *appIfChanges="newsItem" [@fadeTrigger]>
-        {{ newsItem }}
-        <div class="updated">{{ newsLastUpdateAgo }} ago</div>
+<section *ngIf="newsItemTitle" (click)="update()" ng-class="{outdated: vm.newsErr}">
+    <h2>Latest news</h2>
+    <div class="news-item" *appIfChanges="newsItemTitle" [@fadeTrigger]>
+        <div class="news-title">{{ newsItemTitle }}</div>
+        <div class="news-desc">{{ newsItemDescription }} <span class="news-updated">// {{ newsLastUpdateAgo }}</span></div>
     </div>
 </section>

@@ -1,11 +1,20 @@
 @import "../../styles.scss";
 
 .news-item {
-    font-size: $font-size;
     text-align: center;
     padding: 1rem;
 }
 
-.updated {
+.news-title {
+    font-size: $font-size;
+    color: #ffef91;
+    padding: 0.2rem;
+}
+.news-desc {
     font-size: $font-size-s;
+    padding: 0.1rem;
+}
+.news-updated {
+    font-size: $font-size-s;
+    color: $color-pale-fg;
 }

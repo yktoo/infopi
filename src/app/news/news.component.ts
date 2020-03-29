@@ -20,7 +20,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class NewsComponent implements OnInit {
 
-    newsItem: string;
+    newsItemTitle: string;
+    newsItemDescription: string;
     newsLastUpdate: Date;
     newsLastUpdateAgo: string;
     private newsItems: any[];
@@ -34,30 +35,61 @@ export class NewsComponent implements OnInit {
         timer(0, this.config.configuration.rss.refreshRate).subscribe(() => this.update());
     }
 
+    /**
+     * Translate the given date into the 'xxx time ago' string.
+     * @param date Date to translate.
+     * @return string representation of the date.
+     */
     timeSince(date: Date): string {
         const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-        let interval = Math.floor(seconds / 31536000);
 
+        // Years
+        let interval = Math.floor(seconds / 31536000);
         if (interval > 1) {
-            return interval + ' years';
+            return interval + ' years ago';
         }
+        if (interval === 1) {
+            return 'A year ago';
+        }
+
+        // Months
         interval = Math.floor(seconds / 2592000);
         if (interval > 1) {
-            return interval + ' months';
+            return interval + ' months ago';
         }
+        if (interval === 1) {
+            return 'A month ago';
+        }
+
+        // Days
         interval = Math.floor(seconds / 86400);
         if (interval > 1) {
-            return interval + ' days';
+            return interval + ' days ago';
         }
+        if (interval === 1) {
+            return 'Yesterday';
+        }
+
+        // Hours
         interval = Math.floor(seconds / 3600);
         if (interval > 1) {
-            return interval + ' hours';
+            return interval + ' hours ago';
         }
+        if (interval === 1) {
+            return 'An hour ago';
+        }
+
+        // Minutes
         interval = Math.floor(seconds / 60);
         if (interval > 1) {
             return interval + ' minutes';
         }
-        return Math.floor(seconds) + ' seconds';
+        if (interval === 1) {
+            return 'A minute ago';
+        }
+
+        // Less than a minute
+        return 'Just now';
     }
 
     update() {
@@ -82,7 +114,8 @@ export class NewsComponent implements OnInit {
     updateCurrent(): void {
         if (this.newsItems) {
             const item = this.newsItems[this.curIndex];
-            this.newsItem = item.title[0];
+            this.newsItemTitle = item.title[0];
+            this.newsItemDescription = item.description ? item.description[0] : undefined;
             this.newsLastUpdate = new Date((item.updated || item.pubDate)[0]);
             this.newsLastUpdateAgo = this.timeSince(this.newsLastUpdate);
 
