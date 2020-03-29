@@ -23,7 +23,7 @@ export class FxComponent implements OnInit {
     }
 
     private getCurrencyRates(input: any[]): Map<string, Number> {
-        let result = new Map();
+        const result = new Map();
 
         // Convert the array into a map
         input.forEach(e => result.set(e.$.currency, Number(e.$.rate)));
@@ -44,12 +44,12 @@ export class FxComponent implements OnInit {
         this.fx.getFxRates()
             .subscribe(data => {
                 // Extract current and previous rates into maps indexed by the currency symbol
-                let ratesCurrent  = this.getCurrencyRates(data.Cube[0].Cube[0].Cube);
-                let ratesPrevious = this.getCurrencyRates(data.Cube[0].Cube[1].Cube);
+                const ratesCurrent  = this.getCurrencyRates(data.Cube[0].Cube[0].Cube);
+                const ratesPrevious = this.getCurrencyRates(data.Cube[0].Cube[1].Cube);
 
                 // Filter the currencies and calculate moves
-                let currConfig = this.config.configuration.fx.showCurrencies;
-                let rates = [];
+                const currConfig = this.config.configuration.fx.showCurrencies;
+                const rates = [];
                 Object.keys(currConfig).forEach(c => {
                     let move = null;
                     if (ratesCurrent.has(c) && ratesPrevious.has(c)) {

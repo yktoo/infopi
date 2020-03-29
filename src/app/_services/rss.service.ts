@@ -1,28 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ConfigService } from './config.service';
 import { map, switchMap } from 'rxjs/operators';
 import { parseStringPromise } from 'xml2js';
+import { ConfigService } from './config.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class FxService {
-
-    private static baseUrl = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml';
+export class RssService {
 
     constructor(private http: HttpClient, private config: ConfigService) { }
 
     /**
-     * Request FX rates and return them wrapped in an Observable.
+     * Request RSS items and return them wrapped in an Observable.
      */
-    getFxRates(): Observable<any> {
-        return this.http.get(this.config.corsProxy + FxService.baseUrl, {responseType: 'text'})
+    getRssItems(url: string): Observable<any> {
+        return this.http.get(this.config.corsProxy + url, {responseType: 'text'})
             // Parse the XML response
             .pipe(switchMap(res => parseStringPromise(res)))
             // Unwrap the top level
-            .pipe(map(res => res['gesmes:Envelope']));
+            .pipe(map(res => res.feed));
     }
 
 }
