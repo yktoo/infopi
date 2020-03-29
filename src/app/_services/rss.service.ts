@@ -20,7 +20,7 @@ export class RssService {
             // Parse the XML response
             .pipe(switchMap(res => parseStringPromise(res)))
             // Unwrap the top level
-            .pipe(map(res => res.feed));
+            .pipe(map(res => res.feed || res.rss.channel[0]));
     }
 
 }

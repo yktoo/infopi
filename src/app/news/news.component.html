@@ -1,6 +1,6 @@
 <section *ngIf="newsItem" (click)="update()" ng-class="{outdated: vm.newsErr}">
     <div class="news-item" *appIfChanges="newsItem" [@fadeTrigger]>
         {{ newsItem }}
-        <div class="updated">({{ newsLastUpdate | date:'dd.MM.yyyy HH:mm' }})</div>
+        <div class="updated">{{ newsLastUpdateAgo }} ago</div>
     </div>
 </section>

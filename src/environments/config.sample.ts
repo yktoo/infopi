@@ -44,4 +44,11 @@ export const configuration = {
         openHabServerUrl: 'http://pihub:8080',
         showGroup: 'gSecurity',
     },
+
+    // RSS settings
+    rss: {
+        refreshRate: 60 * 1000  /* Once every minute */,
+        displayDuration: 10 * 1000  /* 10 seconds */,
+        feedUrl: 'http://feeds.bbci.co.uk/news/world/rss.xml',
+    }
 };
