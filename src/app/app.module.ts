@@ -12,6 +12,7 @@ import { FxComponent } from './fx/fx.component';
 import { DomoticsComponent } from './domotics/domotics.component';
 import { NewsComponent } from './news/news.component';
 import { IfChangesDirective } from './_directives/if-changes.directive';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import { IfChangesDirective } from './_directives/if-changes.directive';
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
+        ChartsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

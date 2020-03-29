@@ -18,6 +18,19 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
     sunMoon: any;
     radarMapUrl: SafeResourceUrl;
 
+    chartLabels: string[];
+    chartDatasets: any[];
+    chartOptions = {
+        maintainAspectRatio: false,
+        layout: {
+            padding: {left: 20, right: 50}
+        },
+        scales: {
+            yAxes: [{display: true}],
+            xAxes: [{display: false}],
+        },
+    };
+
     private WEEKDAY_NAME_MAP = {
         ma: 'Mon',
         di: 'Tue',
@@ -81,12 +94,18 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
 
             // Prepare weather forecast
             const forecast = [];
+            const forecastChartLabels = [];
+            const forecastChartDataMin = [];
+            const forecastChartDataMax = [];
             for (let i = 1; i <= 5; i++) {
                 const dayWeather = data.verwachting_meerdaags[0]['dag-plus' + i][0];
                 const dayIcon = dayWeather.icoon[0];
+                const dow = this.WEEKDAY_NAME_MAP[dayWeather.dagweek[0]];
+
+                // Push table data
                 forecast.push({
                     date:            dayWeather.datum[0],        // Full date, eg 'zondag 17 april 2016'
-                    dow:             this.WEEKDAY_NAME_MAP[dayWeather.dagweek[0]],
+                    dow,
                     probSun:         dayWeather.kanszon[0],      // Probability in percent
                     probSnow:        dayWeather.sneeuwcms[0],    // Probability in percent
                     rain: {
@@ -109,8 +128,30 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
                         wiClass:     this.weather.getWeatherIconClass(dayIcon.$.ID),
                     },
                 });
+
+                // Push chart data
+                forecastChartLabels.push(dow);
+                forecastChartDataMin.push(dayWeather.mintemp[0]);
+                forecastChartDataMax.push(dayWeather.maxtempmax[0]);
             }
             this.weatherForecast = forecast;
+            this.chartLabels = forecastChartLabels;
+            this.chartDatasets = [
+                {
+                    label: 'Min °C',
+                    data: forecastChartDataMin,
+                    borderColor: ['rgb(123,168,255)'],
+                    backgroundColor: ['rgba(0,0,0,0.1)'],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Max °C',
+                    data: forecastChartDataMax,
+                    borderColor: ['rgb(235,169,45)'],
+                    backgroundColor: ['rgba(0,0,0,0.1)'],
+                    borderWidth: 1
+                },
+            ];
 
             // Prepare sunrise, sunset and moon phase
             const moonPhase = this.weather.getMoonPhase();

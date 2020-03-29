@@ -77,7 +77,7 @@
     </table>
 
     <!-- Radar map and weather forecast -->
-    <div class="row flex-start" *ngIf="currentWeather">
+    <div class="row flex-start flex-nowrap" *ngIf="currentWeather">
         <!-- Left column with the rain radar -->
         <div class="column">
             <h2>Buienradar</h2>
@@ -89,18 +89,13 @@
         <!-- Right column with the weather forecast-->
         <div class="column col-grow">
             <h2>Weather forecast</h2>
+            <!-- Forecast table -->
             <table class="w-fcast v-ruled" *ngIf="weatherForecast">
                 <tr>
                     <th *ngFor="let day of weatherForecast">{{ day.dow }}</th>
                 </tr>
                 <tr>
                     <td *ngFor="let day of weatherForecast" class="w-fcast-icon"><i [ngClass]="['wi', day.icon.wiClass]"></i></td>
-                </tr>
-                <tr>
-                    <td *ngFor="let day of weatherForecast" class="w-fcast-temp">{{ day.temperature.highMax }}</td>
-                </tr>
-                <tr>
-                    <td *ngFor="let day of weatherForecast" class="w-fcast-temp">{{ day.temperature.lowMin }}</td>
                 </tr>
                 <tr>
                     <td *ngFor="let day of weatherForecast" class="w-fcast w-fcast-probs">
@@ -112,7 +107,24 @@
                         <i class="wi wi-raindrop"></i> <span class="w-fcast-prob">{{ day.rain.probability }}</span>
                     </td>
                 </tr>
+                <tr>
+                    <td *ngFor="let day of weatherForecast" class="w-fcast-temp">{{ day.temperature.highMax }}</td>
+                </tr>
+                <tr>
+                    <td *ngFor="let day of weatherForecast" class="w-fcast-temp">{{ day.temperature.lowMin }}</td>
+                </tr>
             </table>
+
+            <!-- Temp chart -->
+            <div class="w-fcast-chart">
+                <canvas baseChart width="400" height="400"
+                        [datasets]="chartDatasets"
+                        [labels]="chartLabels"
+                        [legend]="false"
+                        [chartType]="'line'"
+                        [options]="chartOptions"></canvas>
+            </div>
+
         </div>
     </div>
 
