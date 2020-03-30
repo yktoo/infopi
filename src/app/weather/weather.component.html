@@ -77,7 +77,7 @@
     </table>
 
     <!-- Radar map and weather forecast -->
-    <div class="row flex-start flex-nowrap" *ngIf="currentWeather">
+    <div class="row flex-start flex-nowrap ruler" *ngIf="currentWeather">
         <!-- Left column with the rain radar -->
         <div class="column">
             <h2>Buienradar</h2>
@@ -108,22 +108,23 @@
                     </td>
                 </tr>
                 <tr>
-                    <td *ngFor="let day of weatherForecast" class="w-fcast-temp">{{ day.temperature.highMax }}</td>
+                    <td *ngFor="let day of weatherForecast" class="w-fcast-temp temp-hi">{{ day.temperature.highMax }}</td>
                 </tr>
+                <tr><td colspan="5">
+                    <!-- Temp chart -->
+                    <div class="w-fcast-chart">
+                        <canvas baseChart width="400" height="400"
+                                [datasets]="chartDatasets"
+                                [labels]="chartLabels"
+                                [legend]="false"
+                                [chartType]="'line'"
+                                [options]="chartOptions"></canvas>
+                    </div>
+                </td></tr>
                 <tr>
-                    <td *ngFor="let day of weatherForecast" class="w-fcast-temp">{{ day.temperature.lowMin }}</td>
+                    <td *ngFor="let day of weatherForecast" class="w-fcast-temp temp-lo">{{ day.temperature.lowMin }}</td>
                 </tr>
             </table>
-
-            <!-- Temp chart -->
-            <div class="w-fcast-chart">
-                <canvas baseChart width="400" height="400"
-                        [datasets]="chartDatasets"
-                        [labels]="chartLabels"
-                        [legend]="false"
-                        [chartType]="'line'"
-                        [options]="chartOptions"></canvas>
-            </div>
 
         </div>
     </div>

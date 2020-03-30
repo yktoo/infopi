@@ -26,7 +26,20 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
             padding: {left: 20, right: 50}
         },
         scales: {
-            yAxes: [{display: true}],
+            yAxes: [{
+                display: true,
+                gridLines: {
+                    color: '#333333',
+                    zeroLineWidth: 2,
+                    zeroLineColor: '#888888',
+                    tickMarkLength: 5,
+                },
+                ticks: {
+                    padding: 10,
+                    fontColor: '#666666',
+                    fontSize: 16,
+                },
+            }],
             xAxes: [{display: false}],
         },
     };
@@ -95,8 +108,10 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
             // Prepare weather forecast
             const forecast = [];
             const forecastChartLabels = [];
-            const forecastChartDataMin = [];
-            const forecastChartDataMax = [];
+            const forecastChartDataHighMax = [];
+            const forecastChartDataHighMin = [];
+            const forecastChartDataLowMax = [];
+            const forecastChartDataLowMin = [];
             for (let i = 1; i <= 5; i++) {
                 const dayWeather = data.verwachting_meerdaags[0]['dag-plus' + i][0];
                 const dayIcon = dayWeather.icoon[0];
@@ -114,10 +129,10 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
                         maxAmount:   dayWeather.maxmmregen[0],   // Maximum amount in mm
                     },
                     temperature: {
-                        lowMin:      dayWeather.mintemp[0],      // In °C
-                        lowMax:      dayWeather.mintempmax[0],   // In °C
-                        highMin:     dayWeather.maxtemp[0],      // In °C
                         highMax:     dayWeather.maxtempmax[0],   // In °C
+                        highMin:     dayWeather.maxtemp[0],      // In °C
+                        lowMax:      dayWeather.mintempmax[0],   // In °C
+                        lowMin:      dayWeather.mintemp[0],      // In °C
                     },
                     wind: {
                         dirText:     dayWeather.windrichting[0], // Text, like 'WZW'
@@ -131,24 +146,49 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
 
                 // Push chart data
                 forecastChartLabels.push(dow);
-                forecastChartDataMin.push(dayWeather.mintemp[0]);
-                forecastChartDataMax.push(dayWeather.maxtempmax[0]);
+                forecastChartDataHighMax.push(dayWeather.maxtempmax[0]);
+                forecastChartDataHighMin.push(dayWeather.maxtemp[0]);
+                forecastChartDataLowMax.push(dayWeather.mintempmax[0]);
+                forecastChartDataLowMin.push(dayWeather.mintemp[0]);
             }
+            const transparent = 'rgba(0,0,0,0)';
             this.weatherForecast = forecast;
             this.chartLabels = forecastChartLabels;
             this.chartDatasets = [
                 {
-                    label: 'Min °C',
-                    data: forecastChartDataMin,
-                    borderColor: ['rgb(123,168,255)'],
-                    backgroundColor: ['rgba(0,0,0,0.1)'],
+                    label: 'High min',
+                    data: forecastChartDataHighMin,
+                    borderColor: '#ffcc00',
+                    backgroundColor: transparent,
+                    pointBorderColor: '#ffcc00',
+                    pointBackgroundColor: '#ffcc00',
                     borderWidth: 1
                 },
                 {
-                    label: 'Max °C',
-                    data: forecastChartDataMax,
-                    borderColor: ['rgb(235,169,45)'],
-                    backgroundColor: ['rgba(0,0,0,0.1)'],
+                    label: 'High max',
+                    data: forecastChartDataHighMax,
+                    borderColor: '#ffcc00',
+                    backgroundColor: transparent,
+                    pointBorderColor: '#ffcc00',
+                    pointBackgroundColor: '#ffcc00',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Low min',
+                    data: forecastChartDataLowMin,
+                    borderColor: '#99ccff',
+                    backgroundColor: transparent,
+                    pointBorderColor: '#99ccff',
+                    pointBackgroundColor: '#99ccff',
+                    borderWidth: 2
+                },
+                {
+                    label: 'Low max',
+                    data: forecastChartDataLowMax,
+                    borderColor: '#99ccff',
+                    backgroundColor: transparent,
+                    pointBorderColor: '#99ccff',
+                    pointBackgroundColor: '#99ccff',
                     borderWidth: 1
                 },
             ];

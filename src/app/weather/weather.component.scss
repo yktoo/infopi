@@ -143,6 +143,14 @@
 
 .w-fcast-chart {
     position: relative;
-    width: 100%;
+    width: 97%;
+    margin-left: 10px;
     height: 250px;
+}
+
+.temp-hi {
+    color: #ffcc00;
+}
+.temp-lo {
+    color: #99ccff;
 }
