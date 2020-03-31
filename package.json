@@ -59,11 +59,15 @@
     "tslint": "~5.18.0",
     "typescript": "~3.7.5"
   },
-  "description": "![InfoPi icon](doc/infopi.svg)",
+  "author": {
+    "name": "Dmitry Kann",
+    "email": "yktooo@gmail.com",
+    "url": "https://yktoo.com/"
+  },
+  "description": "Single page info kiosk application",
   "directories": {
     "doc": "doc"
   },
   "keywords": [],
-  "author": "Dmitry Kann",
   "license": "MIT"
 }
