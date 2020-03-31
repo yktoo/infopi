@@ -1,4 +1,4 @@
-<section *ngIf="items" (click)="update()" ng-class="{outdated: vm.trainErr}">
+<section *ngIf="items" (click)="update()" class="pos-relative" [ngClass]="{outdated: error}">
     <!-- Heading -->
     <h2>Security</h2>
 

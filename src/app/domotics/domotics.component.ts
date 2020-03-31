@@ -11,6 +11,7 @@ import { OpenhabService } from '../_services/openhab.service';
 export class DomoticsComponent implements OnInit {
 
     items: any[];
+    error: any;
 
     constructor(private openhab: OpenhabService, private config: ConfigService) { }
 
@@ -20,5 +21,7 @@ export class DomoticsComponent implements OnInit {
 
     update() {
         this.openhab.getItems(this.config.configuration.domotics.showGroup)
-            .subscribe(data => this.items = data);
+            .subscribe(
+                data => this.items = data,
+                error => this.error = error);
     }}

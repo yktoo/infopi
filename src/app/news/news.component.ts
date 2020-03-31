@@ -20,16 +20,18 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class NewsComponent implements OnInit {
 
+    error: any;
+
     newsItemTitle: string;
     newsItemDescription: string;
     newsLastUpdate: Date;
     newsLastUpdateAgo: string;
+
     private newsItems: any[];
     private curIndex: number;
     private curUpdateTimer: Subscription;
 
-    constructor(private config: ConfigService, private rss: RssService) {
-    }
+    constructor(private config: ConfigService, private rss: RssService) { }
 
     ngOnInit(): void {
         timer(0, this.config.configuration.rss.refreshRate).subscribe(() => this.update());

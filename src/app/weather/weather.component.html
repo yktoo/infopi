@@ -1,4 +1,4 @@
-<section (click)="update()" ng-class="{outdated: vm.weatherErr}">
+<section (click)="update()" class="pos-relative" [ngClass]="{outdated: error}">
 
     <!-- Current conditions and temperature and message -->
     <div class="row ruler" *ngIf="currentWeather">

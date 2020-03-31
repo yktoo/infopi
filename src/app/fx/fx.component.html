@@ -1,4 +1,4 @@
-<section *ngIf="fxRates" (click)="update()" ng-class="{outdated: vm.fxErr}">
+<section *ngIf="fxRates" (click)="update()" class="pos-relative" [ngClass]="{outdated: error}">
     <h2>Exchange rates</h2>
 
     <!-- FX rates -->

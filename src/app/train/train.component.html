@@ -1,4 +1,4 @@
-<section *ngIf="departures" (click)="update()" ng-class="{outdated: vm.trainErr}">
+<section *ngIf="departures" (click)="update()" class="pos-relative" [ngClass]="{outdated: error}">
     <!-- Heading -->
     <h2>{{ departureStation }}</h2>
 

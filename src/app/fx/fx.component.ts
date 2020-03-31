@@ -15,6 +15,7 @@ class Rate {
 export class FxComponent implements OnInit {
 
     fxRates: Rate[];
+    error: any;
 
     constructor(private config: ConfigService, private fx: FxService) { }
 
@@ -42,23 +43,25 @@ export class FxComponent implements OnInit {
 
     update() {
         this.fx.getFxRates()
-            .subscribe(data => {
-                // Extract current and previous rates into maps indexed by the currency symbol
-                const ratesCurrent  = this.getCurrencyRates(data.Cube[0].Cube[0].Cube);
-                const ratesPrevious = this.getCurrencyRates(data.Cube[0].Cube[1].Cube);
+            .subscribe(
+                data => {
+                    // Extract current and previous rates into maps indexed by the currency symbol
+                    const ratesCurrent  = this.getCurrencyRates(data.Cube[0].Cube[0].Cube);
+                    const ratesPrevious = this.getCurrencyRates(data.Cube[0].Cube[1].Cube);
 
-                // Filter the currencies and calculate moves
-                const currConfig = this.config.configuration.fx.showCurrencies;
-                const rates = [];
-                Object.keys(currConfig).forEach(c => {
-                    let move = null;
-                    if (ratesCurrent.has(c) && ratesPrevious.has(c)) {
-                        move = Math.abs(ratesCurrent.get(c).valueOf() - ratesPrevious.get(c).valueOf());
-                    }
-                    rates.push(new Rate(c, ratesCurrent.get(c).valueOf(), move, currConfig[c]));
-                });
-                this.fxRates = rates;
-            });
+                    // Filter the currencies and calculate moves
+                    const currConfig = this.config.configuration.fx.showCurrencies;
+                    const rates = [];
+                    Object.keys(currConfig).forEach(c => {
+                        let move = null;
+                        if (ratesCurrent.has(c) && ratesPrevious.has(c)) {
+                            move = Math.abs(ratesCurrent.get(c).valueOf() - ratesPrevious.get(c).valueOf());
+                        }
+                        rates.push(new Rate(c, ratesCurrent.get(c).valueOf(), move, currConfig[c]));
+                    });
+                    this.fxRates = rates;
+                },
+                error => this.error = error);
 
     }
 }

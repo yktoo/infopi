@@ -1,4 +1,4 @@
-<section *ngIf="newsItemTitle" (click)="update()" ng-class="{outdated: vm.newsErr}">
+<section *ngIf="newsItemTitle" (click)="update()" class="pos-relative" [ngClass]="{outdated: error}">
     <h2>Latest news</h2>
     <div class="news-item" *appIfChanges="newsItemTitle" [@fadeTrigger]>
         <div class="news-title">{{ newsItemTitle }}</div>
