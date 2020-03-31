@@ -23,7 +23,11 @@ export class DomoticsComponent implements OnInit {
         this.openhab.getItems(this.config.configuration.domotics.showGroup)
             .subscribe(
                 data => {
-                    this.items = data;
+                    this.items = data
+                        .sort((a, b) =>
+                            (a.label || a.name) > (b.label || b.name) ? 1 :
+                            (a.label || a.name) < (b.label || b.name) ? -1 :
+                            0);
                     this.error = undefined;
                 },
                 error => this.error = error);
