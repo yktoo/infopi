@@ -46,6 +46,7 @@ export class BusComponent implements OnInit {
                         )
                         // Limit the number of items
                         .slice(0, this.config.configuration.busses.maxDepartureCount);
+                    this.error = undefined;
                 },
                 error => this.error = error);
     }

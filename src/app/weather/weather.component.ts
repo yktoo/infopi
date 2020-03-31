@@ -205,6 +205,7 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
                     moonPhaseWiClass: moonPhase.wicls,  // One of the wi-* classes
                 };
 
+                this.error = undefined;
             },
             error => this.error = error);
 

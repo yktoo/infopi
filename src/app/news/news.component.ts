@@ -96,18 +96,20 @@ export class NewsComponent implements OnInit {
 
     update() {
         this.rss.getRssItems(this.config.configuration.rss.feedUrl)
-            .subscribe(data => {
-                // Cancel any existing current news update timer
-                if (this.curUpdateTimer) {
-                    this.curUpdateTimer.unsubscribe();
-                    this.curUpdateTimer = undefined;
-                }
-                this.newsItems = data.entry || data.item;
-                // Randomly initialise the current news
-                this.curIndex = Math.floor(Math.random() * this.newsItems.length);
-                this.updateCurrent();
-
-            });
+            .subscribe(
+                data => {
+                    // Cancel any existing current news update timer
+                    if (this.curUpdateTimer) {
+                        this.curUpdateTimer.unsubscribe();
+                        this.curUpdateTimer = undefined;
+                    }
+                    this.newsItems = data.entry || data.item;
+                    // Randomly initialise the current news
+                    this.curIndex = Math.floor(Math.random() * this.newsItems.length);
+                    this.updateCurrent();
+                    this.error = undefined;
+                },
+                error => this.error = error);
     }
 
     /**

@@ -60,6 +60,7 @@ export class FxComponent implements OnInit {
                         rates.push(new Rate(c, ratesCurrent.get(c), move, currConfig[c]));
                     });
                     this.fxRates = rates;
+                    this.error = undefined;
                 },
                 error => this.error = error);
 

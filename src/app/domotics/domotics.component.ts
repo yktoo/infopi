@@ -22,6 +22,9 @@ export class DomoticsComponent implements OnInit {
     update() {
         this.openhab.getItems(this.config.configuration.domotics.showGroup)
             .subscribe(
-                data => this.items = data,
+                data => {
+                    this.items = data;
+                    this.error = undefined;
+                },
                 error => this.error = error);
     }}

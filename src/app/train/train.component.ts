@@ -24,23 +24,26 @@ export class TrainComponent implements OnInit {
         this.departureStation = this.config.configuration.trains.departureTimesStationName;
         this.ns.getDepartureTimes(this.config.configuration.trains.departureTimesStationCode)
             .subscribe(
-                data => this.departures = data
-                    .slice(0, this.config.configuration.trains.maxDepartureCount)
-                    .map(e => {
-                        // Calculate delays
-                        const delay = Math.round(
-                            (new Date(e.plannedDateTime).getTime() - new Date(e.actualDateTime).getTime()) /
-                            (1000 * 60));
-                        if (delay > 0) {
-                            e.delay = '+' + delay;
-                        }
+                data => {
+                    this.departures = data
+                        .slice(0, this.config.configuration.trains.maxDepartureCount)
+                        .map(e => {
+                            // Calculate delays
+                            const delay = Math.round(
+                                (new Date(e.plannedDateTime).getTime() - new Date(e.actualDateTime).getTime()) /
+                                (1000 * 60));
+                            if (delay > 0) {
+                                e.delay = '+' + delay;
+                            }
 
-                        // Filter warnings
-                        if (e.messages) {
-                            e.warnings = e.messages.filter(msg => msg.style === 'WARNING');
-                        }
-                        return e;
-                    }),
+                            // Filter warnings
+                            if (e.messages) {
+                                e.warnings = e.messages.filter(msg => msg.style === 'WARNING');
+                            }
+                            return e;
+                        });
+                    this.error = undefined;
+                },
                 error => this.error = error);
     }
 
