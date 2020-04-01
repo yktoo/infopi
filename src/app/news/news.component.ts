@@ -3,6 +3,7 @@ import { ConfigService } from '../_services/config.service';
 import { RssService } from '../_services/rss.service';
 import { Subscription, timer } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 
 @Component({
@@ -26,12 +27,13 @@ export class NewsComponent implements OnInit {
     newsItemDescription: string;
     newsLastUpdate: Date;
     newsLastUpdateAgo: string;
+    newsImageUrl: SafeResourceUrl;
 
     private newsItems: any[];
     private curIndex: number;
     private curUpdateTimer: Subscription;
 
-    constructor(private config: ConfigService, private rss: RssService) { }
+    constructor(private domSanitizer: DomSanitizer, private config: ConfigService, private rss: RssService) { }
 
     ngOnInit(): void {
         timer(0, this.config.configuration.rss.refreshRate).subscribe(() => this.update());
@@ -84,7 +86,7 @@ export class NewsComponent implements OnInit {
         // Minutes
         interval = Math.floor(seconds / 60);
         if (interval > 1) {
-            return interval + ' minutes';
+            return interval + ' minutes ago';
         }
         if (interval === 1) {
             return 'A minute ago';
@@ -103,6 +105,9 @@ export class NewsComponent implements OnInit {
                         this.curUpdateTimer.unsubscribe();
                         this.curUpdateTimer = undefined;
                     }
+                    this.newsImageUrl = data.image && data.image[0].url ?
+                        this.domSanitizer.bypassSecurityTrustResourceUrl(data.image[0].url[0]) :
+                        undefined;
                     this.newsItems = data.entry || data.item;
                     // Randomly initialise the current news
                     this.curIndex = Math.floor(Math.random() * this.newsItems.length);

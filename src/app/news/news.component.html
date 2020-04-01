@@ -1,7 +1,8 @@
 <section *ngIf="newsItemTitle" (click)="update()" class="pos-relative" [ngClass]="{outdated: error}">
-    <h2>Latest news</h2>
     <div class="news-item" *appIfChanges="newsItemTitle" [@fadeTrigger]>
+        <div class="news-image" *ngIf="newsImageUrl"><img [src]="newsImageUrl" alt="News Image"></div>
         <div class="news-title">{{ newsItemTitle }}</div>
-        <div class="news-desc">{{ newsItemDescription }} <span class="news-updated">// {{ newsLastUpdateAgo }}</span></div>
+        <div class="news-desc">{{ newsItemDescription }}</div>
+        <div class="news-updated">{{ newsLastUpdateAgo }}</div>
     </div>
 </section>

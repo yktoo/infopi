@@ -5,9 +5,14 @@
     padding: 1rem;
 }
 
+.news-image {
+    img {
+        border-radius: 6px;
+    }
+}
 .news-title {
     font-size: $font-size;
-    color: #ffef91;
+    color: #fff1d0;
     padding: 0.2rem;
 }
 .news-desc {
