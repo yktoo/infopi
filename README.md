@@ -1,4 +1,4 @@
-<img src="doc/infopi.svg" alt="InfoPi icon" width="128" height="128">
+<img src="doc/infopi.svg" alt="InfoPi icon" width="128" height="128" style="float: left;">
 
 ## InfoPi Information server application
 
