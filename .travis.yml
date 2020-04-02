@@ -20,4 +20,5 @@ install:
     - npm install
 
 script:
+    - cp src/environments/config.sample.ts src/environments/config.ts
     - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
