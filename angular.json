@@ -89,6 +89,7 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.spec.json",
                         "karmaConfig": "karma.conf.js",
+                        "codeCoverage": true,
                         "assets": [
                             "src/favicon.ico",
                             "src/assets"
@@ -96,7 +97,7 @@
                         "styles": [
                             "src/styles.scss",
                             "node_modules/weather-icons/css/weather-icons.css",
-                          "node_modules/weather-icons/css/weather-icons-wind.css"
+                            "node_modules/weather-icons/css/weather-icons-wind.css"
                         ],
                         "scripts": []
                     }

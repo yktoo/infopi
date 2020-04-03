@@ -10,6 +10,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class BuienradarService {
 
+    private fullMoonTime = new Date('1999-08-11 13:09').getTime();
+
     private iconToWiClassMap = {
         // Day
         a: 'wi-day-sunny',
@@ -120,7 +122,7 @@ export class BuienradarService {
     getRadarMapUrl(): SafeResourceUrl {
         return this.domSanitizer.bypassSecurityTrustResourceUrl(
             'http://gadgets.buienradar.nl/gadget/zoommap/' +
-                '?lat=52.02833&lng=5.16806'+
+                '?lat=52.02833&lng=5.16806' +
                 '&overname=2' +
                 '&zoom=8' +
                 '&size=3' +
@@ -132,10 +134,10 @@ export class BuienradarService {
      * Calculate the current moon phase and return it as an object.
      */
     getMoonPhase(): any {
-        let diffMsec = new Date().getTime() - new Date('1999-08-11').getTime();
-        let phase = Math.round((diffMsec / (1000 * 3600 * 24)) % 29.530588853 * 0.914306184);
+        const diffDays = (new Date().getTime() - this.fullMoonTime) / 86400000;
+        const phase = Math.round((diffDays / 29.530588853) % 1 * 27);
         return {
-            phase: phase,
+            phase,
             text:  this.moonPhaseMap[phase].text,
             wicls: this.moonPhaseMap[phase].wicls,
         };
