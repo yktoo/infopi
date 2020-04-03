@@ -12,7 +12,7 @@ export class ConfigService {
         return environment.configuration;
     }
 
-    get corsProxy(): any {
+    get corsProxy(): string {
         return environment.corsProxy;
     }
 

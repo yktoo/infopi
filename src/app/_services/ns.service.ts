@@ -24,13 +24,13 @@ export class NsService {
                 'Ocp-Apim-Subscription-Key': this.config.configuration.api.nsApiKey
             }),
             params: {
-                station: station,
+                station,
                 lang: 'en',
             }
         };
         return this.http.get(this.config.corsProxy + NsService.baseUrl + 'departures', httpOptions)
             // Unwrap the top level
-            .pipe(map(res => res['payload'].departures));
+            .pipe(map(res => (res as any).payload.departures));
     }
 
 }
