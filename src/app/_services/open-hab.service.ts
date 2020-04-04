@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
     providedIn: 'root'
 })
-export class OpenhabService {
+export class OpenHabService {
 
     constructor(private http: HttpClient, private config: ConfigService) { }
 
@@ -18,7 +18,7 @@ export class OpenhabService {
     getItems(item: string): Observable<any[]> {
         return this.http.get(this.config.configuration.domotics.openHabServerUrl + '/rest/items/' + item)
             // Unwrap the top layer
-            .pipe(map(data => data['members']));
+            .pipe(map((data: any) => data.members));
     }
 
 }

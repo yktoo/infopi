@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../_services/config.service';
 import { timer } from 'rxjs';
-import { OpenhabService } from '../_services/openhab.service';
+import { OpenHabService } from '../_services/open-hab.service';
 
 @Component({
     selector: 'app-domotics',
@@ -13,7 +13,7 @@ export class DomoticsComponent implements OnInit {
     items: any[];
     error: any;
 
-    constructor(private openhab: OpenhabService, private config: ConfigService) { }
+    constructor(private openhab: OpenHabService, private config: ConfigService) { }
 
     ngOnInit(): void {
         timer(0, this.config.configuration.domotics.refreshRate).subscribe(() => this.update());
