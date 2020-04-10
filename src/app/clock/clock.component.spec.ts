@@ -36,4 +36,25 @@ describe('ClockComponent', () => {
         expect(element.querySelector('.ss').textContent).toEqual(':59');
     });
 
+    it('#update() should update time', () => {
+        // Check initial date/time
+        expect(component.now).toEqual(new Date('2006-05-04 23:01:59'));
+
+        // Change and update the date/time
+        jasmine.clock().mockDate(new Date('2006-05-04 23:03:02'));
+        component.update();
+
+        // Check the updated date/time
+        expect(component.now).toEqual(new Date('2006-05-04 23:03:02'));
+    });
+
+    it('should be hidden if there is no time value', () => {
+        const element: HTMLElement = fixture.nativeElement;
+        expect(element.querySelector('.clock')).toBeTruthy();
+
+        component.now = undefined;
+        fixture.detectChanges();
+        expect(element.querySelector('.clock')).toBeFalsy();
+    });
+
 });
