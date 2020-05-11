@@ -4,6 +4,17 @@ const url = require("url");
 
 let win;
 
+function loadApp() {
+    // Load the dist folder from Angular
+    return win.loadURL(
+        url.format({
+            pathname: path.join(__dirname, `/dist/index.html`),
+            protocol: "file:",
+            slashes: true
+        })
+    );
+}
+
 function createWindow() {
     win = new BrowserWindow({
         kiosk: true,
@@ -11,16 +22,18 @@ function createWindow() {
         webPreferences: { webSecurity: false },
     });
 
-    // Load the dist folder from Angular
-    win.loadURL(
-        url.format({
-            pathname: path.join(__dirname, `/dist/index.html`),
-            protocol: "file:",
-            slashes: true
+    // Reset cache
+    (process.argv.indexOf("--nocache") >= 0 ?
+            win.webContents.session.clearCache() :
+            Promise.resolve())
+        // Open developer tools in the debug mode
+        .then(function() {
+            if (process.argv.indexOf("--debug") >= 0) {
+                win.webContents.openDevTools();
+            }
         })
-    );
-
-    // win.webContents.openDevTools();
+        // Load the application
+        .then(loadApp)
 
     win.on("closed", () => {
         win = null;
