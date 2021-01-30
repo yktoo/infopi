@@ -55,6 +55,6 @@ export const configuration = {
     // Picture settings
     pic: {
         refreshRate: 4 * 3600 * 1000  /* Once in 4 hours */,
-        url: 'https://raw.githubusercontent.com/J535D165/CoronaWatchNL/master/plots/overview_plot.png',
+        url: 'https://raw.githubusercontent.com/J535D165/CoronaWatchNL/master/plots/overview_plot_diff.png',
     },
 };
