@@ -11,7 +11,6 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 })
 export class WeatherComponent implements OnInit {
 
-constructor(private weather: BuienradarService, private config: ConfigService) { }
 
     currentWeather: any;
     weatherForecast: any[];
@@ -54,6 +53,8 @@ constructor(private weather: BuienradarService, private config: ConfigService) {
         za: 'Sat',
         zo: 'Sun',
     };
+
+    constructor(private weather: BuienradarService, private config: ConfigService) { }
 
     /**
      * Convert Buienradar's datetime of the format 'mm/dd/yyyy hh:mm:ss' into the ISO 8601 format.

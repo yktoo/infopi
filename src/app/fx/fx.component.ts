@@ -23,24 +23,6 @@ export class FxComponent implements OnInit {
         timer(0, this.config.configuration.fx.refreshRate).subscribe(() => this.update());
     }
 
-    private getCurrencyRates(input: any[]): Map<string, number> {
-        const result = new Map();
-
-        // Convert the array into a map
-        input.forEach(e => result.set(e.$.currency, Number(e.$.rate).valueOf()));
-
-        // Euro is the base currency, so we need to add it manually
-        result.set('EUR', 1.0);
-
-        // Recalibrate all rates to the base currency
-        const base = this.config.configuration.fx.baseCurrency;
-        if (base !== 'EUR') {
-            const baseRate = result.get(base);
-            result.forEach((rate, currency, map) => map.set(currency, baseRate / rate));
-        }
-        return result;
-    }
-
     update() {
         this.fx.getFxRates()
             .subscribe(
@@ -64,5 +46,23 @@ export class FxComponent implements OnInit {
                 },
                 error => this.error = error);
 
+    }
+
+    private getCurrencyRates(input: any[]): Map<string, number> {
+        const result = new Map();
+
+        // Convert the array into a map
+        input.forEach(e => result.set(e.$.currency, Number(e.$.rate).valueOf()));
+
+        // Euro is the base currency, so we need to add it manually
+        result.set('EUR', 1.0);
+
+        // Recalibrate all rates to the base currency
+        const base = this.config.configuration.fx.baseCurrency;
+        if (base !== 'EUR') {
+            const baseRate = result.get(base);
+            result.forEach((rate, currency, map) => map.set(currency, baseRate / rate));
+        }
+        return result;
     }
 }

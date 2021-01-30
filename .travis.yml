@@ -1,9 +1,9 @@
 os: linux
-dist: bionic
+dist: focal
 
 language: node_js
 node_js:
-  - '13'
+  - '14'
 
 addons:
     apt:
@@ -21,4 +21,6 @@ install:
 
 script:
     - cp src/environments/config.sample.ts src/environments/config.ts
+    - npm run lint
     - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox
+    - npm run package

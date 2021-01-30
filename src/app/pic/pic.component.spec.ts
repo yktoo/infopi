@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PicComponent } from './pic.component';
 import { ConfigService } from '../_services/config.service';
@@ -22,7 +22,7 @@ describe('PicComponent', () => {
         }
     }
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [ PicComponent ],
             providers: [
