@@ -63,14 +63,22 @@ body {
     align-items: center;
 }
 
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.flex-basis-40 {
+    flex-basis: 40%;
+}
+
+.flex-basis-60 {
+    flex-basis: 60%;
+}
+
 .column {
     display: flex;
     flex-direction: column;
     height: 100%;
-
-    &.col-grow {
-        flex-grow: 1;
-    }
 
     .card {
         display: flex;
