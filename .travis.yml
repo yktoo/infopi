@@ -10,6 +10,7 @@ addons:
         sources:
             - google-chrome
         packages:
+            - fakeroot
             - google-chrome-stable
 
 cache:
