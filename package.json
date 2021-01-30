@@ -13,7 +13,7 @@
         "electron": "ng build --base-href ./ && electron .",
         "package": "npm run dist && node package.js",
         "package:rpi": "npm run dist && node package.js rpi",
-        "deploy": "npm run package:rpi && scp dist/installers/infopi_2.1.0_armhf.deb yrpi: && ssh yrpi sudo dpkg -i infopi_2.1.0_armhf.deb && ssh yrpi sudo reboot"
+        "deploy": "npm run package:rpi && scp dist/installers/infopi_2.1.0_armhf.deb yrpi: && ssh yrpi sudo dpkg -i infopi_2.1.0_armhf.deb && ssh yrpi rm infopi_2.1.0_armhf.deb && ssh yrpi sudo reboot"
     },
     "private": true,
     "dependencies": {
