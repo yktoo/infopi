@@ -45,7 +45,7 @@
         "@types/node": "^12.11.1",
         "@types/xml2js": "^0.4.5",
         "codelyzer": "^5.1.2",
-        "electron": "^8.1.1",
+        "electron": "^9.4.0",
         "electron-installer-debian": "^3.0.0",
         "electron-packager": "^14.2.1",
         "jasmine-core": "~3.5.0",
