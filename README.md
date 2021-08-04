@@ -16,7 +16,7 @@ This is how the information page looks like:
 
 In order to build the package you will need:
 
-* [Node 13+ and npm 6.10+](https://nodejs.org/)
+* [Node 16+ and npm 7.x+](https://nodejs.org/)
 * [Angular CLI](https://angular.io/cli)
 
 ## Getting started

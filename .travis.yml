@@ -3,7 +3,7 @@ dist: focal
 
 language: node_js
 node_js:
-  - '14'
+  - '16'
 
 addons:
     apt:
@@ -23,5 +23,5 @@ install:
 script:
     - cp src/environments/config.sample.ts src/environments/config.ts
     - npm run lint
-    - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox
+    - npm run test:ci
     - npm run package
