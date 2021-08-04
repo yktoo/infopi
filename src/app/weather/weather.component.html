@@ -1,10 +1,10 @@
-<section (click)="update()" class="pos-relative" [ngClass]="{outdated: error}">
+<section (click)="update()" class="pos-relative" [class.outdated]="error">
 
     <!-- Current conditions and temperature and message -->
     <div class="row ruler" *ngIf="currentWeather">
         <!-- Current weather icon and text -->
         <div class="card w-2 w-icon">
-            <i [ngClass]="['wi', currentWeather.icon.wiClass]"></i>
+            <i class="wi" [ngClass]="currentWeather.icon.wiClass"></i>
             <div class="w-icon-text">{{ currentWeather.icon.text }}</div>
         </div>
         <!-- Weather message -->
@@ -70,7 +70,7 @@
 
             <!-- Moon phase -->
             <td>
-                <div class="w-smallicon"><i [ngClass]="['wi', 'w-moon', sunMoon.moonPhaseWiClass]"></i></div>
+                <div class="w-smallicon"><i class="wi w-moon" [ngClass]="sunMoon.moonPhaseWiClass"></i></div>
                 <div class="w-smalltext w-unit">{{ sunMoon.moonPhaseText }}</div>
             </td>
         </tr>
@@ -95,7 +95,7 @@
                     <th *ngFor="let day of weatherForecast">{{ day.dow }}</th>
                 </tr>
                 <tr>
-                    <td *ngFor="let day of weatherForecast" class="w-fcast-icon"><i [ngClass]="['wi', day.icon.wiClass]"></i></td>
+                    <td *ngFor="let day of weatherForecast" class="w-fcast-icon"><i class="wi" [ngClass]="day.icon.wiClass"></i></td>
                 </tr>
                 <tr>
                     <td *ngFor="let day of weatherForecast" class="w-fcast w-fcast-probs">
@@ -113,11 +113,10 @@
                 <tr><td colspan="5">
                     <!-- Temp chart -->
                     <div class="w-fcast-chart">
-                        <canvas baseChart width="400" height="400"
+                        <canvas baseChart width="400" height="400" chartType="line"
                                 [datasets]="chartDatasets"
                                 [labels]="chartLabels"
                                 [legend]="false"
-                                [chartType]="'line'"
                                 [options]="chartOptions"></canvas>
                     </div>
                 </td></tr>

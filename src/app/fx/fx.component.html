@@ -1,4 +1,4 @@
-<section *ngIf="fxRates" (click)="update()" class="pos-relative" [ngClass]="{outdated: error}">
+<section *ngIf="fxRates" (click)="update()" class="pos-relative" [class.outdated]="error">
     <h2>Exchange rates</h2>
 
     <!-- FX rates -->
@@ -11,7 +11,7 @@
         </tr>
         <tr>
             <td class="fx-move" *ngFor="let rate of fxRates">
-                <span [ngClass]="{'fx-move-up': rate.move > 0, 'fx-move-down': rate.move < 0}">
+                <span [class.fx-move-up]="rate.move > 0" [class.fx-move-down]="rate.move < 0">
                     {{ rate.move | number:'.2-2' }}
                 </span>
             </td>
