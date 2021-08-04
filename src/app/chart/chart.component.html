@@ -1,8 +1,8 @@
 <section *ngIf="chartDatasets" (click)="update()" [ngClass]="{outdated: error}">
     <h2>COVID-19 reproduction number</h2>
 
-    <div class="w-fcast-chart">
-        <canvas baseChart width="400" height="400"
+    <div>
+        <canvas baseChart width="400" height="200"
                 [datasets]="chartDatasets"
                 [labels]="chartLabels"
                 [legend]="false"
