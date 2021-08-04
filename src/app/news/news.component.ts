@@ -33,10 +33,10 @@ export class NewsComponent implements OnInit {
     private curIndex: number;
     private curUpdateTimer: Subscription;
 
-    constructor(private domSanitizer: DomSanitizer, private config: ConfigService, private rss: RssService) { }
+    constructor(private domSanitizer: DomSanitizer, private cfgSvc: ConfigService, private rss: RssService) { }
 
     ngOnInit(): void {
-        timer(0, this.config.configuration.rss.refreshRate).subscribe(() => this.update());
+        timer(0, this.cfgSvc.configuration.rss.refreshRate).subscribe(() => this.update());
     }
 
     /**
@@ -97,30 +97,36 @@ export class NewsComponent implements OnInit {
     }
 
     update() {
-        this.rss.getRssItems(this.config.configuration.rss.feedUrl)
-            .subscribe(
-                data => {
-                    // Cancel any existing current news update timer
-                    if (this.curUpdateTimer) {
-                        this.curUpdateTimer.unsubscribe();
-                        this.curUpdateTimer = undefined;
-                    }
-                    this.newsImageUrl = data.image && data.image[0].url ?
-                        this.domSanitizer.bypassSecurityTrustResourceUrl(data.image[0].url[0]) :
-                        undefined;
-                    this.newsItems = data.entry || data.item;
-                    // Randomly initialise the current news
-                    this.curIndex = Math.floor(Math.random() * this.newsItems.length);
-                    this.updateCurrent();
-                    this.error = undefined;
-                },
-                error => this.error = error);
+        this.rss.getRssItems(this.cfgSvc.configuration.rss.feedUrl)
+            .subscribe({
+                next:  data => this.processData(data),
+                error: error => this.error = error,
+            });
+    }
+
+    private processData(data: any) {
+        // Remove any error
+        this.error = undefined;
+
+        // Cancel any existing current news update timer
+        if (this.curUpdateTimer) {
+            this.curUpdateTimer.unsubscribe();
+            this.curUpdateTimer = undefined;
+        }
+        this.newsImageUrl = data.image && data.image[0].url ?
+            this.domSanitizer.bypassSecurityTrustResourceUrl(data.image[0].url[0]) :
+            undefined;
+        this.newsItems = data.entry || data.item;
+
+        // Randomly initialise the current news
+        this.curIndex = Math.floor(Math.random() * this.newsItems.length);
+        this.updateCurrent();
     }
 
     /**
      * Update the current news item.
      */
-    updateCurrent(): void {
+    private updateCurrent(): void {
         if (this.newsItems) {
             const item = this.newsItems[this.curIndex];
             this.newsItemTitle = item.title[0];
@@ -132,7 +138,7 @@ export class NewsComponent implements OnInit {
             this.curIndex = (this.curIndex + 1) % this.newsItems.length;
 
             // Set the timer for the next update
-            this.curUpdateTimer = timer(this.config.configuration.rss.displayDuration)
+            this.curUpdateTimer = timer(this.cfgSvc.configuration.rss.displayDuration)
                 .subscribe(() => this.updateCurrent());
         }
     }

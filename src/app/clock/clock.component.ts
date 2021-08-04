@@ -11,10 +11,10 @@ export class ClockComponent implements OnInit {
 
     now: Date = new Date();
 
-    constructor(private config: ConfigService) { }
+    constructor(private cfgSvc: ConfigService) { }
 
     ngOnInit(): void {
-        timer(0, this.config.configuration.clock.refreshRate).subscribe(() => this.update());
+        timer(0, this.cfgSvc.configuration.clock.refreshRate).subscribe(() => this.update());
     }
 
     update() {

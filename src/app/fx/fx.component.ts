@@ -17,35 +17,38 @@ export class FxComponent implements OnInit {
     fxRates: Rate[];
     error: any;
 
-    constructor(private config: ConfigService, private fx: FxService) { }
+    constructor(private cfgSvc: ConfigService, private fx: FxService) { }
 
     ngOnInit(): void {
-        timer(0, this.config.configuration.fx.refreshRate).subscribe(() => this.update());
+        timer(0, this.cfgSvc.configuration.fx.refreshRate).subscribe(() => this.update());
     }
 
     update() {
         this.fx.getFxRates()
-            .subscribe(
-                data => {
-                    // Extract current and previous rates into maps indexed by the currency symbol
-                    const ratesCurrent  = this.getCurrencyRates(data.Cube[0].Cube[0].Cube);
-                    const ratesPrevious = this.getCurrencyRates(data.Cube[0].Cube[1].Cube);
+            .subscribe({
+                next:  data => this.processData(data),
+                error: error => this.error = error,
+            });
+    }
 
-                    // Filter the currencies and calculate moves
-                    const currConfig = this.config.configuration.fx.showCurrencies;
-                    const rates = [];
-                    Object.keys(currConfig).forEach(c => {
-                        let move = null;
-                        if (ratesCurrent.has(c) && ratesPrevious.has(c)) {
-                            move = Math.abs(ratesCurrent.get(c) - ratesPrevious.get(c));
-                        }
-                        rates.push(new Rate(c, ratesCurrent.get(c), move, currConfig[c]));
-                    });
-                    this.fxRates = rates;
-                    this.error = undefined;
-                },
-                error => this.error = error);
+    private processData(data: any) {
+        // Remove any error
+        this.error = undefined;
 
+        // Extract current and previous rates into maps indexed by the currency symbol
+        const ratesCurrent  = this.getCurrencyRates(data.Cube[0].Cube[0].Cube);
+        const ratesPrevious = this.getCurrencyRates(data.Cube[0].Cube[1].Cube);
+
+        // Filter the currencies and calculate moves
+        const currConfig = this.cfgSvc.configuration.fx.showCurrencies;
+        this.fxRates = [];
+        Object.keys(currConfig).forEach(c => {
+            let move = null;
+            if (ratesCurrent.has(c) && ratesPrevious.has(c)) {
+                move = Math.abs(ratesCurrent.get(c) - ratesPrevious.get(c));
+            }
+            this.fxRates.push(new Rate(c, ratesCurrent.get(c), move, currConfig[c]));
+        });
     }
 
     private getCurrencyRates(input: any[]): Map<string, number> {
@@ -58,7 +61,7 @@ export class FxComponent implements OnInit {
         result.set('EUR', 1.0);
 
         // Recalibrate all rates to the base currency
-        const base = this.config.configuration.fx.baseCurrency;
+        const base = this.cfgSvc.configuration.fx.baseCurrency;
         if (base !== 'EUR') {
             const baseRate = result.get(base);
             result.forEach((rate, currency, map) => map.set(currency, baseRate / rate));

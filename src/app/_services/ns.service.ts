@@ -11,7 +11,7 @@ export class NsService {
 
     private static baseUrl = 'https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/';
 
-    constructor(private http: HttpClient, private config: ConfigService) { }
+    constructor(private http: HttpClient, private cfgSvc: ConfigService) { }
 
     /**
      * Request train departure times for the specified station and return them wrapped in an Observable.
@@ -21,14 +21,14 @@ export class NsService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Ocp-Apim-Subscription-Key': this.config.configuration.api.nsApiKey
+                'Ocp-Apim-Subscription-Key': this.cfgSvc.configuration.api.nsApiKey
             }),
             params: {
                 station,
                 lang: 'en',
             }
         };
-        return this.http.get(this.config.corsProxy + NsService.baseUrl + 'departures', httpOptions)
+        return this.http.get(this.cfgSvc.corsProxy + NsService.baseUrl + 'departures', httpOptions)
             // Unwrap the top level
             .pipe(map(res => (res as any).payload.departures));
     }

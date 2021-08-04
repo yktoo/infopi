@@ -52,9 +52,10 @@ export const configuration = {
         feedUrl: 'http://feeds.bbci.co.uk/news/world/rss.xml',
     },
 
-    // Picture settings
-    pic: {
+    // Chart settings
+    chart: {
         refreshRate: 4 * 3600 * 1000  /* Once in 4 hours */,
-        url: 'https://raw.githubusercontent.com/J535D165/CoronaWatchNL/master/plots/overview_plot_diff.png',
+        url: 'https://data.rivm.nl/covid-19/COVID-19_reproductiegetal.json',
+        maxElements: 180, /* How many last elements to pick */
     },
 };

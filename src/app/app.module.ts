@@ -13,7 +13,7 @@ import { DomoticsComponent } from './domotics/domotics.component';
 import { NewsComponent } from './news/news.component';
 import { IfChangesDirective } from './_directives/if-changes.directive';
 import { ChartsModule } from 'ng2-charts';
-import { PicComponent } from './pic/pic.component';
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +26,7 @@ import { PicComponent } from './pic/pic.component';
         DomoticsComponent,
         NewsComponent,
         IfChangesDirective,
-        PicComponent,
+        ChartComponent,
     ],
     imports: [
         BrowserModule,

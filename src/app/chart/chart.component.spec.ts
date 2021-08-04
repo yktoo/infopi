@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
-import { PicComponent } from './pic.component';
+import { ChartComponent } from './chart.component';
 import { ConfigService } from '../_services/config.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('PicComponent', () => {
-    let component: PicComponent;
-    let fixture: ComponentFixture<PicComponent>;
+describe('ChartComponent', () => {
+    let component: ChartComponent;
+    let fixture: ComponentFixture<ChartComponent>;
 
     /**
      * Mock ConfigService class that returns a specific picture URL.
@@ -14,9 +14,9 @@ describe('PicComponent', () => {
 
         get configuration() {
             return {
-                pic: {
+                chart: {
                     refreshRate: undefined,
-                    url: 'http://greatpics/foo/mypic.jpg',
+                    url: 'http://greatpics/foo/data.json',
                 },
             };
         }
@@ -24,16 +24,17 @@ describe('PicComponent', () => {
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            declarations: [ PicComponent ],
+            declarations: [ChartComponent],
+            imports: [HttpClientTestingModule],
             providers: [
-                { provide: ConfigService, useClass: MockConfigService },
+                {provide: ConfigService, useClass: MockConfigService},
             ],
         })
-            .compileComponents();
+        .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(PicComponent);
+        fixture = TestBed.createComponent(ChartComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
@@ -42,8 +43,4 @@ describe('PicComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should generate a picture URL', () => {
-        component.update();
-        expect(component.picUrl).toBeTruthy();
-    });
 });

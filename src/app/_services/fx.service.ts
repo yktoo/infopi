@@ -12,13 +12,13 @@ export class FxService {
 
     private static baseUrl = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml';
 
-    constructor(private http: HttpClient, private config: ConfigService) { }
+    constructor(private http: HttpClient, private cfgSvc: ConfigService) { }
 
     /**
      * Request FX rates and return them wrapped in an Observable.
      */
     getFxRates(): Observable<any> {
-        return this.http.get(this.config.corsProxy + FxService.baseUrl, {responseType: 'text'})
+        return this.http.get(this.cfgSvc.corsProxy + FxService.baseUrl, {responseType: 'text'})
             // Parse the XML response
             .pipe(switchMap(res => parseStringPromise(res)))
             // Unwrap the top level

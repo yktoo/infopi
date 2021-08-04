@@ -10,13 +10,13 @@ import { ConfigService } from './config.service';
 })
 export class RssService {
 
-    constructor(private http: HttpClient, private config: ConfigService) { }
+    constructor(private http: HttpClient, private cfgSvc: ConfigService) { }
 
     /**
      * Request RSS items and return them wrapped in an Observable.
      */
     getRssItems(url: string): Observable<any> {
-        return this.http.get(this.config.corsProxy + url, {responseType: 'text'})
+        return this.http.get(this.cfgSvc.corsProxy + url, {responseType: 'text'})
             // Parse the XML response
             .pipe(switchMap(res => parseStringPromise(res)))
             // Unwrap the top level

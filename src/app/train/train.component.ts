@@ -14,37 +14,42 @@ export class TrainComponent implements OnInit {
     departures: any;
     error: any;
 
-    constructor(private config: ConfigService, private ns: NsService) { }
+    constructor(private cfgSvc: ConfigService, private ns: NsService) { }
 
     ngOnInit(): void {
-        timer(0, this.config.configuration.trains.refreshRate).subscribe(() => this.update());
+        timer(0, this.cfgSvc.configuration.trains.refreshRate).subscribe(() => this.update());
     }
 
     update() {
-        this.departureStation = this.config.configuration.trains.departureTimesStationName;
-        this.ns.getDepartureTimes(this.config.configuration.trains.departureTimesStationCode)
-            .subscribe(
-                data => {
-                    this.departures = data
-                        .slice(0, this.config.configuration.trains.maxDepartureCount)
-                        .map(e => {
-                            // Calculate delays
-                            const delay = Math.round(
-                                (new Date(e.plannedDateTime).getTime() - new Date(e.actualDateTime).getTime()) /
-                                (1000 * 60));
-                            if (delay > 0) {
-                                e.delay = '+' + delay;
-                            }
-
-                            // Filter warnings
-                            if (e.messages) {
-                                e.warnings = e.messages.filter(msg => msg.style === 'WARNING');
-                            }
-                            return e;
-                        });
-                    this.error = undefined;
-                },
-                error => this.error = error);
+        this.departureStation = this.cfgSvc.configuration.trains.departureTimesStationName;
+        this.ns.getDepartureTimes(this.cfgSvc.configuration.trains.departureTimesStationCode)
+            .subscribe({
+                next:  data => this.processData(data),
+                error: error => this.error = error,
+            });
     }
 
+    private processData(data: any) {
+        // Remove any error
+        this.error = undefined;
+
+        // Handle the data
+        this.departures = data
+            .slice(0, this.cfgSvc.configuration.trains.maxDepartureCount)
+            .map(e => {
+                // Calculate delays
+                const delay = Math.round(
+                    (new Date(e.plannedDateTime).getTime() - new Date(e.actualDateTime).getTime()) /
+                    (1000 * 60));
+                if (delay > 0) {
+                    e.delay = '+' + delay;
+                }
+
+                // Filter warnings
+                if (e.messages) {
+                    e.warnings = e.messages.filter(msg => msg.style === 'WARNING');
+                }
+                return e;
+            });
+    }
 }
