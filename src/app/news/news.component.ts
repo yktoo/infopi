@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../_services/config.service';
 import { RssService } from '../_services/rss.service';
-import { Subscription, timer } from 'rxjs';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { interval, merge, of, Subscription, timer } from 'rxjs';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { NewsItem } from '../_models/news-item';
 
 
 @Component({
@@ -12,24 +13,18 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     styleUrls: ['./news.component.scss'],
     animations: [
         trigger('fadeTrigger', [
-            state('void', style({opacity: 0})),
-            state('*', style({opacity: 1})),
-            transition('void => *', [animate('0.5s 0.5s ease-in')]),
-            transition('* => void', [animate('0.5s ease-in')]),
+            transition(':enter', [style({opacity: 0}), animate('0.5s', style({opacity: 1}))]),
+            transition(':leave', [animate('0.5s', style({opacity: 0}))]),
         ]),
     ],
 })
 export class NewsComponent implements OnInit {
 
     error: any;
+    feedImageUrl: SafeResourceUrl;
+    currentItem: NewsItem;
 
-    newsItemTitle: string;
-    newsItemDescription: string;
-    newsLastUpdate: Date;
-    newsLastUpdateAgo: string;
-    newsImageUrl: SafeResourceUrl;
-
-    private newsItems: any[];
+    private newsItems: NewsItem[];
     private curIndex: number;
     private curUpdateTimer: Subscription;
 
@@ -37,63 +32,6 @@ export class NewsComponent implements OnInit {
 
     ngOnInit(): void {
         timer(0, this.cfgSvc.configuration.rss.refreshRate).subscribe(() => this.update());
-    }
-
-    /**
-     * Translate the given date into the 'xxx time ago' string.
-     * @param date Date to translate.
-     * @return string representation of the date.
-     */
-    timeSince(date: Date): string {
-        const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-
-        // Years
-        let interval = Math.floor(seconds / 31536000);
-        if (interval > 1) {
-            return interval + ' years ago';
-        }
-        if (interval === 1) {
-            return 'A year ago';
-        }
-
-        // Months
-        interval = Math.floor(seconds / 2592000);
-        if (interval > 1) {
-            return interval + ' months ago';
-        }
-        if (interval === 1) {
-            return 'A month ago';
-        }
-
-        // Days
-        interval = Math.floor(seconds / 86400);
-        if (interval > 1) {
-            return interval + ' days ago';
-        }
-        if (interval === 1) {
-            return 'Yesterday';
-        }
-
-        // Hours
-        interval = Math.floor(seconds / 3600);
-        if (interval > 1) {
-            return interval + ' hours ago';
-        }
-        if (interval === 1) {
-            return 'An hour ago';
-        }
-
-        // Minutes
-        interval = Math.floor(seconds / 60);
-        if (interval > 1) {
-            return interval + ' minutes ago';
-        }
-        if (interval === 1) {
-            return 'A minute ago';
-        }
-
-        // Less than a minute
-        return 'Just now';
     }
 
     update() {
@@ -107,39 +45,43 @@ export class NewsComponent implements OnInit {
     private processData(data: any) {
         // Remove any error
         this.error = undefined;
+        this.currentItem = null;
 
         // Cancel any existing current news update timer
         if (this.curUpdateTimer) {
             this.curUpdateTimer.unsubscribe();
             this.curUpdateTimer = undefined;
         }
-        this.newsImageUrl = data.image && data.image[0].url ?
-            this.domSanitizer.bypassSecurityTrustResourceUrl(data.image[0].url[0]) :
-            undefined;
-        this.newsItems = data.entry || data.item;
+        this.feedImageUrl = data.image?.[0].url && this.domSanitizer.bypassSecurityTrustResourceUrl(data.image[0].url[0]);
+        this.newsItems = (data.entry || data.item).map(e => new NewsItem(
+            e.title[0],
+            e.description?.[0],
+            new Date((e.updated || e.pubDate)[0]),
+        ));
 
-        // Randomly initialise the current news
-        this.curIndex = Math.floor(Math.random() * this.newsItems.length);
-        this.updateCurrent();
+        // If there are any items
+        if (this.newsItems?.length) {
+            // Randomly initialise the current news
+            this.curIndex = Math.floor(Math.random() * this.newsItems.length);
+
+            // Set up periodic rotation
+            this.curUpdateTimer = merge(of(0), interval(this.cfgSvc.configuration.rss.displayDuration))
+                .subscribe(() => this.updateCurrent());
+        }
     }
 
     /**
      * Update the current news item.
      */
     private updateCurrent(): void {
-        if (this.newsItems) {
-            const item = this.newsItems[this.curIndex];
-            this.newsItemTitle = item.title[0];
-            this.newsItemDescription = item.description ? item.description[0] : undefined;
-            this.newsLastUpdate = new Date((item.updated || item.pubDate)[0]);
-            this.newsLastUpdateAgo = this.timeSince(this.newsLastUpdate);
+        // Reset the current item to animate fading in
+        this.currentItem = null;
+        const nextItem = this.newsItems[this.curIndex];
 
-            // Move on to the next item
-            this.curIndex = (this.curIndex + 1) % this.newsItems.length;
+        // Schedule showing the next item a wee bit later
+        setTimeout(() =>  this.currentItem = nextItem, 500);
 
-            // Set the timer for the next update
-            this.curUpdateTimer = timer(this.cfgSvc.configuration.rss.displayDuration)
-                .subscribe(() => this.updateCurrent());
-        }
+        // Move on to the next item
+        this.curIndex = (this.curIndex + 1) % this.newsItems.length;
     }
 }
