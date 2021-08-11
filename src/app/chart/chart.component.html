@@ -1,11 +1,10 @@
 <section *ngIf="chartDatasets" (click)="update()" [class.outdated]="error">
-    <h2>COVID-19 reproduction number</h2>
+    <h2>COVID-19 daily figures</h2>
 
     <div>
-        <canvas baseChart width="400" height="200" chartType="line"
+        <canvas baseChart width="540" height="200" chartType="line"
                 [datasets]="chartDatasets"
                 [labels]="chartLabels"
-                [legend]="false"
                 [options]="chartOptions"></canvas>
     </div>
 </section>

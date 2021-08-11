@@ -55,7 +55,7 @@ export const configuration = {
     // Chart settings
     chart: {
         refreshRate: 4 * 3600 * 1000  /* Once in 4 hours */,
-        url: 'https://data.rivm.nl/covid-19/COVID-19_reproductiegetal.json',
-        maxElements: 180, /* How many last elements to pick */
+        url: 'https://data.rivm.nl/covid-19/COVID-19_aantallen_gemeente_per_dag.json',
+        maxElements: 90, /* How many last elements to pick */
     },
 };
