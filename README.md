@@ -2,7 +2,7 @@
 
 ## InfoPi Information server application
 
-[![Build Status](https://travis-ci.org/yktoo/infopi.svg?branch=master)](https://travis-ci.org/yktoo/infopi)
+[![Build status](https://github.com/yktoo/infopi/actions/workflows/angular.yml/badge.svg)](https://github.com/yktoo/infopi/actions/workflows/angular.yml)
 
 **InfoPi** is a single-page web application that displays various live data, like weather forecast and train departure times. The application is developed with Angular 9.x and can be packaged with the Electron browser to make an all-in-one executable bundle.
 
