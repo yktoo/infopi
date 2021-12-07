@@ -67,7 +67,7 @@ describe('BuienradarService', () => {
 
     it('#getRadarMapUrl() should return a sanitised Buienradar URL', () => {
         const mapUrl = service.getRadarMapUrl();
-        expect(mapUrl.toString()).toContain('http://gadgets.buienradar.nl/gadget/zoommap/');
+        expect(mapUrl.toString()).toContain('https://gadgets.buienradar.nl/gadget/zoommap/');
     });
 
     it('#getRadarMapUrl() should return a randomised Buienradar URL', () => {

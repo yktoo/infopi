@@ -49,7 +49,7 @@ export const configuration = {
     rss: {
         refreshRate: 10 * 60 * 1000 /* Once in 10 minutes */,
         displayDuration: 10 * 1000  /* 10 seconds */,
-        feedUrl: 'http://feeds.bbci.co.uk/news/world/rss.xml',
+        feedUrl: 'https://feeds.bbci.co.uk/news/world/rss.xml',
     },
 
     // Chart settings

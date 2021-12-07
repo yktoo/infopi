@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 })
 export class OvApiService {
 
-    private static baseUrl = 'http://v0.ovapi.nl/stopareacode/';
+    private static baseUrl = 'https://v0.ovapi.nl/stopareacode/';
 
     constructor(private http: HttpClient) { }
 

@@ -40,19 +40,19 @@ describe('RssService', () => {
     });
 
     it('#getRssItems() should request and unwrap RSS feed', () => {
-        const url = 'http://super-rss-feed.com/rss.xml';
+        const url = 'https://super-rss-feed.com/rss.xml';
         service.getRssItems(url)
             .subscribe(data => {
                 expect(data.title[0]).toEqual('Superfeed');
                 expect(data.item).toEqual([
                     {
                         title: ['Super post'],
-                        link: ['http://the-link.com'],
+                        link: ['https://the-link.com'],
                         description: ['This is the best post'],
                     },
                     {
                         title: ['Next post'],
-                        link: ['http://the-link-2.com'],
+                        link: ['https://the-link-2.com'],
                         description: ['This is the next best post'],
                     },
                 ]);
@@ -72,12 +72,12 @@ describe('RssService', () => {
                     '<title>Superfeed</title>' +
                     '<item>' +
                         '<title>Super post</title>' +
-                        '<link>http://the-link.com</link>' +
+                        '<link>https://the-link.com</link>' +
                         '<description>This is the best post</description>' +
                     '</item>' +
                     '<item>' +
                         '<title>Next post</title>' +
-                        '<link>http://the-link-2.com</link>' +
+                        '<link>https://the-link-2.com</link>' +
                         '<description>This is the next best post</description>' +
                     '</item>' +
                 '</channel>' +
@@ -88,7 +88,7 @@ describe('RssService', () => {
     });
 
     it('#getRssItems() should request and unwrap Atom feed', () => {
-        const url = 'http://super-atom-feed.com/atom.xml';
+        const url = 'https://super-atom-feed.com/atom.xml';
         service.getRssItems(url)
             .subscribe(data => {
                 expect(data.title[0]).toEqual('Atomfeed');

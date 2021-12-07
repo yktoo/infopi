@@ -30,7 +30,7 @@ describe('OvApiService', () => {
         service.getDepartureTimes('zazzoo').subscribe(data => expect(data).toEqual({foo: 'bar'}));
 
         // Mock the HTTP service
-        const req = httpTestingController.expectOne('http://v0.ovapi.nl/stopareacode/zazzoo');
+        const req = httpTestingController.expectOne('https://v0.ovapi.nl/stopareacode/zazzoo');
 
         // Verify request method
         expect(req.request.method).toEqual('GET');
