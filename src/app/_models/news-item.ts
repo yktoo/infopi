@@ -1,19 +1,20 @@
 export class NewsItem {
-    title:       string;
-    description: string;
-    lastUpdate?: Date;
 
-    constructor(title: string, description: string, lastUpdate: Date) {
-        this.title = title;
-        this.description = description;
-        this.lastUpdate = lastUpdate;
-    }
+    constructor(
+        public readonly title: string,
+        public readonly description: string,
+        public readonly lastUpdate?: Date,
+    ) {}
 
     /**
      * Translate the lastUpdate date into the 'xxx time ago' string.
      * @return string representation of the lastUpdate.
      */
     get lastUpdateText(): string {
+        if (!this.lastUpdate) {
+            return '';
+        }
+
         const seconds = Math.floor((new Date().getTime() - this.lastUpdate.getTime()) / 1000);
 
         // Years
@@ -64,5 +65,4 @@ export class NewsItem {
         // Less than a minute
         return 'Just now';
     }
-
 }

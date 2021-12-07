@@ -1,5 +1,5 @@
 <section (click)="update()" class="pos-relative" [class.outdated]="error">
-    <div *ngIf="currentItem as i" @fadeTrigger class="news-item">
+    <div *ngIf="currentItem as i" [@fadeInOnChange]="curIndex" class="news-item">
         <div class="news-image" *ngIf="feedImageUrl"><img [src]="feedImageUrl" alt="News Image"></div>
         <div class="news-title">{{ i.title }}</div>
         <div class="news-desc">{{ i.description }}</div>

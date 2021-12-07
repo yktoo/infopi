@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../_services/config.service';
 import { RssService } from '../_services/rss.service';
-import { interval, merge, of, Subscription, timer } from 'rxjs';
+import { interval, startWith, Subscription, timer } from 'rxjs';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NewsItem } from '../_models/news-item';
-
 
 @Component({
     selector: 'app-news',
     templateUrl: './news.component.html',
     styleUrls: ['./news.component.scss'],
     animations: [
-        trigger('fadeTrigger', [
-            transition(':enter', [style({opacity: 0}), animate('0.5s', style({opacity: 1}))]),
-            transition(':leave', [animate('0.5s', style({opacity: 0}))]),
+        trigger('fadeInOnChange', [
+            transition('* => *', [style({opacity: 0}), animate('0.5s', style({opacity: 1}))]),
         ]),
     ],
 })
@@ -23,9 +21,9 @@ export class NewsComponent implements OnInit {
     error: any;
     feedImageUrl: SafeResourceUrl;
     currentItem: NewsItem;
+    curIndex: number;
 
     private newsItems: NewsItem[];
-    private curIndex: number;
     private curUpdateTimer: Subscription;
 
     constructor(private domSanitizer: DomSanitizer, private cfgSvc: ConfigService, private rss: RssService) { }
@@ -65,7 +63,8 @@ export class NewsComponent implements OnInit {
             this.curIndex = Math.floor(Math.random() * this.newsItems.length);
 
             // Set up periodic rotation
-            this.curUpdateTimer = merge(of(0), interval(this.cfgSvc.configuration.rss.displayDuration))
+            this.curUpdateTimer = interval(this.cfgSvc.configuration.rss.displayDuration)
+                .pipe(startWith(0))
                 .subscribe(() => this.updateCurrent());
         }
     }
@@ -74,12 +73,8 @@ export class NewsComponent implements OnInit {
      * Update the current news item.
      */
     private updateCurrent(): void {
-        // Reset the current item to animate fading in
-        this.currentItem = null;
-        const nextItem = this.newsItems[this.curIndex];
-
-        // Schedule showing the next item a wee bit later
-        setTimeout(() =>  this.currentItem = nextItem, 500);
+        // Update the item
+        this.currentItem = this.newsItems[this.curIndex];
 
         // Move on to the next item
         this.curIndex = (this.curIndex + 1) % this.newsItems.length;

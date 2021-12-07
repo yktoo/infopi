@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 
 /***********************************************************************************************************************
@@ -51,7 +52,7 @@ table {
 ***********************************************************************************************************************/
 
 body {
-    margin: 0; // 1
+    margin: 0;
     background-color: $color-body-bg;
     color: $color-body-fg;
     height: 100%;
@@ -96,8 +97,8 @@ body {
 
 @for $i from 1 through $columns {
     .w-#{$i} {
-        flex: 0 0 percentage($i / $columns);
-        max-width: percentage($i / $columns);
+        flex: 0 0 percentage(math.div($i, $columns));
+        max-width: percentage(math.div($i, $columns));
     }
 }
 

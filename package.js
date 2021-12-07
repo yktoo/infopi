@@ -37,7 +37,7 @@ async function bundle() {
         asar:      false,
         dir:       '.',
         icon:      'src/favicon.ico',
-        ignore:    ['/\\.idea', '/node_modules', '/doc', '/e2e', '/src', '\\.iml$'],
+        ignore:    [/\/\..*/, /\/node_modules/, /\/doc/, /\/src/, /\.iml$/],
         platform:  platform,
         prune:     true,
         overwrite: true,
@@ -58,4 +58,5 @@ async function bundle() {
     await makeDeb(paths[0]);
 }
 
+// noinspection JSIgnoredPromiseFromCall
 bundle();
