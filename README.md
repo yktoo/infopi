@@ -4,7 +4,7 @@
 
 [![Build status](https://github.com/yktoo/infopi/actions/workflows/angular.yml/badge.svg)](https://github.com/yktoo/infopi/actions/workflows/angular.yml)
 
-**InfoPi** is a single-page web application that displays various live data, like weather forecast and train departure times. The application is developed with Angular 9.x and can be packaged with the Electron browser to make an all-in-one executable bundle.
+**InfoPi** is a single-page web application that displays various live data, like weather forecast and train departure times. The application is developed with Angular and can be packaged with the Electron browser to make an all-in-one executable bundle.
 
 My own implementation was crafted for Raspberry Pi running [Raspbian Stretch](https://www.raspberrypi.org/downloads/raspbian/) and a full HD monitor (1920&times;1080 pixels) in the portrait orientation, but it will (supposedly) run on any platform that Electron supports and properly adapt itself to a broad range of resolutions.
 
