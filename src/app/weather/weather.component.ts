@@ -3,7 +3,7 @@ import { BuienradarService } from '../_services/buienradar.service';
 import { ConfigService } from '../_services/config.service';
 import { timer } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { ChartDataSets, ChartOptions } from 'chart.js';
+import { ChartDataset, ChartOptions } from 'chart.js';
 
 @Component({
     selector: 'app-weather',
@@ -19,28 +19,28 @@ export class WeatherComponent implements OnInit {
     error: any;
 
     chartLabels: string[];
-    chartDatasets: ChartDataSets[];
+    chartDatasets: ChartDataset[];
     chartOptions: ChartOptions = {
         maintainAspectRatio: false,
         layout: {
             padding: {left: 20, right: 50}
         },
         scales: {
-            yAxes: [{
+            y: {
                 display: true,
-                gridLines: {
-                    color: '#333333',
-                    zeroLineWidth: 2,
-                    zeroLineColor: '#888888',
-                    tickMarkLength: 5,
+                grid: {
+                    color:     ctx => ctx.tick.value === 0 ? '#aaaaaa' : '#333333',
+                    lineWidth: ctx => ctx.tick.value === 0 ? 2 : 1,
+                    tickLength: 5,
                 },
                 ticks: {
                     padding: 10,
-                    fontColor: '#666666',
-                    fontSize: 16,
+                    font: {
+                        size: 15,
+                    },
                 },
-            }],
-            xAxes: [{display: false}],
+            },
+            x: {display: false},
         },
     };
 
@@ -170,40 +170,46 @@ export class WeatherComponent implements OnInit {
         this.chartLabels = forecastChartLabels;
         this.chartDatasets = [
             {
-                label: 'High min',
-                data: forecastChartDataHighMin,
-                borderColor: '#ffcc00',
-                backgroundColor: transparent,
-                pointBorderColor: '#ffcc00',
+                label:                'High min',
+                data:                 forecastChartDataHighMin,
+                borderColor:          '#ffcc00',
+                backgroundColor:      '#ffcc0050',
+                pointBorderColor:     '#ffcc00',
                 pointBackgroundColor: '#ffcc00',
-                borderWidth: 1
+                borderWidth:          1,
+                tension:              0.5,
+                fill:                 '+1',
             },
             {
-                label: 'High max',
-                data: forecastChartDataHighMax,
-                borderColor: '#ffcc00',
-                backgroundColor: transparent,
-                pointBorderColor: '#ffcc00',
+                label:                'High max',
+                data:                 forecastChartDataHighMax,
+                borderColor:          '#ffcc00',
+                backgroundColor:      transparent,
+                pointBorderColor:     '#ffcc00',
                 pointBackgroundColor: '#ffcc00',
-                borderWidth: 2
+                borderWidth:          2,
+                tension:              0.5,
             },
             {
-                label: 'Low min',
-                data: forecastChartDataLowMin,
-                borderColor: '#99ccff',
-                backgroundColor: transparent,
-                pointBorderColor: '#99ccff',
+                label:                'Low min',
+                data:                 forecastChartDataLowMin,
+                borderColor:          '#99ccff',
+                backgroundColor:      '#99ccff50',
+                pointBorderColor:     '#99ccff',
                 pointBackgroundColor: '#99ccff',
-                borderWidth: 2
+                borderWidth:          2,
+                tension:              0.5,
+                fill:                 '+1',
             },
             {
-                label: 'Low max',
-                data: forecastChartDataLowMax,
-                borderColor: '#99ccff',
-                backgroundColor: transparent,
-                pointBorderColor: '#99ccff',
+                label:                'Low max',
+                data:                 forecastChartDataLowMax,
+                borderColor:          '#99ccff',
+                backgroundColor:      transparent,
+                pointBorderColor:     '#99ccff',
                 pointBackgroundColor: '#99ccff',
-                borderWidth: 1
+                borderWidth:          1,
+                tension:              0.5,
             },
         ];
 

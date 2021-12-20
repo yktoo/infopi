@@ -1,19 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClockComponent } from './clock.component';
 
 describe('ClockComponent', () => {
     let component: ClockComponent;
     let fixture: ComponentFixture<ClockComponent>;
 
-    beforeEach(waitForAsync(() => {
-        TestBed.configureTestingModule({
-            declarations: [ ClockComponent ]
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ClockComponent],
         })
-            .compileComponents();
-    }));
+        .compileComponents();
 
-    beforeEach(() => {
         jasmine.clock().mockDate(new Date('2006-05-04 23:01:59'));
         fixture = TestBed.createComponent(ClockComponent);
         component = fixture.componentInstance;
@@ -56,5 +53,4 @@ describe('ClockComponent', () => {
         fixture.detectChanges();
         expect(element.querySelector('.clock')).toBeFalsy();
     });
-
 });

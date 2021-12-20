@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { timer } from 'rxjs';
-import { ConfigService } from '../_services/config.service';
 import { HttpClient } from '@angular/common/http';
-import { ChartDataSets, ChartOptions } from 'chart.js';
+import { timer } from 'rxjs';
+import { ChartDataset, ChartOptions } from 'chart.js';
+import { ConfigService } from '../_services/config.service';
 
 @Component({
     selector: 'app-chart',
@@ -14,58 +14,61 @@ export class ChartComponent implements OnInit {
     error: any;
 
     chartLabels: string[];
-    chartDatasets: ChartDataSets[];
+    chartDatasets: ChartDataset[];
     chartOptions: ChartOptions = {
         maintainAspectRatio: false,
         layout: {
             padding: {left: 20, right: 50}
         },
-        legend: {
-            display: true,
-            position: 'bottom',
-            labels: {
-                fontColor: '#cccccc',
+        plugins: {
+            legend: {
+                display: true,
+                position: 'bottom',
+                labels: {
+                    color: '#cccccc',
+                },
             },
         },
         scales: {
-            yAxes: [
-                {
-                    id: 'left',
-                    display: true,
-                    position: 'left',
-                    gridLines: {
-                        color: '#333333',
-                        zeroLineColor: '#888888',
-                        tickMarkLength: 5,
-                    },
-                    ticks: {
-                        padding: 3,
-                        fontColor: '#a0dbff',
-                        fontSize: 13,
-                    },
-                },
-                {
-                    id: 'right',
-                    display: true,
-                    position: 'right',
-                    ticks: {
-                        padding: 3,
-                        fontColor: '#ffb45e',
-                        fontSize: 13,
-                    },
-                },
-            ],
-            xAxes: [{
+            yLeft: {
                 display: true,
-                gridLines: {
-                    color: '#333333',
-                    tickMarkLength: 5,
+                position: 'left',
+                grid: {
+                    color: ctx => ctx.tick.value === 0 ? '#888888' : '#333333',
+                    tickLength: 5,
                 },
                 ticks: {
-                    fontColor: '#666666',
-                    fontSize: 10,
+                    padding: 3,
+                    color: '#a0dbff',
+                    font: {
+                        size: 13,
+                    }
                 },
-            }],
+            },
+            yRight: {
+                display: true,
+                position: 'right',
+                ticks: {
+                    padding: 3,
+                    color: '#ffb45e',
+                    font: {
+                        size: 13,
+                    }
+                },
+            },
+            xAxis: {
+                display: true,
+                grid: {
+                    color: '#333333',
+                    tickLength: 5,
+                },
+                ticks: {
+                    color: '#666666',
+                    font: {
+                        size: 10,
+                    },
+                },
+            },
         },
     };
 
@@ -126,7 +129,7 @@ export class ChartComponent implements OnInit {
         this.chartDatasets = [
             {
                 label: 'COVID-19 cases',
-                yAxisID: 'left',
+                yAxisID: 'yLeft',
                 data: cases,
                 borderColor: '#a0dbff',
                 backgroundColor: transparent,
@@ -137,7 +140,7 @@ export class ChartComponent implements OnInit {
             },
             {
                 label: 'Hospital admissions',
-                yAxisID: 'right',
+                yAxisID: 'yRight',
                 data: hospital,
                 borderColor: '#ffb45e',
                 backgroundColor: transparent,
@@ -148,7 +151,7 @@ export class ChartComponent implements OnInit {
             },
             {
                 label: 'Deceased',
-                yAxisID: 'right',
+                yAxisID: 'yRight',
                 data: deceased,
                 borderColor: '#ffa0a0',
                 backgroundColor: transparent,

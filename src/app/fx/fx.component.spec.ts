@@ -1,23 +1,19 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
 import { FxComponent } from './fx.component';
 
 describe('FxComponent', () => {
+
     let component: FxComponent;
     let fixture: ComponentFixture<FxComponent>;
 
-    beforeEach(waitForAsync(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                HttpClientTestingModule,
-            ],
-            declarations: [ FxComponent ]
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [FxComponent],
+            imports: [HttpClientTestingModule],
         })
-            .compileComponents();
-    }));
+        .compileComponents();
 
-    beforeEach(() => {
         fixture = TestBed.createComponent(FxComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
