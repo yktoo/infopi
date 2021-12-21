@@ -1,4 +1,4 @@
-<section *ngIf="departures" (click)="update()" class="pos-relative" [class.outdated]="error">
+<section *ngIf="departures" (click)="update()" [class.outdated]="error" [appSpinner]="loading">
     <!-- Heading -->
     <h2>{{ departureStation }}</h2>
 
@@ -9,7 +9,7 @@
             <td class="train-delay"><span class="delay-value" *ngIf="train.delay">{{ train.delay }}</span></td>
             <td class="train-dest" >
                 <div class="train-dest-name">{{ train.direction }}</div>
-                <div class="train-notes" *ngFor="let msg of train.warnings">{{ msg.message }}</div>
+                <div class="train-notes" *ngFor="let msg of train.disruptions">{{ msg.text }}</div>
             </td>
             <td class="train-type" >{{ train.product.longCategoryName }}</td>
             <td class="train-platf">{{ train.actualTrack || train.plannedTrack }}</td>

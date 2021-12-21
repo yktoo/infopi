@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MockService } from 'ng-mocks';
 import { TrainComponent } from './train.component';
+import { NsService } from '../_services/ns.service';
+import { SpinnerDirective } from '../_directives/spinner.directive';
 
 describe('TrainComponent', () => {
     let component: TrainComponent;
@@ -8,8 +10,10 @@ describe('TrainComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [TrainComponent],
-            imports: [HttpClientTestingModule],
+            declarations: [TrainComponent, SpinnerDirective],
+            providers: [
+                {provide: NsService, useValue: MockService(NsService)},
+            ],
         })
         .compileComponents();
 

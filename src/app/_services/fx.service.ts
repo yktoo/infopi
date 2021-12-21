@@ -19,10 +19,11 @@ export class FxService {
      */
     getFxRates(): Observable<any> {
         return this.http.get(this.cfgSvc.corsProxy + FxService.baseUrl, {responseType: 'text'})
-            // Parse the XML response
-            .pipe(switchMap(res => parseStringPromise(res)))
-            // Unwrap the top level
-            .pipe(map(res => res['gesmes:Envelope']));
+            .pipe(
+                // Parse the XML response
+                switchMap(res => parseStringPromise(res)),
+                // Unwrap the top level
+                map(res => res['gesmes:Envelope']));
     }
 
 }

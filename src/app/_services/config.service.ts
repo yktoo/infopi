@@ -6,8 +6,6 @@ import { environment } from '../../environments/environment';
 })
 export class ConfigService {
 
-    constructor() { }
-
     get configuration(): any {
         return environment.configuration;
     }
@@ -15,5 +13,4 @@ export class ConfigService {
     get corsProxy(): string {
         return environment.corsProxy;
     }
-
 }

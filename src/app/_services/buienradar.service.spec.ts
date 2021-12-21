@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-
-import { BuienradarService } from './buienradar.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { BuienradarService } from './buienradar.service';
 
 describe('BuienradarService', () => {
+
     const url = 'https://data.buienradar.nl/1.0/feed/xml';
 
     let service: BuienradarService;
@@ -113,5 +113,4 @@ describe('BuienradarService', () => {
             wicls: 'wi-moon-third-quarter'
         });
     });
-
 });

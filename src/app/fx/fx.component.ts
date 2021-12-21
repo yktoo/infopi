@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FxService } from '../_services/fx.service';
 import { ConfigService } from '../_services/config.service';
-import { timer } from 'rxjs';
+import { finalize, timer } from 'rxjs';
 
 class Rate {
     constructor(public currency: string, public rate: number, public move: number, public symbol: string) { }
@@ -16,6 +16,7 @@ export class FxComponent implements OnInit {
 
     fxRates: Rate[];
     error: any;
+    loading = false;
 
     constructor(private cfgSvc: ConfigService, private fx: FxService) { }
 
@@ -24,7 +25,9 @@ export class FxComponent implements OnInit {
     }
 
     update() {
+        this.loading = true;
         this.fx.getFxRates()
+            .pipe(finalize(() => this.loading = false))
             .subscribe({
                 next:  data => this.processData(data),
                 error: error => this.error = error,

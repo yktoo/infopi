@@ -12,6 +12,7 @@ import { FxComponent } from './fx/fx.component';
 import { DomoticsComponent } from './domotics/domotics.component';
 import { NewsComponent } from './news/news.component';
 import { ChartComponent } from './chart/chart.component';
+import { SpinnerDirective } from './_directives/spinner.directive';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { ChartComponent } from './chart/chart.component';
         DomoticsComponent,
         NewsComponent,
         ChartComponent,
+        SpinnerDirective
     ],
     imports: [
         BrowserModule,

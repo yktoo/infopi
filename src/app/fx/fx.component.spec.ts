@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MockService } from 'ng-mocks';
 import { FxComponent } from './fx.component';
+import { FxService } from '../_services/fx.service';
+import { SpinnerDirective } from '../_directives/spinner.directive';
 
 describe('FxComponent', () => {
 
@@ -9,8 +11,10 @@ describe('FxComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [FxComponent],
-            imports: [HttpClientTestingModule],
+            declarations: [FxComponent, SpinnerDirective],
+            providers: [
+                {provide: FxService, useValue: MockService(FxService)},
+            ],
         })
         .compileComponents();
 

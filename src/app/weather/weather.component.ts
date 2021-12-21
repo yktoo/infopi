@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BuienradarService } from '../_services/buienradar.service';
 import { ConfigService } from '../_services/config.service';
-import { timer } from 'rxjs';
+import { finalize, timer } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ChartDataset, ChartOptions } from 'chart.js';
 
@@ -17,6 +17,7 @@ export class WeatherComponent implements OnInit {
     sunMoon: any;
     radarMapUrl: SafeResourceUrl;
     error: any;
+    loading = false;
 
     chartLabels: string[];
     chartDatasets: ChartDataset[];
@@ -42,6 +43,9 @@ export class WeatherComponent implements OnInit {
             },
             x: {display: false},
         },
+        plugins: {
+            legend: {display: false},
+        }
     };
 
     private WEEKDAY_NAME_MAP = {
@@ -68,10 +72,13 @@ export class WeatherComponent implements OnInit {
     }
 
     update() {
-        this.weather.getWeather().subscribe({
-            next:  data => this.processData(data),
-            error: error => this.error = error,
-        });
+        this.loading = true;
+        this.weather.getWeather()
+            .pipe(finalize(() => this.loading = false))
+            .subscribe({
+                next:  data => this.processData(data),
+                error: error => this.error = error,
+            });
 
         // Update the current radar map URL to reload the image
         this.radarMapUrl = this.weather.getRadarMapUrl();

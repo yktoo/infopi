@@ -17,10 +17,10 @@ export class RssService {
      */
     getRssItems(url: string): Observable<any> {
         return this.http.get(this.cfgSvc.corsProxy + url, {responseType: 'text'})
-            // Parse the XML response
-            .pipe(switchMap(res => parseStringPromise(res)))
-            // Unwrap the top level
-            .pipe(map(res => res.feed || res.rss.channel[0]));
+            .pipe(
+                // Parse the XML response
+                switchMap(res => parseStringPromise(res)),
+                // Unwrap the top level
+                map(res => res.feed || res.rss?.channel[0]));
     }
-
 }

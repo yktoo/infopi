@@ -9,7 +9,7 @@ import { ConfigService } from '../_services/config.service';
 })
 export class ClockComponent implements OnInit {
 
-    now: Date = new Date();
+    now = new Date();
 
     constructor(private cfgSvc: ConfigService) { }
 

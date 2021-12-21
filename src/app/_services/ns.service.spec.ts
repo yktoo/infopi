@@ -53,7 +53,7 @@ describe('NsService', () => {
     it('#getDepartureTimes() should request and unwrap train departure times', () => {
         service.getDepartureTimes('Chelsea')
             .subscribe(data => {
-                expect(data.foo).toEqual('bar');
+                expect(data[0].name).toEqual('foo');
             });
 
         // Mock the HTTP service
@@ -70,9 +70,9 @@ describe('NsService', () => {
         // Respond with test data
         req.flush({
             payload: {
-                departures: {
-                    foo: 'bar'
-                }
+                departures: [{
+                    name: 'foo'
+                }],
             }
         });
 

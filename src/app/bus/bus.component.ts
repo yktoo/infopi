@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OvApiService } from '../_services/ov-api.service';
 import { ConfigService } from '../_services/config.service';
-import { timer } from 'rxjs';
+import { finalize, timer } from 'rxjs';
 
 @Component({
     selector: 'app-bus',
@@ -13,16 +13,20 @@ export class BusComponent implements OnInit {
     departureStation: string;
     departures: any;
     error: any;
+    loading = false;
 
-    constructor(private ov: OvApiService, private cfgSvc: ConfigService) { }
+    constructor(private ov: OvApiService, private cfgSvc: ConfigService) {
+        this.departureStation = this.cfgSvc.configuration.busses.ovapiStopName;
+    }
 
     ngOnInit(): void {
         timer(0, this.cfgSvc.configuration.busses.refreshRate).subscribe(() => this.update());
     }
 
     update() {
-        this.departureStation = this.cfgSvc.configuration.busses.ovapiStopName;
+        this.loading = true;
         this.ov.getDepartureTimes(this.cfgSvc.configuration.busses.ovapiStopCode)
+            .pipe(finalize(() => this.loading = false))
             .subscribe({
                 next:  data => this.processData(data),
                 error: error => this.error = error,

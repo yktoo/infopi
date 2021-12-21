@@ -1,4 +1,4 @@
-<section *ngIf="departures" class="pos-relative" [class.outdated]="error">
+<section *ngIf="departures" (click)="update()" [class.outdated]="error" [appSpinner]="loading">
     <!-- Heading -->
     <h2>{{ departureStation }}</h2>
 

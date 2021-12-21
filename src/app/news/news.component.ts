@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigService } from '../_services/config.service';
-import { RssService } from '../_services/rss.service';
-import { interval, startWith, Subscription, timer } from 'rxjs';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { finalize, interval, startWith, Subscription, timer } from 'rxjs';
+import { RssService } from '../_services/rss.service';
+import { ConfigService } from '../_services/config.service';
 import { NewsItem } from '../_models/news-item';
 
 @Component({
@@ -19,6 +19,7 @@ import { NewsItem } from '../_models/news-item';
 export class NewsComponent implements OnInit {
 
     error: any;
+    loading = false;
     feedImageUrl: SafeResourceUrl;
     currentItem: NewsItem;
     curIndex: number;
@@ -33,7 +34,9 @@ export class NewsComponent implements OnInit {
     }
 
     update() {
+        this.loading = true;
         this.rss.getRssItems(this.cfgSvc.configuration.rss.feedUrl)
+            .pipe(finalize(() => this.loading = false))
             .subscribe({
                 next:  data => this.processData(data),
                 error: error => this.error = error,

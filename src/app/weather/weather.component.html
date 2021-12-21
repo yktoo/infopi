@@ -1,4 +1,4 @@
-<section (click)="update()" class="pos-relative" [class.outdated]="error">
+<section (click)="update()" [class.outdated]="error" [appSpinner]="loading">
 
     <!-- Current conditions and temperature and message -->
     <div class="row ruler" *ngIf="currentWeather">
@@ -116,7 +116,6 @@
                         <canvas baseChart width="400" height="400" type="line"
                                 [datasets]="chartDatasets"
                                 [labels]="chartLabels"
-                                [legend]="false"
                                 [options]="chartOptions"></canvas>
                     </div>
                 </td></tr>

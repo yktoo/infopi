@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MockService } from 'ng-mocks';
 import { WeatherComponent } from './weather.component';
+import { SpinnerDirective } from '../_directives/spinner.directive';
+import { BuienradarService } from '../_services/buienradar.service';
 
 describe('WeatherComponent', () => {
 
@@ -9,9 +11,9 @@ describe('WeatherComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [WeatherComponent],
-            imports: [
-                HttpClientTestingModule,
+            declarations: [WeatherComponent, SpinnerDirective],
+            providers: [
+                {provide: BuienradarService, useValue: MockService(BuienradarService)},
             ],
         })
         .compileComponents();

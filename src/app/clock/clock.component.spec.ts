@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClockComponent } from './clock.component';
 
 describe('ClockComponent', () => {
+
     let component: ClockComponent;
     let fixture: ComponentFixture<ClockComponent>;
 
@@ -43,14 +44,5 @@ describe('ClockComponent', () => {
 
         // Check the updated date/time
         expect(component.now).toEqual(new Date('2006-05-04 23:03:02'));
-    });
-
-    it('should be hidden if there is no time value', () => {
-        const element: HTMLElement = fixture.nativeElement;
-        expect(element.querySelector('.clock')).toBeTruthy();
-
-        component.now = undefined;
-        fixture.detectChanges();
-        expect(element.querySelector('.clock')).toBeFalsy();
     });
 });

@@ -1,4 +1,4 @@
-<section class="clock row ruler" *ngIf="now" (click)="update()">
+<section class="clock row ruler" (click)="update()">
     <div class="card w-4 date" >{{ now | date:'d.MM' }}</div>
     <div class="card w-4 day-of-week" >{{ now | date:'EEEE' }}</div>
     <div class="card w-4 time">

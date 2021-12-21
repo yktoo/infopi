@@ -1,4 +1,4 @@
-<section *ngIf="fxRates" (click)="update()" class="pos-relative" [class.outdated]="error">
+<section *ngIf="fxRates" (click)="update()" [class.outdated]="error" [appSpinner]="loading">
     <h2>Exchange rates</h2>
 
     <!-- FX rates -->
