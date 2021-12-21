@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { finalize, timer } from 'rxjs';
+import { timer } from 'rxjs';
 import { ChartDataset, ChartOptions } from 'chart.js';
 import { ConfigService } from '../_services/config.service';
+import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 
 @Component({
     selector: 'app-chart',
     templateUrl: './chart.component.html',
     styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements OnInit {
+export class ChartComponent implements OnInit, DataLoading {
 
     error: any;
-    loading = false;
+    dataLoading = false;
 
     chartLabels: string[];
     chartDatasets: ChartDataset[];
@@ -83,9 +84,8 @@ export class ChartComponent implements OnInit {
     }
 
     update(): void {
-        this.loading = true;
         this.http.get<any[]>(this.cfgSvc.corsProxy + this.cfgSvc.configuration.chart.url)
-            .pipe(finalize(() => this.loading = false))
+            .pipe(loadsDataInto(this))
             .subscribe({
                 next:  data => this.processData(data),
                 error: err => this.error = err,

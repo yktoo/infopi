@@ -1,4 +1,4 @@
-<section (click)="update()" [class.outdated]="error" [appSpinner]="loading">
+<section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
 
     <!-- Current conditions and temperature and message -->
     <div class="row ruler" *ngIf="currentWeather">
@@ -90,41 +90,36 @@
         <div class="column flex-grow-1">
             <h2>Weather forecast</h2>
             <!-- Forecast table -->
-            <table class="w-fcast v-ruled" *ngIf="weatherForecast">
+            <table class="w-fcast v-ruled" *ngIf="dayForecasts">
                 <tr>
-                    <th *ngFor="let day of weatherForecast">{{ day.dow }}</th>
+                    <th *ngFor="let day of dayForecasts">{{ day.dow }}</th>
                 </tr>
                 <tr>
-                    <td *ngFor="let day of weatherForecast" class="w-fcast-icon"><i class="wi" [ngClass]="day.icon.wiClass"></i></td>
+                    <td *ngFor="let day of dayForecasts" class="w-fcast-icon"><i class="wi" [ngClass]="day.icon.wiClass"></i></td>
                 </tr>
                 <tr>
-                    <td *ngFor="let day of weatherForecast" class="w-fcast w-fcast-probs">
+                    <td *ngFor="let day of dayForecasts" class="w-fcast w-fcast-probs">
                         <i class="wi wi-day-sunny"></i> <span class="w-fcast-prob">{{ day.probSun }}</span>
                     </td>
                 </tr>
                 <tr>
-                    <td *ngFor="let day of weatherForecast" class="w-fcast w-fcast-probs">
+                    <td *ngFor="let day of dayForecasts" class="w-fcast w-fcast-probs">
                         <i class="wi wi-raindrop"></i> <span class="w-fcast-prob">{{ day.rain.probability }}</span>
                     </td>
                 </tr>
                 <tr>
-                    <td *ngFor="let day of weatherForecast" class="w-fcast-temp temp-hi">{{ day.temperature.highMax }}</td>
+                    <td *ngFor="let day of dayForecasts" class="w-fcast-temp temp-hi">{{ day.temperature.highMax }}</td>
                 </tr>
                 <tr><td colspan="5">
                     <!-- Temp chart -->
                     <div class="w-fcast-chart">
-                        <canvas baseChart width="400" height="400" type="line"
-                                [datasets]="chartDatasets"
-                                [labels]="chartLabels"
-                                [options]="chartOptions"></canvas>
+                        <canvas baseChart width="400" height="400" [type]="'line'" [data]="chartData" [options]="chartOptions"></canvas>
                     </div>
                 </td></tr>
                 <tr>
-                    <td *ngFor="let day of weatherForecast" class="w-fcast-temp temp-lo">{{ day.temperature.lowMin }}</td>
+                    <td *ngFor="let day of dayForecasts" class="w-fcast-temp temp-lo">{{ day.temperature.lowMin }}</td>
                 </tr>
             </table>
-
         </div>
     </div>
-
 </section>

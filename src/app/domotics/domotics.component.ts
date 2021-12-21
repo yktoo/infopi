@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize, timer } from 'rxjs';
+import { timer } from 'rxjs';
 import { ConfigService } from '../_services/config.service';
 import { OpenHabService } from '../_services/open-hab.service';
+import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 
 @Component({
     selector: 'app-domotics',
     templateUrl: './domotics.component.html',
     styleUrls: ['./domotics.component.scss'],
 })
-export class DomoticsComponent implements OnInit {
+export class DomoticsComponent implements OnInit, DataLoading {
 
     items: any[];
     error: any;
-    loading = false;
+    dataLoading = false;
 
     constructor(private openhab: OpenHabService, private cfgSvc: ConfigService) { }
 
@@ -21,9 +22,8 @@ export class DomoticsComponent implements OnInit {
     }
 
     update() {
-        this.loading = true;
         this.openhab.getItems(this.cfgSvc.configuration.domotics.showGroup)
-            .pipe(finalize(() => this.loading = false))
+            .pipe(loadsDataInto(this))
             .subscribe({
                 next:  data => this.processData(data),
                 error: error => this.error = error,

@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { OvApiService } from '../_services/ov-api.service';
 import { ConfigService } from '../_services/config.service';
-import { finalize, timer } from 'rxjs';
+import { timer } from 'rxjs';
+import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 
 @Component({
     selector: 'app-bus',
     templateUrl: './bus.component.html',
     styleUrls: ['./bus.component.scss'],
 })
-export class BusComponent implements OnInit {
+export class BusComponent implements OnInit, DataLoading {
 
     departureStation: string;
     departures: any;
     error: any;
-    loading = false;
+    dataLoading = false;
 
     constructor(private ov: OvApiService, private cfgSvc: ConfigService) {
         this.departureStation = this.cfgSvc.configuration.busses.ovapiStopName;
@@ -24,9 +25,8 @@ export class BusComponent implements OnInit {
     }
 
     update() {
-        this.loading = true;
         this.ov.getDepartureTimes(this.cfgSvc.configuration.busses.ovapiStopCode)
-            .pipe(finalize(() => this.loading = false))
+            .pipe(loadsDataInto(this))
             .subscribe({
                 next:  data => this.processData(data),
                 error: error => this.error = error,

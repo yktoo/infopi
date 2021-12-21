@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize, timer } from 'rxjs';
+import { timer } from 'rxjs';
 import { ConfigService } from '../_services/config.service';
 import { NsService } from '../_services/ns.service';
 import { TrainDeparture, TrainMessage } from '../_models/train-departure';
+import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 
 /**
  * Extension of TrainDeparture, which also allows to store delays and warnings.
@@ -17,12 +18,12 @@ export interface ExtendedTrainDeparture extends TrainDeparture {
     templateUrl: './train.component.html',
     styleUrls: ['./train.component.scss']
 })
-export class TrainComponent implements OnInit {
+export class TrainComponent implements OnInit, DataLoading {
 
     departureStation: string;
     departures: ExtendedTrainDeparture[];
     error: any;
-    loading = false;
+    dataLoading = false;
 
     constructor(private cfgSvc: ConfigService, private ns: NsService) {
         this.departureStation = this.cfgSvc.configuration.trains.departureTimesStationName;
@@ -33,9 +34,8 @@ export class TrainComponent implements OnInit {
     }
 
     update() {
-        this.loading = true;
         this.ns.getDepartureTimes(this.cfgSvc.configuration.trains.departureTimesStationCode)
-            .pipe(finalize(() => this.loading = false))
+            .pipe(loadsDataInto(this))
             .subscribe({
                 next:  data => this.processData(data),
                 error: error => this.error = error,

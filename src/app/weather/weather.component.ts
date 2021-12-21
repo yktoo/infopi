@@ -1,27 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { BuienradarService } from '../_services/buienradar.service';
 import { ConfigService } from '../_services/config.service';
-import { finalize, timer } from 'rxjs';
+import { timer } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { ChartDataset, ChartOptions } from 'chart.js';
+import { ChartData, ChartOptions } from 'chart.js';
+import { WeatherDayForecast } from '../_models/weather-day-forecast';
+import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 
 @Component({
     selector: 'app-weather',
     templateUrl: './weather.component.html',
     styleUrls: ['./weather.component.scss']
 })
-export class WeatherComponent implements OnInit {
+export class WeatherComponent implements OnInit, DataLoading {
 
     currentWeather: any;
-    weatherForecast: any[];
+    dayForecasts: WeatherDayForecast[];
     sunMoon: any;
     radarMapUrl: SafeResourceUrl;
     error: any;
-    loading = false;
+    dataLoading = false;
 
-    chartLabels: string[];
-    chartDatasets: ChartDataset[];
-    chartOptions: ChartOptions = {
+    chartData: ChartData<'line'>;
+    chartOptions: ChartOptions<'line'> = {
         maintainAspectRatio: false,
         layout: {
             padding: {left: 20, right: 50}
@@ -48,7 +49,7 @@ export class WeatherComponent implements OnInit {
         }
     };
 
-    private WEEKDAY_NAME_MAP = {
+    private readonly WEEKDAY_NAME_MAP = {
         ma: 'Mon',
         di: 'Tue',
         wo: 'Wed',
@@ -72,9 +73,8 @@ export class WeatherComponent implements OnInit {
     }
 
     update() {
-        this.loading = true;
         this.weather.getWeather()
-            .pipe(finalize(() => this.loading = false))
+            .pipe(loadsDataInto(this))
             .subscribe({
                 next:  data => this.processData(data),
                 error: error => this.error = error,
@@ -127,98 +127,79 @@ export class WeatherComponent implements OnInit {
         }
 
         // Prepare weather forecast
-        const forecast = [];
-        const forecastChartLabels = [];
-        const forecastChartDataHighMax = [];
-        const forecastChartDataHighMin = [];
-        const forecastChartDataLowMax = [];
-        const forecastChartDataLowMin = [];
-        for (let i = 1; i <= 5; i++) {
-            const dayWeather = data.verwachting_meerdaags[0]['dag-plus' + i][0];
-            const dayIcon = dayWeather.icoon[0];
-            const dow = this.WEEKDAY_NAME_MAP[dayWeather.dagweek[0]];
-
-            // Push table data
-            forecast.push({
-                date:            dayWeather.datum[0],        // Full date, eg 'zondag 17 april 2016'
-                dow,
-                probSun:         dayWeather.kanszon[0],      // Probability in percent
-                probSnow:        dayWeather.sneeuwcms[0],    // Probability in percent
+        this.dayForecasts = [1, 2, 3, 4, 5]
+            .map(i => data.verwachting_meerdaags[0][`dag-plus${i}`][0])
+            .map(dw => ({
+                date:            dw.datum[0],        // Full date, eg 'zondag 17 april 2016'
+                dow:             this.WEEKDAY_NAME_MAP[dw.dagweek[0]],
+                probSun:         dw.kanszon[0],      // Probability in percent
+                probSnow:        dw.sneeuwcms[0],    // Probability in percent
                 rain: {
-                    probability: dayWeather.kansregen[0],    // Probability in percent
-                    minAmount:   dayWeather.minmmregen[0],   // Minimum amount in mm
-                    maxAmount:   dayWeather.maxmmregen[0],   // Maximum amount in mm
+                    probability: dw.kansregen[0],    // Probability in percent
+                    minAmount:   dw.minmmregen[0],   // Minimum amount in mm
+                    maxAmount:   dw.maxmmregen[0],   // Maximum amount in mm
                 },
                 temperature: {
-                    highMax:     dayWeather.maxtempmax[0],   // In °C
-                    highMin:     dayWeather.maxtemp[0],      // In °C
-                    lowMax:      dayWeather.mintempmax[0],   // In °C
-                    lowMin:      dayWeather.mintemp[0],      // In °C
+                    highMax:     dw.maxtempmax[0],   // In °C
+                    highMin:     dw.maxtemp[0],      // In °C
+                    lowMax:      dw.mintempmax[0],   // In °C
+                    lowMin:      dw.mintemp[0],      // In °C
                 },
                 wind: {
-                    dirText:     dayWeather.windrichting[0], // Text, like 'WZW'
-                    speed:       dayWeather.windkracht[0],   // In bft
+                    dirText:     dw.windrichting[0], // Text, like 'WZW'
+                    speed:       dw.windkracht[0],   // In bft
                 },
                 icon: {
-                    url:         dayIcon._,
-                    wiClass:     this.weather.getWeatherIconClass(dayIcon.$.ID),
+                    url:         dw.icoon[0]._,
+                    wiClass:     this.weather.getWeatherIconClass(dw.icoon[0].$.ID),
                 },
-            });
+            }));
 
-            // Push chart data
-            forecastChartLabels.push(dow);
-            forecastChartDataHighMax.push(dayWeather.maxtempmax[0]);
-            forecastChartDataHighMin.push(dayWeather.maxtemp[0]);
-            forecastChartDataLowMax.push(dayWeather.mintempmax[0]);
-            forecastChartDataLowMin.push(dayWeather.mintemp[0]);
-        }
-        const transparent = 'rgba(0,0,0,0)';
-        this.weatherForecast = forecast;
-        this.chartLabels = forecastChartLabels;
-        this.chartDatasets = [
-            {
-                label:                'High min',
-                data:                 forecastChartDataHighMin,
-                borderColor:          '#ffcc00',
-                backgroundColor:      '#ffcc0050',
-                pointBorderColor:     '#ffcc00',
-                pointBackgroundColor: '#ffcc00',
-                borderWidth:          1,
-                tension:              0.5,
-                fill:                 '+1',
-            },
-            {
-                label:                'High max',
-                data:                 forecastChartDataHighMax,
-                borderColor:          '#ffcc00',
-                backgroundColor:      transparent,
-                pointBorderColor:     '#ffcc00',
-                pointBackgroundColor: '#ffcc00',
-                borderWidth:          2,
-                tension:              0.5,
-            },
-            {
-                label:                'Low min',
-                data:                 forecastChartDataLowMin,
-                borderColor:          '#99ccff',
-                backgroundColor:      '#99ccff50',
-                pointBorderColor:     '#99ccff',
-                pointBackgroundColor: '#99ccff',
-                borderWidth:          2,
-                tension:              0.5,
-                fill:                 '+1',
-            },
-            {
-                label:                'Low max',
-                data:                 forecastChartDataLowMax,
-                borderColor:          '#99ccff',
-                backgroundColor:      transparent,
-                pointBorderColor:     '#99ccff',
-                pointBackgroundColor: '#99ccff',
-                borderWidth:          1,
-                tension:              0.5,
-            },
-        ];
+        this.chartData = {
+            datasets: [
+                {
+                    label:                'High min',
+                    data:                 this.dayForecasts.map(f => f.temperature.highMin),
+                    borderColor:          '#ffcc00',
+                    backgroundColor:      '#ffcc0050',
+                    pointBorderColor:     '#ffcc00',
+                    pointBackgroundColor: '#ffcc00',
+                    borderWidth:          1,
+                    tension:              0.5,
+                    fill:                 '+1',
+                },
+                {
+                    label:                'High max',
+                    data:                 this.dayForecasts.map(f => f.temperature.highMax),
+                    borderColor:          '#ffcc00',
+                    pointBorderColor:     '#ffcc00',
+                    pointBackgroundColor: '#ffcc00',
+                    borderWidth:          2,
+                    tension:              0.5,
+                },
+                {
+                    label:                'Low min',
+                    data:                 this.dayForecasts.map(f => f.temperature.lowMin),
+                    borderColor:          '#99ccff',
+                    backgroundColor:      '#99ccff50',
+                    pointBorderColor:     '#99ccff',
+                    pointBackgroundColor: '#99ccff',
+                    borderWidth:          2,
+                    tension:              0.5,
+                    fill:                 '+1',
+                },
+                {
+                    label:                'Low max',
+                    data:                 this.dayForecasts.map(f => f.temperature.lowMax),
+                    borderColor:          '#99ccff',
+                    pointBorderColor:     '#99ccff',
+                    pointBackgroundColor: '#99ccff',
+                    borderWidth:          1,
+                    tension:              0.5,
+                },
+            ],
+            labels: this.dayForecasts.map(f => f.dow),
+        };
 
         // Prepare sunrise, sunset and moon phase
         const moonPhase = this.weather.getMoonPhase();
