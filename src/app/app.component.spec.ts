@@ -1,13 +1,30 @@
 import { TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { MockComponent } from 'ng-mocks';
 import { AppComponent } from './app.component';
+import { ClockComponent } from './clock/clock.component';
+import { WeatherComponent } from './weather/weather.component';
+import { TrainComponent } from './train/train.component';
+import { BusComponent } from './bus/bus.component';
+import { NewsComponent } from './news/news.component';
+import { ChartComponent } from './chart/chart.component';
+import { FxComponent } from './fx/fx.component';
+import { DomoticsComponent } from './domotics/domotics.component';
 
 describe('AppComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [AppComponent],
-            schemas: [NO_ERRORS_SCHEMA],
+            declarations: [
+                AppComponent,
+                MockComponent(ClockComponent),
+                MockComponent(WeatherComponent),
+                MockComponent(TrainComponent),
+                MockComponent(BusComponent),
+                MockComponent(NewsComponent),
+                MockComponent(ChartComponent),
+                MockComponent(FxComponent),
+                MockComponent(DomoticsComponent),
+            ],
         })
         .compileComponents();
     });
