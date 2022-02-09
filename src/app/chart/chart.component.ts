@@ -100,9 +100,8 @@ export class ChartComponent implements OnInit, DataLoading {
         const cdata = data.reduce(
             (acc, cur) => {
                 const date = cur.Date_of_publication;
-                const vals = acc[date] || {cases: 0, hospital: 0, deceased: 0};
+                const vals = acc[date] || {cases: 0, deceased: 0};
                 vals.cases    += cur.Total_reported;
-                vals.hospital += cur.Hospital_admission;
                 vals.deceased += cur.Deceased;
                 acc[date] = vals;
                 return acc;
@@ -112,7 +111,6 @@ export class ChartComponent implements OnInit, DataLoading {
         // Sort by date (reverse chronological)
         this.chartLabels = [];
         const cases:    number[] = [];
-        const hospital: number[] = [];
         const deceased: number[] = [];
         Object.keys(cdata)
             .sort((a, b) => a.localeCompare(b))
@@ -123,7 +121,6 @@ export class ChartComponent implements OnInit, DataLoading {
                 const vals = cdata[date];
                 this.chartLabels.push(date);
                 cases.push(vals.cases);
-                hospital.push(vals.hospital);
                 deceased.push(vals.deceased);
             });
 
@@ -142,21 +139,10 @@ export class ChartComponent implements OnInit, DataLoading {
                 borderWidth: 2
             },
             {
-                label: 'Hospital admissions',
-                yAxisID: 'yRight',
-                data: hospital,
-                borderColor: '#ffb45e',
-                backgroundColor: transparent,
-                pointBorderColor: transparent,
-                pointBackgroundColor: transparent,
-                pointRadius: 1,
-                borderWidth: 2
-            },
-            {
                 label: 'Deceased',
                 yAxisID: 'yRight',
                 data: deceased,
-                borderColor: '#ffa0a0',
+                borderColor: '#ffb45e',
                 backgroundColor: transparent,
                 pointBorderColor: transparent,
                 pointBackgroundColor: transparent,
@@ -165,5 +151,4 @@ export class ChartComponent implements OnInit, DataLoading {
             },
         ];
     }
-
 }
