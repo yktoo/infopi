@@ -9,8 +9,8 @@
 My own implementation was crafted for Raspberry Pi running [Raspbian Stretch](https://www.raspberrypi.org/downloads/raspbian/) and a full HD monitor (1920&times;1080 pixels) in the portrait orientation, but it will (supposedly) run on any platform that Electron supports and properly adapt itself to a broad range of resolutions.
 
 This is how the information page looks like:
-![Screenshot of the application](doc/screenshot.jpg)
 
+![Screenshot of the application](doc/screenshot.jpg)
 
 ## Dependencies
 
