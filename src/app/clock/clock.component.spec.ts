@@ -18,23 +18,23 @@ describe('ClockComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it('is created', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should display date', () => {
+    it('displays date', () => {
         const element: HTMLElement = fixture.nativeElement;
         expect(element.querySelector('.date').textContent).toEqual('4.05');
         expect(element.querySelector('.day-of-week').textContent).toEqual('Thursday');
     });
 
-    it('should display time', () => {
+    it('displays time', () => {
         const element: HTMLElement = fixture.nativeElement;
         expect(element.querySelector('.hhmm').textContent).toEqual('23:01');
         expect(element.querySelector('.ss').textContent).toEqual(':59');
     });
 
-    it('#update() should update time', () => {
+    it('updates time', () => {
         // Check initial date/time
         expect(component.now).toEqual(new Date('2006-05-04 23:01:59'));
 

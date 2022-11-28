@@ -30,16 +30,16 @@ describe('SpinnerDirective', () => {
         div = de[0].nativeElement as HTMLDivElement;
     });
 
-    it('should have one element', () => {
+    it('has one element', () => {
         expect(de.length).toBe(1);
         expect(div).toBeTruthy();
     });
 
-    it('should be initially not spinning', () => {
+    it('is initially not spinning', () => {
         expect(div.classList).not.toContain('spinning');
     });
 
-    it('should start spinner', fakeAsync(() => {
+    it('starts spinner', fakeAsync(() => {
         // Enable spinning
         fixture.componentInstance.value = true;
         fixture.detectChanges();
@@ -47,8 +47,8 @@ describe('SpinnerDirective', () => {
         // No class is assigned yet
         expect(div.classList).not.toContain('spinning');
 
-        // The class gets assigned after 200 ms
-        tick(250);
+        // The class gets assigned after 1000 ms
+        tick(1001);
         expect(div.classList).toContain('spinning');
 
         // Disable spinning

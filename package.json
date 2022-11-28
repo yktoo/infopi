@@ -1,6 +1,6 @@
 {
     "name": "infopi",
-    "version": "2.5.3",
+    "version": "2.6.0",
     "main": "bootstrap.js",
     "scripts": {
         "ng": "ng",

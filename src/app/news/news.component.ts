@@ -1,21 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { interval, startWith, Subscription, timer } from 'rxjs';
 import { RssService } from '../_services/rss.service';
 import { ConfigService } from '../_services/config.service';
-import { NewsItem } from '../_models/news-item';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
+import { Animations } from '../_utils/animations';
+
+export class NewsItem {
+
+    constructor(
+        readonly title: string,
+        readonly description: string,
+        readonly lastUpdate?: Date,
+    ) {}
+}
+
 
 @Component({
     selector: 'app-news',
     templateUrl: './news.component.html',
     styleUrls: ['./news.component.scss'],
-    animations: [
-        trigger('fadeInOnChange', [
-            transition('* => *', [style({opacity: 0}), animate('0.5s', style({opacity: 1}))]),
-        ]),
-    ],
+    animations: [Animations.fadeInOnChange()],
 })
 export class NewsComponent implements OnInit, DataLoading {
 

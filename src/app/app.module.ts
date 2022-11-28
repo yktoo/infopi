@@ -13,6 +13,7 @@ import { DomoticsComponent } from './domotics/domotics.component';
 import { NewsComponent } from './news/news.component';
 import { ChartComponent } from './chart/chart.component';
 import { SpinnerDirective } from './_directives/spinner.directive';
+import { TimeAgoPipe } from './_pipes/time-ago.pipe';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { SpinnerDirective } from './_directives/spinner.directive';
         DomoticsComponent,
         NewsComponent,
         ChartComponent,
-        SpinnerDirective
+        SpinnerDirective,
+        TimeAgoPipe
     ],
     imports: [
         BrowserModule,

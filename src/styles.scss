@@ -216,8 +216,16 @@ table {
     align-items: flex-start;
 }
 
+.flex-items-stretch {
+    align-items: stretch;
+}
+
 .flex-nowrap {
     flex-wrap: nowrap !important;
+}
+
+.flex-justify-center {
+    justify-content: center;
 }
 
 .fixed-bottom {
@@ -226,4 +234,8 @@ table {
     bottom: 0;
     left: 0;
     z-index: 1030;
+}
+
+.position-relative {
+    position: relative;
 }

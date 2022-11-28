@@ -29,19 +29,19 @@ describe('AppComponent', () => {
         .compileComponents();
     });
 
-    it('should create the app', () => {
+    it('creates the app', () => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.componentInstance;
         expect(app).toBeTruthy();
     });
 
-    it(`should have the correct title`, () => {
+    it(`has correct title`, () => {
         const fixture = TestBed.createComponent(AppComponent);
         const app = fixture.componentInstance;
         expect(app.title).toEqual('InfoPi');
     });
 
-    it('should render the app section', () => {
+    it('renders the app section', () => {
         const fixture = TestBed.createComponent(AppComponent);
         fixture.detectChanges();
         const compiled = fixture.nativeElement;

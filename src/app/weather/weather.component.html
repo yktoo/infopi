@@ -1,18 +1,21 @@
 <section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
 
     <!-- Current conditions and temperature and message -->
-    <div class="row ruler" *ngIf="currentWeather">
+    <div class="row ruler flex-items-stretch" *ngIf="currentWeather">
         <!-- Current weather icon and text -->
         <div class="card w-2 w-icon">
             <i class="wi" [ngClass]="currentWeather.icon.wiClass"></i>
             <div class="w-icon-text">{{ currentWeather.icon.text }}</div>
         </div>
         <!-- Weather message -->
-        <div class="card w-7 w-text">{{ currentWeather.message }}</div>
+        <div class="card w-7 w-text position-relative">
+            {{ currentWeather.message }}
+            <!-- Last updated -->
+            <div class="w-updated">{{ currentWeather.station.updated | timeAgo }}</div>
+        </div>
         <!-- Temperature -->
         <div class="card w-3 w-temp">
             {{ currentWeather.temperature }} <i class="wi wi-celsius"></i>
-            <p class="w-updated">{{ currentWeather.station.updated | date:'HH:mm' }}</p>
         </div>
     </div>
 

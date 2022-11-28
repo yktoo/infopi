@@ -21,7 +21,7 @@ export class SpinnerDirective implements OnChanges {
             // Enable spinner after a short while to reduce flickering
             if (this.appSpinner) {
                 this.cancelTimer();
-                this._timer = setTimeout(() => this.setSpinning(true), 200);
+                this._timer = setTimeout(() => this.setSpinning(true), 1000);
 
             // Disable the spinner immediately
             } else {

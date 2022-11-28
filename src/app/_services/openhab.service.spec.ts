@@ -40,11 +40,11 @@ describe('OpenHabService', () => {
         service = TestBed.inject(OpenHabService);
     });
 
-    it('should be created', () => {
+    it('is created', () => {
         expect(service).toBeTruthy();
     });
 
-    it('#getItems() should request and unwrap items', () => {
+    it('getItems requests and unwraps items', () => {
         service.getItems('MyGroup')
             .subscribe(data => {
                 expect(data).toEqual([

@@ -4,7 +4,7 @@
 
     <!-- Departure times table -->
     <table class="departures h-ruled">
-        <tr *ngFor="let bus of departures" [class.bus-delayed]="bus.delay">
+        <tr @fadeTableRow *ngFor="let bus of departures; trackBy: journeyId" [class.bus-delayed]="bus.delay">
             <td class="bus-time">{{ bus.TargetDepartureTime | date:'HH:mm' }}</td>
             <td class="bus-delay"><span class="delay-value" *ngIf="bus.delay">{{ bus.delay }}</span></td>
             <td class="bus-line">{{ bus.LinePublicNumber }}</td>

@@ -3,6 +3,6 @@
         <div class="news-image" *ngIf="feedImageUrl"><img [src]="feedImageUrl" alt="News Image"></div>
         <div class="news-title">{{ i.title }}</div>
         <div class="news-desc">{{ i.description }}</div>
-        <div class="news-updated">{{ i.lastUpdateText }}</div>
+        <div class="news-updated">{{ i.lastUpdate | timeAgo }}</div>
     </div>
 </section>

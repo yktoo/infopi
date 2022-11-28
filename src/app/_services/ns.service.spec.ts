@@ -46,11 +46,11 @@ describe('NsService', () => {
         service = TestBed.inject(NsService);
     });
 
-    it('should be created', () => {
+    it('is created', () => {
         expect(service).toBeTruthy();
     });
 
-    it('#getDepartureTimes() should request and unwrap train departure times', () => {
+    it('getDepartureTimes requests and unwraps train departure times', () => {
         service.getDepartureTimes('Chelsea')
             .subscribe(data => {
                 expect(data[0].name).toEqual('foo');
@@ -79,5 +79,4 @@ describe('NsService', () => {
         // Verify there's no outstanding request
         httpTestingController.verify();
     });
-
 });

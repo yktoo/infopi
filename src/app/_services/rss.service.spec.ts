@@ -35,11 +35,11 @@ describe('RssService', () => {
         service = TestBed.inject(RssService);
     });
 
-    it('should be created', () => {
+    it('is created', () => {
         expect(service).toBeTruthy();
     });
 
-    it('#getRssItems() should request and unwrap RSS feed', () => {
+    it('getRssItems requests and unwraps RSS feed', () => {
         const url = 'https://super-rss-feed.com/rss.xml';
         service.getRssItems(url)
             .subscribe(data => {
@@ -87,7 +87,7 @@ describe('RssService', () => {
         httpTestingController.verify();
     });
 
-    it('#getRssItems() should request and unwrap Atom feed', () => {
+    it('getRssItems requests and unwraps Atom feed', () => {
         const url = 'https://super-atom-feed.com/atom.xml';
         service.getRssItems(url)
             .subscribe(data => {
@@ -140,5 +140,4 @@ describe('RssService', () => {
         // Verify there's no outstanding request
         httpTestingController.verify();
     });
-
 });

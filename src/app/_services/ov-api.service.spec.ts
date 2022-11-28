@@ -22,11 +22,11 @@ describe('OvApiService', () => {
         service = TestBed.inject(OvApiService);
     });
 
-    it('should be created', () => {
+    it('is created', () => {
         expect(service).toBeTruthy();
     });
 
-    it('#getDepartureTimes() should request and unwrap departure times', () => {
+    it('getDepartureTimes requests and unwraps departure times', () => {
         service.getDepartureTimes('zazzoo').subscribe(data => expect(data).toEqual({foo: 'bar'}));
 
         // Mock the HTTP service
@@ -45,5 +45,4 @@ describe('OvApiService', () => {
         // Verify there's no outstanding request
         httpTestingController.verify();
     });
-
 });

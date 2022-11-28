@@ -10,11 +10,11 @@ describe('ConfigService', () => {
         service = TestBed.inject(ConfigService);
     });
 
-    it('should be created', () => {
+    it('is created', () => {
         expect(service).toBeTruthy();
     });
 
-    it('#configuration should return configuration object', () => {
+    it('has configuration object', () => {
         const config = service.configuration;
         expect(config).toEqual(jasmine.any(Object));
 
@@ -32,7 +32,7 @@ describe('ConfigService', () => {
         expect(config.rss.refreshRate).toBeGreaterThan(0);
     });
 
-    it('#corsProxy should return string', () => {
+    it('returns CORS proxy string', () => {
         const corsProxy = service.corsProxy;
         expect(corsProxy).toEqual(jasmine.any(String));
     });

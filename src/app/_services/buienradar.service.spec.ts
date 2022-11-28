@@ -23,11 +23,11 @@ describe('BuienradarService', () => {
         service = TestBed.inject(BuienradarService);
     });
 
-    it('should be created', () => {
+    it('is created', () => {
         expect(service).toBeTruthy();
     });
 
-    it('#getWeather() should request weather info', () => {
+    it('getWeather requests weather info', () => {
         service.getWeather()
             .subscribe(data => {
                 expect(data.A).toEqual(['value']);
@@ -54,23 +54,23 @@ describe('BuienradarService', () => {
         httpTestingController.verify();
     });
 
-    it('#getWeatherIconClass() should translate Buienradar icons', () => {
+    it('getWeatherIconClass translates Buienradar icons', () => {
         expect(service.getWeatherIconClass('h')).toEqual('wi-day-rain');
         expect(service.getWeatherIconClass('o')).toEqual('wi-day-cloudy');
         expect(service.getWeatherIconClass('hh')).toEqual('wi-night-rain');
         expect(service.getWeatherIconClass('oo')).toEqual('wi-night-cloudy');
     });
 
-    it('#getWeatherIconClass() should return wi-na on an unknown icon', () => {
+    it('getWeatherIconClass returns wi-na on an unknown icon', () => {
         expect(service.getWeatherIconClass('bazooka')).toEqual('wi-na');
     });
 
-    it('#getRadarMapUrl() should return a sanitised Buienradar URL', () => {
+    it('getRadarMapUrl returns a sanitised Buienradar URL', () => {
         const mapUrl = service.getRadarMapUrl();
         expect(mapUrl.toString()).toContain('https://gadgets.buienradar.nl/gadget/zoommap/');
     });
 
-    it('#getRadarMapUrl() should return a randomised Buienradar URL', () => {
+    it('getRadarMapUrl returns a randomised Buienradar URL', () => {
         const mapUrl = new Set<string>();
         for (let i = 0; i < 5; i++) {
             mapUrl.add(service.getRadarMapUrl().toString());
@@ -78,7 +78,7 @@ describe('BuienradarService', () => {
         expect(mapUrl.size).toEqual(5);
     });
 
-    it('#getMoonPhase() should return New on 24 January 2020 at 22:24', () => {
+    it('getMoonPhase returns New on 24 January 2020 at 22:24', () => {
         jasmine.clock().mockDate(new Date('2020-01-24 22:24'));
         expect(service.getMoonPhase()).toEqual({
             phase: 0,
@@ -87,7 +87,7 @@ describe('BuienradarService', () => {
         });
     });
 
-    it('#getMoonPhase() should return Full on 10 January 2020 at 20:23', () => {
+    it('getMoonPhase returns Full on 10 January 2020 at 20:23', () => {
         jasmine.clock().mockDate(new Date('2020-01-10 20:23'));
         expect(service.getMoonPhase()).toEqual({
             phase: 14,
@@ -96,7 +96,7 @@ describe('BuienradarService', () => {
         });
     });
 
-    it('#getMoonPhase() should return First Quarter on 27 July 2020 at 14:33', () => {
+    it('getMoonPhase returns First Quarter on 27 July 2020 at 14:33', () => {
         jasmine.clock().mockDate(new Date('2020-07-27 14:33'));
         expect(service.getMoonPhase()).toEqual({
             phase: 7,
@@ -105,7 +105,7 @@ describe('BuienradarService', () => {
         });
     });
 
-    it('#getMoonPhase() should return Third Quarter on 8 December 2020 at 01:37', () => {
+    it('getMoonPhase returns Third Quarter on 8 December 2020 at 01:37', () => {
         jasmine.clock().mockDate(new Date('2020-12-08 01:37'));
         expect(service.getMoonPhase()).toEqual({
             phase: 21,

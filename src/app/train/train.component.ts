@@ -4,6 +4,7 @@ import { ConfigService } from '../_services/config.service';
 import { NsService } from '../_services/ns.service';
 import { TrainDeparture, TrainMessage } from '../_models/train-departure';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
+import { Animations } from '../_utils/animations';
 
 /**
  * Extension of TrainDeparture, which also allows to store delays and warnings.
@@ -16,7 +17,8 @@ export interface ExtendedTrainDeparture extends TrainDeparture {
 @Component({
     selector: 'app-train',
     templateUrl: './train.component.html',
-    styleUrls: ['./train.component.scss']
+    styleUrls: ['./train.component.scss'],
+    animations: [Animations.fadeTableRow()],
 })
 export class TrainComponent implements OnInit, DataLoading {
 
@@ -42,6 +44,10 @@ export class TrainComponent implements OnInit, DataLoading {
             });
     }
 
+    journeyId(index: number, journey: ExtendedTrainDeparture): string {
+        return journey.name;
+    }
+
     private processData(data: TrainDeparture[]) {
         // Remove any error
         this.error = undefined;
@@ -52,7 +58,7 @@ export class TrainComponent implements OnInit, DataLoading {
             .map((e: ExtendedTrainDeparture) => {
                 // Calculate delays
                 const delay = Math.round(
-                    (new Date(e.plannedDateTime).getTime() - new Date(e.actualDateTime).getTime()) /
+                    (new Date(e.actualDateTime).getTime() - new Date(e.plannedDateTime).getTime()) /
                     (1000 * 60));
                 if (delay > 0) {
                     e.delay = '+' + delay;

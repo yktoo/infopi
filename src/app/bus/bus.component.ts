@@ -3,11 +3,13 @@ import { OvApiService } from '../_services/ov-api.service';
 import { ConfigService } from '../_services/config.service';
 import { timer } from 'rxjs';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
+import { Animations } from '../_utils/animations';
 
 @Component({
     selector: 'app-bus',
     templateUrl: './bus.component.html',
     styleUrls: ['./bus.component.scss'],
+    animations: [Animations.fadeTableRow()],
 })
 export class BusComponent implements OnInit, DataLoading {
 
@@ -31,6 +33,10 @@ export class BusComponent implements OnInit, DataLoading {
                 next:  data => this.processData(data),
                 error: error => this.error = error,
             });
+    }
+
+    journeyId(index: number, journey: any): string {
+        return journey.JourneyNumber;
     }
 
     private processData(data: any) {

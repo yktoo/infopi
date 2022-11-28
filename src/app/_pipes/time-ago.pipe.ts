@@ -1,21 +1,19 @@
-export class NewsItem {
+import { Pipe, PipeTransform } from '@angular/core';
 
-    constructor(
-        public readonly title: string,
-        public readonly description: string,
-        public readonly lastUpdate?: Date,
-    ) {}
+/**
+ * Translate the provided date into the 'xxx time ago' string.
+ */
+@Pipe({
+    name: 'timeAgo',
+})
+export class TimeAgoPipe implements PipeTransform {
 
-    /**
-     * Translate the lastUpdate date into the 'xxx time ago' string.
-     * @return string representation of the lastUpdate.
-     */
-    get lastUpdateText(): string {
-        if (!this.lastUpdate) {
+    transform(d: Date | null | undefined): string {
+        if (!d) {
             return '';
         }
 
-        const seconds = Math.floor((new Date().getTime() - this.lastUpdate.getTime()) / 1000);
+        const seconds = Math.floor((new Date().getTime() - d.getTime()) / 1000);
 
         // Years
         let interval = Math.floor(seconds / 31536000);

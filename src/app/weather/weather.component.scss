@@ -22,8 +22,13 @@
 }
 
 .w-updated {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0;
+    right: 0;
     font-size: $font-size-s;
-    float: right;
+    text-align: center;
+    color: $color-pale-fg;
 }
 
 .w-radar-map {

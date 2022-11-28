@@ -37,11 +37,11 @@ describe('FxService', () => {
         service = TestBed.inject(FxService);
     });
 
-    it('should be created', () => {
+    it('is created', () => {
         expect(service).toBeTruthy();
     });
 
-    it('#getFxRates() should request and unwrap rates', () => {
+    it('getFxRates requests and unwraps rates', () => {
         service.getFxRates()
             .subscribe(data => {
                 expect(data.A).toEqual(['foo']);
@@ -64,5 +64,4 @@ describe('FxService', () => {
         // Verify there's no outstanding request
         httpTestingController.verify();
     });
-
 });

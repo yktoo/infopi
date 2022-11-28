@@ -23,7 +23,7 @@ describe('WeatherComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it('is created', () => {
         expect(component).toBeTruthy();
     });
 });
