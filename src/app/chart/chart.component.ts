@@ -58,7 +58,7 @@ export class ChartComponent implements OnInit, DataLoading {
                     }
                 },
             },
-            xAxis: {
+            x: {
                 display: true,
                 grid: {
                     color: '#333333',
@@ -75,9 +75,9 @@ export class ChartComponent implements OnInit, DataLoading {
     };
 
     constructor(
-        private http: HttpClient,
-        private cfgSvc: ConfigService,
-    ) { }
+        private readonly http: HttpClient,
+        private readonly cfgSvc: ConfigService,
+    ) {}
 
     ngOnInit(): void {
         timer(0, this.cfgSvc.configuration.chart.refreshRate).subscribe(() => this.update());

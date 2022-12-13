@@ -19,7 +19,10 @@ export class FxComponent implements OnInit, DataLoading {
     error: any;
     dataLoading = false;
 
-    constructor(private cfgSvc: ConfigService, private fx: FxService) { }
+    constructor(
+        private readonly cfgSvc: ConfigService,
+        private readonly fx: FxService,
+    ) {}
 
     ngOnInit(): void {
         timer(0, this.cfgSvc.configuration.fx.refreshRate).subscribe(() => this.update());

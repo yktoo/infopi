@@ -1,27 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-
-import { OpenHabService } from './open-hab.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { OpenHabService } from './open-hab.service';
 import { ConfigService } from './config.service';
+import { getConfigServiceMock } from '../_testing/services.mock';
 
 describe('OpenHabService', () => {
 
     let service: OpenHabService;
     let httpTestingController: HttpTestingController;
-
-    /**
-     * Mock ConfigService class that returns a specific server URL.
-     */
-    class MockConfigService {
-
-        get configuration() {
-            return {
-                domotics: {
-                    openHabServerUrl: 'http://MyServer:123',
-                },
-            };
-        }
-    }
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -29,7 +15,12 @@ describe('OpenHabService', () => {
                 HttpClientTestingModule,
             ],
             providers: [
-                { provide: ConfigService, useClass: MockConfigService },
+                {
+                    provide: ConfigService,
+                    useValue: getConfigServiceMock({
+                        domotics: {openHabServerUrl: 'http://MyServer:123', refreshRate: 42, showGroup: 'foo'},
+                    }),
+                },
             ],
         });
 
@@ -44,12 +35,12 @@ describe('OpenHabService', () => {
         expect(service).toBeTruthy();
     });
 
-    it('getItems requests and unwraps items', () => {
+    it('requests and unwraps members', () => {
         service.getItems('MyGroup')
             .subscribe(data => {
                 expect(data).toEqual([
-                    {foo: 'bar'},
-                    {zoo: 'baz'},
+                    {type: 'foo', name: 'bar', link: 'boo'},
+                    {type: 'baz', name: 'bax', link: 'bux'},
                 ]);
             });
 
@@ -62,13 +53,12 @@ describe('OpenHabService', () => {
         // Respond with test data
         req.flush({
             members: [
-                {foo: 'bar'},
-                {zoo: 'baz'},
+                {type: 'foo', name: 'bar', link: 'boo'},
+                {type: 'baz', name: 'bax', link: 'bux'},
             ]
         });
 
         // Verify there's no outstanding request
         httpTestingController.verify();
     });
-
 });

@@ -4,7 +4,7 @@ import { ConfigService } from '../_services/config.service';
 import { timer } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ChartData, ChartOptions } from 'chart.js';
-import { WeatherDayForecast } from '../_models/weather-day-forecast';
+import { CurrentWeather, RawWeatherData, WeatherDayForecast } from '../_models/weather-data';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 
 @Component({
@@ -14,7 +14,7 @@ import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 })
 export class WeatherComponent implements OnInit, DataLoading {
 
-    currentWeather: any;
+    currentWeather?: CurrentWeather;
     dayForecasts: WeatherDayForecast[];
     sunMoon: any;
     radarMapUrl: SafeResourceUrl;
@@ -49,7 +49,7 @@ export class WeatherComponent implements OnInit, DataLoading {
         }
     };
 
-    private readonly WEEKDAY_NAME_MAP = {
+    private readonly WEEKDAY_NAME_MAP: { [k: string]: string } = {
         ma: 'Mon',
         di: 'Tue',
         wo: 'Wed',
@@ -59,7 +59,10 @@ export class WeatherComponent implements OnInit, DataLoading {
         zo: 'Sun',
     };
 
-    constructor(private weather: BuienradarService, private cfgSvc: ConfigService) { }
+    constructor(
+        private readonly weather: BuienradarService,
+        private readonly cfgSvc: ConfigService,
+    ) {}
 
     /**
      * Convert Buienradar's datetime of the format 'mm/dd/yyyy hh:mm:ss' into the ISO 8601 format.
@@ -70,6 +73,11 @@ export class WeatherComponent implements OnInit, DataLoading {
 
     ngOnInit(): void {
         timer(0, this.cfgSvc.configuration.weather.refreshRate).subscribe(() => this.update());
+        // Bump the "updated" value to update the "time ago" value (which just changes over time, without a change in the underlying value)
+        timer(0, 30 * 1000)
+            .subscribe(() =>
+                this.currentWeather?.station?.updated &&
+                (this.currentWeather.station.updated = new Date(this.currentWeather.station.updated)));
     }
 
     update() {
@@ -84,74 +92,74 @@ export class WeatherComponent implements OnInit, DataLoading {
         this.radarMapUrl = this.weather.getRadarMapUrl();
     }
 
-    private processData(data: any) {
+    private processData(data: RawWeatherData) {
         // Remove any error
         this.error = undefined;
 
         // Find the desired weather station by its ID
-        const curWeather = data.actueel_weer[0];
+        const curWeather = data.actueel_weer;
 
         // Prepare the current weather
         const id = this.cfgSvc.configuration.weather.buienRadarStationId;
-        const station = curWeather.weerstations[0].weerstation.find(e => e.$.id === id);
+        const station = curWeather.weerstations.weerstation.find(e => e.attr.id === id);
         if (station) {
-            const icon = station.icoonactueel[0].$;
+            const icon = station.icoonactueel;
             this.currentWeather = {
                 station: {
-                    code:       station.stationcode[0],
-                    name:       station.stationnaam[0],
-                    latitude:   station.lat[0],
-                    longitude:  station.lon[0],
-                    updated:    WeatherComponent.convertDate(station.datum[0]),
+                    code:       station.stationcode.text,
+                    name:       station.stationnaam.text,
+                    latitude:   station.lat.text,
+                    longitude:  station.lon.text,
+                    updated:    WeatherComponent.convertDate(station.datum.text),
                 },
-                temperature:    station.temperatuurGC[0],                  // In °C
-                humidity:       station.luchtvochtigheid[0],
-                pressure:       station.luchtdruk[0],                      // In hPa
+                temperature:    station.temperatuurGC.text,
+                humidity:       station.luchtvochtigheid.text,
+                pressure:       station.luchtdruk.text,
                 wind: {
-                    dirText:    station.windrichting[0],                   // Text, like 'WZW'
-                    dirDegrees: station.windrichtingGR[0],                 // In degrees
-                    speed:      station.windsnelheidBF[0],                 // In bft
-                    gusts:      station.windstotenMS[0]                    // In m/s
+                    dirText:    station.windrichting.text,
+                    dirDegrees: station.windrichtingGR.text,
+                    speed:      station.windsnelheidBF.text,
+                    gusts:      station.windstotenMS.text
                 },
-                rain:           station.regenMMPU[0],                      // In mm/h
-                visibility:     station.zichtmeters[0],                    // In metres
+                rain:           station.regenMMPU.text,
+                visibility:     station.zichtmeters.text,
                 icon: {
-                    url:        icon.text,                                 // Full URL, ie. http://...
-                    wiClass:    this.weather.getWeatherIconClass(icon.ID), // One of the wi-* classes
-                    text:       icon.zin,                                  // In Dutch
+                    url:        icon.text,
+                    wiClass:    this.weather.getWeatherIconClass(icon.attr.ID),
+                    text:       icon.attr.zin,
                 },
-                message:        data.verwachting_vandaag[0].samenvatting,
+                message:        data.verwachting_vandaag.samenvatting.text,
             };
         } else {
-            this.currentWeather = {};
+            this.currentWeather = undefined;
         }
 
         // Prepare weather forecast
         this.dayForecasts = [1, 2, 3, 4, 5]
-            .map(i => data.verwachting_meerdaags[0][`dag-plus${i}`][0])
+            .map(i => data.verwachting_meerdaags[`dag-plus${i}` as 'dag-plus1'])
             .map(dw => ({
-                date:            dw.datum[0],        // Full date, eg 'zondag 17 april 2016'
-                dow:             this.WEEKDAY_NAME_MAP[dw.dagweek[0]],
-                probSun:         dw.kanszon[0],      // Probability in percent
-                probSnow:        dw.sneeuwcms[0],    // Probability in percent
+                date:            dw.datum.text,               // Full date, eg 'zondag 17 april 2016'
+                dow:             this.WEEKDAY_NAME_MAP[dw.dagweek.text],
+                probSun:         Number(dw.kanszon.text),     // Probability in percent
+                probSnow:        Number(dw.sneeuwcms.text),   // Probability in percent
                 rain: {
-                    probability: dw.kansregen[0],    // Probability in percent
-                    minAmount:   dw.minmmregen[0],   // Minimum amount in mm
-                    maxAmount:   dw.maxmmregen[0],   // Maximum amount in mm
+                    probability: Number(dw.kansregen.text),   // Probability in percent
+                    minAmount:   Number(dw.minmmregen.text),  // Minimum amount in mm
+                    maxAmount:   Number(dw.maxmmregen.text),  // Maximum amount in mm
                 },
                 temperature: {
-                    highMax:     dw.maxtempmax[0],   // In °C
-                    highMin:     dw.maxtemp[0],      // In °C
-                    lowMax:      dw.mintempmax[0],   // In °C
-                    lowMin:      dw.mintemp[0],      // In °C
+                    highMax:     Number(dw.maxtempmax.text),  // In °C
+                    highMin:     Number(dw.maxtemp.text),     // In °C
+                    lowMax:      Number(dw.mintempmax.text),  // In °C
+                    lowMin:      Number(dw.mintemp.text),     // In °C
                 },
                 wind: {
-                    dirText:     dw.windrichting[0], // Text, like 'WZW'
-                    speed:       dw.windkracht[0],   // In bft
+                    dirText:     dw.windrichting.text,        // Text, like 'WZW'
+                    speed:       Number(dw.windkracht.text),  // In bft
                 },
                 icon: {
-                    url:         dw.icoon[0]._,
-                    wiClass:     this.weather.getWeatherIconClass(dw.icoon[0].$.ID),
+                    url:         dw.icoon.text,
+                    wiClass:     this.weather.getWeatherIconClass(dw.icoon.attr.ID),
                 },
             }));
 
@@ -204,8 +212,8 @@ export class WeatherComponent implements OnInit, DataLoading {
         // Prepare sunrise, sunset and moon phase
         const moonPhase = this.weather.getMoonPhase();
         this.sunMoon = {
-            sunrise:          WeatherComponent.convertDate(curWeather.buienradar[0].zonopkomst[0]),
-            sunset:           WeatherComponent.convertDate(curWeather.buienradar[0].zononder[0]),
+            sunrise:          WeatherComponent.convertDate(curWeather.buienradar.zonopkomst.text),
+            sunset:           WeatherComponent.convertDate(curWeather.buienradar.zononder.text),
             moonPhase:        moonPhase.phase,  // Moon phase in days (0..27)
             moonPhaseText:    moonPhase.text,   // Textual description
             moonPhaseWiClass: moonPhase.wicls,  // One of the wi-* classes

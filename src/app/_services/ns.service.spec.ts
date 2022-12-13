@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-
-import { NsService } from './ns.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { NsService } from './ns.service';
 import { ConfigService } from './config.service';
+import { getConfigServiceMock } from '../_testing/services.mock';
 
 describe('NsService', () => {
 
@@ -11,31 +11,13 @@ describe('NsService', () => {
     let service: NsService;
     let httpTestingController: HttpTestingController;
 
-    /**
-     * Mock ConfigService class that returns a fixed CORS proxy config string and API key.
-     */
-    class MockConfigService {
-
-        get configuration() {
-            return {
-                api: {
-                    nsApiKey: 'SECRET_NS_API_KEY',
-                }
-            };
-        }
-
-        get corsProxy() {
-            return 'PROXY:';
-        }
-    }
-
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
             ],
             providers: [
-                { provide: ConfigService, useClass: MockConfigService },
+                {provide: ConfigService, useValue: getConfigServiceMock({api: {nsApiKey: 'SECRET_NS_API_KEY'}})},
             ],
         });
 

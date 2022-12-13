@@ -1,24 +1,39 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ConfigService } from './config.service';
 import { map } from 'rxjs/operators';
+import { ConfigService } from './config.service';
+
+export interface OpenHabItem {
+    members?:    OpenHabItem[];
+    link:        string;
+    state?:      string;
+    editable?:   boolean;
+    type:        string;
+    category?:   string;
+    name:        string;
+    label?:      string;
+    tags?:       string[];
+    groupNames?: string[];
+}
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class OpenHabService {
 
-    constructor(private http: HttpClient, private cfgSvc: ConfigService) { }
+    private readonly baseUrl = `${this.cfgSvc.configuration.domotics.openHabServerUrl}/rest/items/`;
+
+    constructor(
+        private readonly http: HttpClient,
+        private readonly cfgSvc: ConfigService,
+    ) {}
 
     /**
      * Request items from the OpenHAB server and return them wrapped in an Observable.
      * @param item Regular or group item to request.
      */
-    getItems(item: string): Observable<any[]> {
-        return this.http.get(this.cfgSvc.configuration.domotics.openHabServerUrl + '/rest/items/' + item)
-            // Unwrap the top layer
-            .pipe(map((data: any) => data.members));
+    getItems(item: string): Observable<OpenHabItem[]> {
+        return this.http.get<OpenHabItem>(this.baseUrl + item).pipe(map(data => data.members));
     }
-
 }

@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-
-import { FxService } from './fx.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { FxService } from './fx.service';
 import { ConfigService } from './config.service';
+import { getConfigServiceMock } from '../_testing/services.mock';
 
 describe('FxService', () => {
 
@@ -11,22 +11,13 @@ describe('FxService', () => {
     let service: FxService;
     let httpTestingController: HttpTestingController;
 
-    /**
-     * Mock ConfigService class that returns a fixed CORS proxy config string.
-     */
-    class MockConfigService {
-        get corsProxy() {
-            return 'PROXY:';
-        }
-    }
-
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
             ],
             providers: [
-                { provide: ConfigService, useClass: MockConfigService },
+                {provide: ConfigService, useValue: getConfigServiceMock()},
             ],
         });
 
@@ -44,8 +35,8 @@ describe('FxService', () => {
     it('getFxRates requests and unwraps rates', () => {
         service.getFxRates()
             .subscribe(data => {
-                expect(data.A).toEqual(['foo']);
-                expect(data.B).toEqual(['bar']);
+                expect(data.A.text).toEqual('foo');
+                expect(data.B.text).toEqual('bar');
             });
 
         // Mock the HTTP service

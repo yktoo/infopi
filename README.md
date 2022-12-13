@@ -95,7 +95,7 @@ Credits
 * [Angular](https://angular.io/)
 * [Chart.js](https://www.chartjs.org/)
 * [ng2-charts](https://valor-software.com/ng2-charts/)
-* [xml2js](https://www.npmjs.com/package/xml2js)
+* [xml-js](https://www.npmjs.com/package/xml-js)
 * [Weather Icons](https://erikflowers.github.io/weather-icons/)
 * [Electron](https://www.electronjs.org/), [electron-packager](https://github.com/electron/electron-packager) and [electron-installer-debian](https://github.com/electron-userland/electron-installer-debian)
 
@@ -106,6 +106,5 @@ Data providers
 * Weather info: [Buienradar.nl](http://buienradar.nl/)
 * Train info: [Nederlandse Spoorwegen](http://www.ns.nl/)
 * Bus info: [openOV](http://openov.nl/)
-* Exchange rates: [European Central Bank](https://www.ecb.europa.eu/)
 * News: [BBC](https://www.bbc.co.uk/)
 * Sensors: home automation server instance of [OpenHAB](https://www.openhab.org/).

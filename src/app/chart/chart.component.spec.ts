@@ -3,21 +3,7 @@ import { ChartComponent } from './chart.component';
 import { ConfigService } from '../_services/config.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SpinnerDirective } from '../_directives/spinner.directive';
-
-/**
- * Mock ConfigService class that returns a specific picture URL.
- */
-class MockConfigService implements Partial<ConfigService>{
-
-    get configuration() {
-        return {
-            chart: {
-                refreshRate: undefined,
-                url: 'http://greatpics/foo/data.json',
-            },
-        };
-    }
-}
+import { getConfigServiceMock } from '../_testing/services.mock';
 
 describe('ChartComponent', () => {
 
@@ -29,7 +15,10 @@ describe('ChartComponent', () => {
             declarations: [ChartComponent, SpinnerDirective],
             imports: [HttpClientTestingModule],
             providers: [
-                {provide: ConfigService, useClass: MockConfigService},
+                {
+                    provide: ConfigService,
+                    useValue: getConfigServiceMock({chart: {maxElements: 7, refreshRate: 42, url: 'http://greatpics/foo/data.json'}}),
+                },
             ],
         })
         .compileComponents();

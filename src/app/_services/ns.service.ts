@@ -12,7 +12,10 @@ export class NsService {
 
     private static baseUrl = 'https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/';
 
-    constructor(private http: HttpClient, private cfgSvc: ConfigService) { }
+    constructor(
+        private readonly http: HttpClient,
+        private readonly cfgSvc: ConfigService,
+    ) {}
 
     /**
      * Request train departure times for the specified station and return them wrapped in an Observable.

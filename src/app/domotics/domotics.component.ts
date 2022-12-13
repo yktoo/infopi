@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
 import { ConfigService } from '../_services/config.service';
-import { OpenHabService } from '../_services/open-hab.service';
+import { OpenHabItem, OpenHabService } from '../_services/open-hab.service';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 
 @Component({
@@ -11,11 +11,14 @@ import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 })
 export class DomoticsComponent implements OnInit, DataLoading {
 
-    items: any[];
+    items: OpenHabItem[];
     error: any;
     dataLoading = false;
 
-    constructor(private openhab: OpenHabService, private cfgSvc: ConfigService) { }
+    constructor(
+        private readonly openhab: OpenHabService,
+        private readonly cfgSvc: ConfigService,
+    ) {}
 
     ngOnInit(): void {
         timer(0, this.cfgSvc.configuration.domotics.refreshRate).subscribe(() => this.update());
@@ -25,16 +28,16 @@ export class DomoticsComponent implements OnInit, DataLoading {
         this.openhab.getItems(this.cfgSvc.configuration.domotics.showGroup)
             .pipe(loadsDataInto(this))
             .subscribe({
-                next:  data => this.processData(data),
+                next:  items => this.processData(items),
                 error: error => this.error = error,
             });
     }
 
-    private processData(data: any) {
+    private processData(items: OpenHabItem[]) {
         // Remove any error
         this.error = undefined;
 
         // Handle the data
-        this.items = data.sort((a, b) => (a.label || a.name).localeCompare(b.label || b.name));
+        this.items = items.sort((a, b) => (a.label || a.name).localeCompare(b.label || b.name));
     }
 }

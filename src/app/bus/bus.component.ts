@@ -13,14 +13,16 @@ import { Animations } from '../_utils/animations';
 })
 export class BusComponent implements OnInit, DataLoading {
 
-    departureStation: string;
     departures: any;
     error: any;
     dataLoading = false;
 
-    constructor(private ov: OvApiService, private cfgSvc: ConfigService) {
-        this.departureStation = this.cfgSvc.configuration.busses.ovapiStopName;
-    }
+    readonly departureStation = this.cfgSvc.configuration.busses.ovapiStopName;
+
+    constructor(
+        private readonly ov: OvApiService,
+        private readonly cfgSvc: ConfigService,
+    ) {}
 
     ngOnInit(): void {
         timer(0, this.cfgSvc.configuration.busses.refreshRate).subscribe(() => this.update());

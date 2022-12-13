@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { parseStringPromise } from 'xml2js';
+import { map } from 'rxjs/operators';
+import { RawWeather, RawWeatherData } from '../_models/weather-data';
+import { XmlParserService } from './xml-parser.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,7 @@ export class BuienradarService {
 
     private fullMoonTime = new Date('1999-08-11 13:09').getTime();
 
-    private iconToWiClassMap = {
+    private iconToWiClassMap: { [k: string]: string } = {
         // Day
         a: 'wi-day-sunny',
         b: 'wi-day-sunny-overcast',
@@ -101,15 +102,20 @@ export class BuienradarService {
     ];
 
 
-    constructor(private http: HttpClient, private domSanitizer: DomSanitizer) { }
+    constructor(
+        private readonly http: HttpClient,
+        private readonly domSanitizer: DomSanitizer,
+        private readonly xmlParser: XmlParserService,
+    ) {}
 
-    getWeather(): Observable<any> {
+    getWeather(): Observable<RawWeatherData> {
         return this.http.get('https://data.buienradar.nl/1.0/feed/xml', {responseType: 'text'})
             .pipe(
                 // Parse the XML response from Buienradar
-                switchMap(res => parseStringPromise(res)),
+                map(d => this.xmlParser.parse<RawWeather>(d)),
                 // Unwrap the top two levels
-                map(res => res.buienradarnl.weergegevens[0]));
+                map(res => res.buienradarnl.weergegevens));
+
     }
 
     /**

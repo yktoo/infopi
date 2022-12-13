@@ -17,7 +17,7 @@ export class OvApiService {
      * @param stopCode Bus stop code to request departure times for.
      */
     getDepartureTimes(stopCode: string): Observable<any> {
-        return this.http.get(OvApiService.baseUrl + stopCode).pipe(map(data => data[stopCode]));
+        return this.http.get(OvApiService.baseUrl + stopCode).pipe(map((data: any) => data[stopCode]));
     }
 
 }

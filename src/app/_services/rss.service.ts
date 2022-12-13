@@ -1,26 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { parseStringPromise } from 'xml2js';
+import { map } from 'rxjs/operators';
 import { ConfigService } from './config.service';
+import { XmlParserService } from './xml-parser.service';
+import { RawRssChannel, RawRssFeed } from '../_models/rss-data';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class RssService {
 
-    constructor(private http: HttpClient, private cfgSvc: ConfigService) { }
+    constructor(
+        private readonly http: HttpClient,
+        private readonly cfgSvc: ConfigService,
+        private readonly xmlParser: XmlParserService,
+    ) {}
 
     /**
      * Request RSS items and return them wrapped in an Observable.
      */
-    getRssItems(url: string): Observable<any> {
+    getRssItems(url: string): Observable<RawRssChannel> {
         return this.http.get(this.cfgSvc.corsProxy + url, {responseType: 'text'})
             .pipe(
                 // Parse the XML response
-                switchMap(res => parseStringPromise(res)),
+                map(d => this.xmlParser.parse<RawRssFeed>(d)),
                 // Unwrap the top level
-                map(res => res.feed || res.rss?.channel[0]));
+                map(d => d.rss.channel));
     }
 }

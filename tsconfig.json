@@ -6,21 +6,28 @@
         "sourceMap": true,
         "declaration": false,
         "downlevelIteration": true,
+        "forceConsistentCasingInFileNames": true,
         "experimentalDecorators": true,
-        "module": "es2020",
-        "moduleResolution": "node",
+        "strict": true,
+        "strictNullChecks": false,
         "importHelpers": true,
-        "target": "es2015",
-        "typeRoots": [
-            "node_modules/@types"
-        ],
+        "moduleResolution": "node",
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitThis": true,
+        "useDefineForClassFields": false,
+        "target": "ES2022",
+        "module": "ES2022",
         "lib": [
-            "es2019",
+            "ES2022",
             "dom"
         ]
     },
     "angularCompilerOptions": {
         "fullTemplateTypeCheck": true,
-        "strictInjectionParameters": true
+        "strictInjectionParameters": true,
+        "strictInputAccessModifiers": true,
+        "strictTemplates": true
     }
 }

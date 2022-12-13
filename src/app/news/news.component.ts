@@ -5,16 +5,7 @@ import { RssService } from '../_services/rss.service';
 import { ConfigService } from '../_services/config.service';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 import { Animations } from '../_utils/animations';
-
-export class NewsItem {
-
-    constructor(
-        readonly title: string,
-        readonly description: string,
-        readonly lastUpdate?: Date,
-    ) {}
-}
-
+import { NewsItem, RawRssChannel } from '../_models/rss-data';
 
 @Component({
     selector: 'app-news',
@@ -33,7 +24,11 @@ export class NewsComponent implements OnInit, DataLoading {
     private newsItems: NewsItem[];
     private curUpdateTimer: Subscription;
 
-    constructor(private domSanitizer: DomSanitizer, private cfgSvc: ConfigService, private rss: RssService) { }
+    constructor(
+        private readonly domSanitizer: DomSanitizer,
+        private readonly cfgSvc: ConfigService,
+        private readonly rss: RssService,
+    ) {}
 
     ngOnInit(): void {
         timer(0, this.cfgSvc.configuration.rss.refreshRate).subscribe(() => this.update());
@@ -48,7 +43,7 @@ export class NewsComponent implements OnInit, DataLoading {
             });
     }
 
-    private processData(data: any) {
+    private processData(data: RawRssChannel) {
         // Remove any error
         this.error = undefined;
         this.currentItem = null;
@@ -58,12 +53,12 @@ export class NewsComponent implements OnInit, DataLoading {
             this.curUpdateTimer.unsubscribe();
             this.curUpdateTimer = undefined;
         }
-        this.feedImageUrl = data.image?.[0].url && this.domSanitizer.bypassSecurityTrustResourceUrl(data.image[0].url[0]);
-        this.newsItems = (data.entry || data.item).map(e => new NewsItem(
-            e.title[0],
-            e.description?.[0],
-            new Date((e.updated || e.pubDate)[0]),
-        ));
+        this.feedImageUrl = data.image?.url && this.domSanitizer.bypassSecurityTrustResourceUrl(data.image.url.text);
+        this.newsItems = (data.item).map(e => ({
+            title:       e.title.text,
+            description: e.description?.text,
+            lastUpdate:  new Date(e.pubDate.text),
+        }));
 
         // If there are any items
         if (this.newsItems?.length) {

@@ -29,9 +29,9 @@ describe('BuienradarService', () => {
 
     it('getWeather requests weather info', () => {
         service.getWeather()
-            .subscribe(data => {
-                expect(data.A).toEqual(['value']);
-                expect(data.B[0].a).toEqual(['foo', 'bar']);
+            .subscribe((data: any) => {
+                expect(data.A.text).toBe('value');
+                expect(data.B.a).toEqual([{text: 'foo'}, {text: 'bar'}]);
             });
 
         // Mock the Buienradar URL

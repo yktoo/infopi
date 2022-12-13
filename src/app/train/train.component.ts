@@ -22,14 +22,16 @@ export interface ExtendedTrainDeparture extends TrainDeparture {
 })
 export class TrainComponent implements OnInit, DataLoading {
 
-    departureStation: string;
     departures: ExtendedTrainDeparture[];
     error: any;
     dataLoading = false;
 
-    constructor(private cfgSvc: ConfigService, private ns: NsService) {
-        this.departureStation = this.cfgSvc.configuration.trains.departureTimesStationName;
-    }
+    readonly departureStation = this.cfgSvc.configuration.trains.departureTimesStationName;
+
+    constructor(
+        private readonly cfgSvc: ConfigService,
+        private readonly ns: NsService,
+    ) {}
 
     ngOnInit(): void {
         timer(0, this.cfgSvc.configuration.trains.refreshRate).subscribe(() => this.update());

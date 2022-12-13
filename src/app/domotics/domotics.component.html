@@ -8,7 +8,8 @@
             <th *ngFor="let item of items">{{ item.label || item.name }}</th>
         </tr>
         <tr>
-            <td *ngFor="let item of items" class="state" [ngClass]="item.state | lowercase">{{ item.state | lowercase }}</td>
+            <td *ngFor="let item of items" class="state"
+                [ngClass]="item.state | lowercase">{{ item.state | lowercase }}</td>
         </tr>
     </table>
 </section>
