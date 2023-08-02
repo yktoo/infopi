@@ -6,7 +6,7 @@
 
 **InfoPi** is a single-page web application that displays various live data, like weather forecast and train departure times. The application is developed with Angular and can be packaged with the Electron browser to make an all-in-one executable bundle.
 
-My own implementation was crafted for Raspberry Pi running [Raspbian Stretch](https://www.raspberrypi.org/downloads/raspbian/) and a full HD monitor (1920&times;1080 pixels) in the portrait orientation, but it will (supposedly) run on any platform that Electron supports and properly adapt itself to a broad range of resolutions.
+My own implementation was crafted for Raspberry Pi running [Raspbian Bullseye](https://www.raspberrypi.com/software/) and a full HD monitor (1920×1080 pixels) in the portrait orientation, but it will (supposedly) run on any platform that Electron supports and properly adapt itself to a broad range of resolutions.
 
 This is how the information page looks like:
 
@@ -75,9 +75,6 @@ To test your setup, run `infopi` from the command line or use the Application me
 In order to make InfoPi start at bootup, you can add the following commands to `~/.config/lxsession/LXDE-pi/autostart`:
 
 ```bash
-# Optional: remote desktop server that would allow to connect to your Pi via VNC
-x11vnc -forever
-
 # InfoPi app
 infopi
 ```
