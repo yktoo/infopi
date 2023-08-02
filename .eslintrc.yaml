@@ -1,0 +1,57 @@
+# It's our root config
+root: true
+
+env:
+  es6: true
+
+overrides:
+  # TypeScript files
+  - files: 'src/**/*.ts'
+    parserOptions:
+      project:
+        - ./tsconfig.json
+      createDefaultProgram: true
+    extends:
+      - 'eslint:recommended'
+      - 'plugin:@typescript-eslint/recommended'
+      - 'plugin:@angular-eslint/recommended'
+      - 'plugin:@angular-eslint/template/process-inline-templates'
+    rules:
+      '@angular-eslint/component-selector':
+        - error
+        - type: element
+          prefix: app
+          style: kebab-case
+      '@angular-eslint/directive-selector':
+        - error
+        - type: attribute
+          prefix: app
+          style: camelCase
+      '@typescript-eslint/naming-convention':
+        - error
+        - selector: enumMember
+          format:
+            - camelCase
+            - UPPER_CASE
+      '@typescript-eslint/no-explicit-any': off
+      '@typescript-eslint/no-non-null-assertion': off
+      jsdoc/newline-after-description:
+        - 'off'
+      max-len:
+        - 'off'
+        - code: 140
+      no-underscore-dangle:
+        - 'off'
+      semi:
+        - error
+        - always
+
+  # HTML files
+  - files: 'src/**/*.html'
+    extends:
+      - 'plugin:@angular-eslint/template/recommended'
+      - 'plugin:@angular-eslint/template/accessibility'
+    rules:
+      '@angular-eslint/template/click-events-have-key-events': off
+      '@angular-eslint/template/interactive-supports-focus': off
+
