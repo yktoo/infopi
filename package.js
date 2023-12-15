@@ -16,9 +16,10 @@ if (process.argv.length > 2 && process.argv[2] === 'rpi') {
 
 async function makeDeb(path) {
     let installerOptions = {
-        src: path,
-        dest: 'dist/installers/',
-        arch: archDeb,
+        src:         path,
+        dest:        'dist/installers/',
+        arch:        archDeb,
+        compression: 'xz',
     };
 
     try {

@@ -50,16 +50,6 @@ To create a package for Raspberry Pi run `npm run package:rpi`.
 
 The packages will be created as `dist/installers/infopi_XXX_YYY.deb`
 
-*NB:* `electron-installer-debian` produces `.deb`s that use the `zst` compression; this format isn't supported by Debian at the time of writing, and the package is [missing the option](https://github.com/electron-userland/electron-installer-debian/issues/272) required to fix this.
-
-In order to fix that, add the `'-Zxz'` argument to the `dpkg-deb` command located at `node_modules/electron-installer-debian/src/installer.js` (line 114) before running `npm`:
-
-```javascript
-
-const output = await spawn('fakeroot', ['dpkg-deb', '-Zxz',  '--build', this.stagingDir], this.options.logger)
-//                                                  ^^^^^^^-- add this
-```
-
 ## Installing
 
 Once you have a `.deb`, copy it onto your Raspberry Pi and install using:
