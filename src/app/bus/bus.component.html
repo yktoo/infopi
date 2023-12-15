@@ -1,14 +1,22 @@
-<section *ngIf="departures" (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
-    <!-- Heading -->
-    <h2>{{ departureStation }}</h2>
+@if (departures) {
+    <section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
+        <!-- Heading -->
+        <h2>{{ departureStation }}</h2>
 
-    <!-- Departure times table -->
-    <table class="departures h-ruled">
-        <tr @fadeTableRow *ngFor="let bus of departures; trackBy: journeyId" [class.bus-delayed]="bus.delay">
-            <td class="bus-time">{{ bus.TargetDepartureTime | date:'HH:mm' }}</td>
-            <td class="bus-delay"><span class="delay-value" *ngIf="bus.delay">{{ bus.delay }}</span></td>
-            <td class="bus-line">{{ bus.LinePublicNumber }}</td>
-            <td class="bus-dest">{{ bus.DestinationName50 }}</td>
-        </tr>
-    </table>
-</section>
+        <!-- Departure times table -->
+        <table class="departures h-ruled">
+            @for (bus of departures; track bus.JourneyNumber) {
+                <tr @fadeTableRow [class.bus-delayed]="bus.delay">
+                    <td class="bus-time">{{ bus.TargetDepartureTime | date:'HH:mm' }}</td>
+                    <td class="bus-delay">
+                        @if (bus.delay) {
+                            <span class="delay-value">{{ bus.delay }}</span>
+                        }
+                    </td>
+                    <td class="bus-line">{{ bus.LinePublicNumber }}</td>
+                    <td class="bus-dest">{{ bus.DestinationName50 }}</td>
+                </tr>
+            }
+        </table>
+    </section>
+}

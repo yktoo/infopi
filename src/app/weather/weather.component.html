@@ -1,128 +1,150 @@
 <section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
 
     <!-- Current conditions and temperature and message -->
-    <div class="row ruler flex-items-stretch" *ngIf="currentWeather">
-        <!-- Current weather icon and text -->
-        <div class="card w-2 w-icon">
-            <i class="wi" [ngClass]="currentWeather.icon.wiClass"></i>
-            <div class="w-icon-text">{{ currentWeather.icon.text }}</div>
-        </div>
-        <!-- Weather message -->
-        <div class="card w-7 w-text position-relative">
-            {{ currentWeather.message }}
-            <!-- Last updated -->
-            <div class="w-updated">{{ currentWeather.station.updated | timeAgo }}</div>
-        </div>
-        <!-- Temperature -->
-        <div class="card w-3 w-temp">
-            {{ currentWeather.temperature }} <i class="wi wi-celsius"></i>
-        </div>
-    </div>
-
-    <!-- Current weather details -->
-    <table class="text-center v-ruled ruler" *ngIf="currentWeather">
-        <tr>
-            <!-- Wind direction and speed -->
-            <td>
-                <div class="w-smallicon">
-                    <i class="wi w-wind" [ngClass]="'wi-wind-beaufort-' + currentWeather.wind.speed"></i>
-                </div>
-                <div class="w-smalltext">
-                    {{ currentWeather.wind.dirText }}
-                    <span class="w-wind-dir">
-                        <i class="wi wi-wind" [ngClass]="'from-' + currentWeather.wind.dirDegrees + '-deg'"></i>
-                    </span>
-                </div>
-            </td>
-
-            <!-- Wind gusts -->
-            <td>
-                <div class="w-smallicon"><i class="wi wi-strong-wind"></i></div>
-                <div class="w-smalltext">{{ currentWeather.wind.gusts }} <span class="w-unit">m/s</span></div>
-            </td>
-
-            <!-- Humidity -->
-            <td>
-                <div class="w-smallicon"><i class="wi wi-humidity"></i></div>
-                <div class="w-smalltext">{{ currentWeather.humidity }} <span class="w-unit">%</span></div>
-            </td>
-
-            <!-- Pressure -->
-            <td>
-                <div class="w-smallicon"><i class="wi wi-barometer"></i></div>
-                <div class="w-smalltext">{{ currentWeather.pressure | number:'.0-0' }} <span class="w-unit">hPa</span></div>
-            </td>
-
-            <!-- Rain -->
-            <td>
-                <div class="w-smallicon"><i class="wi wi-raindrops"></i></div>
-                <div class="w-smalltext">{{ currentWeather.rain === '-' ? 0 : currentWeather.rain }} <span class="w-unit">mm/h</span></div>
-            </td>
-
-            <!-- Sunrise -->
-            <td>
-                <div class="w-smallicon"><i class="wi wi-sunrise"></i></div>
-                <div class="w-smalltext">{{ sunMoon.sunrise | date:'H:mm' }}</div>
-            </td>
-
-            <!-- Sunset -->
-            <td>
-                <div class="w-smallicon"><i class="wi wi-sunset"></i></div>
-                <div class="w-smalltext">{{ sunMoon.sunset | date:'H:mm' }}</div>
-            </td>
-
-            <!-- Moon phase -->
-            <td>
-                <div class="w-smallicon"><i class="wi w-moon" [ngClass]="sunMoon.moonPhaseWiClass"></i></div>
-                <div class="w-smalltext w-unit">{{ sunMoon.moonPhaseText }}</div>
-            </td>
-        </tr>
-    </table>
-
-    <!-- Radar map and weather forecast -->
-    <div class="row flex-start flex-nowrap ruler" *ngIf="currentWeather">
-        <!-- Left column with the rain radar -->
-        <div class="column">
-            <h2>Buienradar</h2>
-            <div class="w-radar-map">
-                <iframe class="radar-map" [src]="radarMapUrl"></iframe>
-                <div class="radar-cross"></div>
+    @if (currentWeather) {
+        <div class="row ruler flex-items-stretch">
+            <!-- Current weather icon and text -->
+            <div class="card w-2 w-icon">
+                <i class="wi" [ngClass]="currentWeather.icon.wiClass"></i>
+                <div class="w-icon-text">{{ currentWeather.icon.text }}</div>
+            </div>
+            <!-- Weather message -->
+            <div class="card w-7 w-text position-relative">
+                {{ currentWeather.message }}
+                <!-- Last updated -->
+                <div class="w-updated">{{ currentWeather.station.updated | timeAgo }}</div>
+            </div>
+            <!-- Temperature -->
+            <div class="card w-3 w-temp">
+                {{ currentWeather.temperature }} <i class="wi wi-celsius"></i>
             </div>
         </div>
-        <!-- Right column with the weather forecast-->
-        <div class="column flex-grow-1">
-            <h2>Weather forecast</h2>
-            <!-- Forecast table -->
-            <table class="w-fcast v-ruled" *ngIf="dayForecasts">
-                <tr>
-                    <th *ngFor="let day of dayForecasts">{{ day.dow }}</th>
-                </tr>
-                <tr>
-                    <td *ngFor="let day of dayForecasts" class="w-fcast-icon"><i class="wi" [ngClass]="day.icon.wiClass"></i></td>
-                </tr>
-                <tr>
-                    <td *ngFor="let day of dayForecasts" class="w-fcast w-fcast-probs">
-                        <i class="wi wi-day-sunny"></i> <span class="w-fcast-prob">{{ day.probSun }}</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td *ngFor="let day of dayForecasts" class="w-fcast w-fcast-probs">
-                        <i class="wi wi-raindrop"></i> <span class="w-fcast-prob">{{ day.rain.probability }}</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td *ngFor="let day of dayForecasts" class="w-fcast-temp temp-hi">{{ day.temperature.highMax }}</td>
-                </tr>
-                <tr><td colspan="5">
-                    <!-- Temp chart -->
-                    <div class="w-fcast-chart">
-                        <canvas baseChart width="400" height="400" [type]="'line'" [data]="chartData" [options]="chartOptions"></canvas>
+    }
+
+    <!-- Current weather details -->
+    @if (currentWeather) {
+        <table class="text-center v-ruled ruler">
+            <tr>
+                <!-- Wind direction and speed -->
+                <td>
+                    <div class="w-smallicon">
+                        <i class="wi w-wind" [ngClass]="'wi-wind-beaufort-' + currentWeather.wind.speed"></i>
                     </div>
-                </td></tr>
-                <tr>
-                    <td *ngFor="let day of dayForecasts" class="w-fcast-temp temp-lo">{{ day.temperature.lowMin }}</td>
-                </tr>
-            </table>
+                    <div class="w-smalltext">
+                        {{ currentWeather.wind.dirText }}
+                        <span class="w-wind-dir">
+                            <i class="wi wi-wind" [ngClass]="'from-' + currentWeather.wind.dirDegrees + '-deg'"></i>
+                        </span>
+                    </div>
+                </td>
+
+                <!-- Wind gusts -->
+                <td>
+                    <div class="w-smallicon"><i class="wi wi-strong-wind"></i></div>
+                    <div class="w-smalltext">{{ currentWeather.wind.gusts }} <span class="w-unit">m/s</span></div>
+                </td>
+
+                <!-- Humidity -->
+                <td>
+                    <div class="w-smallicon"><i class="wi wi-humidity"></i></div>
+                    <div class="w-smalltext">{{ currentWeather.humidity }} <span class="w-unit">%</span></div>
+                </td>
+
+                <!-- Pressure -->
+                <td>
+                    <div class="w-smallicon"><i class="wi wi-barometer"></i></div>
+                    <div class="w-smalltext">{{ currentWeather.pressure | number:'.0-0' }} <span class="w-unit">hPa</span></div>
+                </td>
+
+                <!-- Rain -->
+                <td>
+                    <div class="w-smallicon"><i class="wi wi-raindrops"></i></div>
+                    <div class="w-smalltext">{{ currentWeather.rain === '-' ? 0 : currentWeather.rain }} <span class="w-unit">mm/h</span></div>
+                </td>
+
+                <!-- Sunrise -->
+                <td>
+                    <div class="w-smallicon"><i class="wi wi-sunrise"></i></div>
+                    <div class="w-smalltext">{{ sunMoon.sunrise | date:'H:mm' }}</div>
+                </td>
+
+                <!-- Sunset -->
+                <td>
+                    <div class="w-smallicon"><i class="wi wi-sunset"></i></div>
+                    <div class="w-smalltext">{{ sunMoon.sunset | date:'H:mm' }}</div>
+                </td>
+
+                <!-- Moon phase -->
+                <td>
+                    <div class="w-smallicon"><i class="wi w-moon" [ngClass]="sunMoon.moonPhaseWiClass"></i></div>
+                    <div class="w-smalltext w-unit">{{ sunMoon.moonPhaseText }}</div>
+                </td>
+            </tr>
+        </table>
+    }
+
+    <!-- Radar map and weather forecast -->
+    @if (currentWeather) {
+        <div class="row flex-start flex-nowrap ruler">
+            <!-- Left column with the rain radar -->
+            <div class="column">
+                <h2>Buienradar</h2>
+                <div class="w-radar-map">
+                    <iframe class="radar-map" [src]="radarMapUrl"></iframe>
+                    <div class="radar-cross"></div>
+                </div>
+            </div>
+            <!-- Right column with the weather forecast-->
+            <div class="column flex-grow-1">
+                <h2>Weather forecast</h2>
+                <!-- Forecast table -->
+                @if (dayForecasts) {
+                    <table class="w-fcast v-ruled">
+                        <tr>
+                            @for (day of dayForecasts; track day) {
+                                <th>{{ day.dow }}</th>
+                            }
+                        </tr>
+                        <tr>
+                            @for (day of dayForecasts; track day) {
+                                <td class="w-fcast-icon"><i class="wi" [ngClass]="day.icon.wiClass"></i></td>
+                            }
+                        </tr>
+                        <tr>
+                            @for (day of dayForecasts; track day) {
+                                <td class="w-fcast w-fcast-probs">
+                                    <i class="wi wi-day-sunny"></i> <span class="w-fcast-prob">{{ day.probSun }}</span>
+                                </td>
+                            }
+                        </tr>
+                        <tr>
+                            @for (day of dayForecasts; track day) {
+                                <td class="w-fcast w-fcast-probs">
+                                    <i class="wi wi-raindrop"></i> <span class="w-fcast-prob">{{ day.rain.probability }}</span>
+                                </td>
+                            }
+                        </tr>
+                        <tr>
+                            @for (day of dayForecasts; track day) {
+                                <td class="w-fcast-temp temp-hi">{{ day.temperature.highMax }}</td>
+                            }
+                        </tr>
+                        <tr>
+                            <td colspan="5">
+                                <!-- Temp chart -->
+                                <div class="w-fcast-chart">
+                                    <canvas baseChart width="400" height="400" [type]="'line'" [data]="chartData" [options]="chartOptions"></canvas>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            @for (day of dayForecasts; track day) {
+                                <td class="w-fcast-temp temp-lo">{{ day.temperature.lowMin }}</td>
+                            }
+                        </tr>
+                    </table>
+                }
+            </div>
         </div>
-    </div>
+    }
 </section>

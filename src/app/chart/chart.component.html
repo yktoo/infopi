@@ -1,10 +1,12 @@
 <section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
     <h2>COVID-19 daily figures</h2>
 
-    <div *ngIf="chartDatasets">
-        <canvas baseChart width="540" height="200" type="line"
-                [datasets]="chartDatasets"
-                [labels]="chartLabels"
-                [options]="chartOptions"></canvas>
-    </div>
+    @if (chartDatasets) {
+        <div>
+            <canvas baseChart width="540" height="200" type="line"
+                    [datasets]="chartDatasets"
+                    [labels]="chartLabels"
+                    [options]="chartOptions"></canvas>
+        </div>
+    }
 </section>

@@ -1,8 +1,12 @@
 <section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
-    <div *ngIf="currentItem as i" [@fadeInOnChange]="curIndex" class="news-item">
-        <div class="news-image" *ngIf="feedImageUrl"><img [src]="feedImageUrl" alt="News Image"></div>
-        <div class="news-title">{{ i.title }}</div>
-        <div class="news-desc">{{ i.description }}</div>
-        <div class="news-updated">{{ i.lastUpdate | timeAgo }}</div>
-    </div>
+    @if (currentItem; as i) {
+        <div [@fadeInOnChange]="curIndex" class="news-item">
+            @if (feedImageUrl) {
+                <div class="news-image"><img [src]="feedImageUrl" alt="News Image"></div>
+            }
+            <div class="news-title">{{ i.title }}</div>
+            <div class="news-desc">{{ i.description }}</div>
+            <div class="news-updated">{{ i.lastUpdate | timeAgo }}</div>
+        </div>
+    }
 </section>

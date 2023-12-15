@@ -1,20 +1,28 @@
-<section *ngIf="fxRates" (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
-    <h2>Exchange rates</h2>
+@if (fxRates) {
+    <section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
+        <h2>Exchange rates</h2>
 
-    <!-- FX rates -->
-    <table class="fx v-ruled">
-        <tr>
-            <td class="fx-ccy" *ngFor="let rate of fxRates">{{ rate.symbol }}</td>
-        </tr>
-        <tr>
-            <td class="fx-rate" *ngFor="let rate of fxRates">{{ rate.rate | number:'.2-2' }}</td>
-        </tr>
-        <tr>
-            <td class="fx-move" *ngFor="let rate of fxRates">
-                <span [class.fx-move-up]="rate.move > 0" [class.fx-move-down]="rate.move < 0">
-                    {{ rate.move | number:'.2-2' }}
-                </span>
-            </td>
-        </tr>
-    </table>
-</section>
+        <!-- FX rates -->
+        <table class="fx v-ruled">
+            <tr>
+                @for (rate of fxRates; track rate) {
+                    <td class="fx-ccy">{{ rate.symbol }}</td>
+                }
+            </tr>
+            <tr>
+                @for (rate of fxRates; track rate) {
+                    <td class="fx-rate">{{ rate.rate | number:'.2-2' }}</td>
+                }
+            </tr>
+            <tr>
+                @for (rate of fxRates; track rate) {
+                    <td class="fx-move">
+                        <span [class.fx-move-up]="rate.move > 0" [class.fx-move-down]="rate.move < 0">
+                            {{ rate.move | number:'.2-2' }}
+                        </span>
+                    </td>
+                }
+            </tr>
+        </table>
+    </section>
+}

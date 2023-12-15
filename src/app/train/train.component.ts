@@ -46,10 +46,6 @@ export class TrainComponent implements OnInit, DataLoading {
             });
     }
 
-    journeyId(index: number, journey: ExtendedTrainDeparture): string {
-        return journey.name;
-    }
-
     private processData(data: TrainDeparture[]) {
         // Remove any error
         this.error = undefined;

@@ -37,10 +37,6 @@ export class BusComponent implements OnInit, DataLoading {
             });
     }
 
-    journeyId(index: number, journey: any): string {
-        return journey.JourneyNumber;
-    }
-
     private processData(data: any) {
         // Remove any error
         this.error = undefined;
