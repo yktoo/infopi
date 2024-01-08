@@ -85,21 +85,21 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "defaultConfiguration": "development",
                     "options": {
-                        "browserTarget": "infopi:build"
+                        "buildTarget": "infopi:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "infopi:build:production"
+                            "buildTarget": "infopi:build:production"
                         },
                         "development": {
-                            "browserTarget": "infopi:build:development"
+                            "buildTarget": "infopi:build:development"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "infopi:build"
+                        "buildTarget": "infopi:build"
                     }
                 },
                 "test": {
