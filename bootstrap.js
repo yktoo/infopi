@@ -18,8 +18,10 @@ function loadApp() {
 function createWindow() {
     win = new BrowserWindow({
         kiosk: true,
-        // Disable CORS policy enforcement
-        webPreferences: { webSecurity: false },
+        webPreferences: {
+            // Disable CORS policy enforcement
+            webSecurity: false,
+        },
     });
 
     // Reset cache
