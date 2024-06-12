@@ -14,6 +14,7 @@ import { NewsComponent } from './news/news.component';
 import { ChartComponent } from './chart/chart.component';
 import { SpinnerDirective } from './_directives/spinner.directive';
 import { TimeAgoPipe } from './_pipes/time-ago.pipe';
+import { TruncatePipe } from './_pipes/truncate.pipe';
 
 @NgModule({
     declarations: [
@@ -27,7 +28,8 @@ import { TimeAgoPipe } from './_pipes/time-ago.pipe';
         NewsComponent,
         ChartComponent,
         SpinnerDirective,
-        TimeAgoPipe
+        TimeAgoPipe,
+        TruncatePipe,
     ],
     imports: [
         BrowserModule,

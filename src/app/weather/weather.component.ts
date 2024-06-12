@@ -23,6 +23,8 @@ export class WeatherComponent implements OnInit, DataLoading {
 
     chartData: ChartData<'line'>;
     chartOptions: ChartOptions<'line'> = {
+        // Disable chart animations as they seem to cause drawing issues in Electron on Raspberry Pi
+        animations: false as any,
         maintainAspectRatio: false,
         layout: {
             padding: {left: 20, right: 50}

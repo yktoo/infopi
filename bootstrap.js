@@ -21,6 +21,7 @@ function createWindow() {
         webPreferences: {
             // Disable CORS policy enforcement
             webSecurity: false,
+            sandbox: false,
         },
     });
 

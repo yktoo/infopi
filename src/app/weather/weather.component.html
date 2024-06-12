@@ -10,7 +10,7 @@
             </div>
             <!-- Weather message -->
             <div class="card w-7 w-text position-relative">
-                {{ currentWeather.message }}
+                {{ currentWeather.message | truncate:300 }}
                 <!-- Last updated -->
                 <div class="w-updated">{{ currentWeather.station.updated | timeAgo }}</div>
             </div>
