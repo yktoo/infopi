@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { FxService } from './fx.service';
 import { ConfigService } from './config.service';
 import { getConfigServiceMock } from '../_testing/services.mock';
@@ -13,10 +14,9 @@ describe('FxService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                HttpClientTestingModule,
-            ],
             providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
                 {provide: ConfigService, useValue: getConfigServiceMock()},
             ],
         });

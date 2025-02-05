@@ -1,16 +1,30 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
+import { SafeResourceUrl } from '@angular/platform-browser';
+import { timer } from 'rxjs';
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartData, ChartOptions } from 'chart.js';
 import { BuienradarService } from '../_services/buienradar.service';
 import { ConfigService } from '../_services/config.service';
-import { timer } from 'rxjs';
-import { SafeResourceUrl } from '@angular/platform-browser';
-import { ChartData, ChartOptions } from 'chart.js';
 import { CurrentWeather, RawWeatherData, WeatherDayForecast } from '../_models/weather-data';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
+import { SpinnerDirective } from '../_directives/spinner.directive';
+import { TruncatePipe } from '../_pipes/truncate.pipe';
+import { TimeAgoPipe } from '../_pipes/time-ago.pipe';
 
 @Component({
     selector: 'app-weather',
     templateUrl: './weather.component.html',
-    styleUrls: ['./weather.component.scss']
+    styleUrls: ['./weather.component.scss'],
+    imports: [
+        SpinnerDirective,
+        NgClass,
+        TruncatePipe,
+        TimeAgoPipe,
+        DecimalPipe,
+        DatePipe,
+        BaseChartDirective,
+    ],
 })
 export class WeatherComponent implements OnInit, DataLoading {
 

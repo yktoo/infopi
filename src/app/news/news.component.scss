@@ -1,4 +1,4 @@
-@import "src/vars";
+@use "src/vars";
 
 .news-item {
     text-align: center;
@@ -11,15 +11,15 @@
     }
 }
 .news-title {
-    font-size: $font-size;
+    font-size: vars.$font-size;
     color: #fff1d0;
     padding: 0.2rem;
 }
 .news-desc {
-    font-size: $font-size-s;
+    font-size: vars.$font-size-s;
     padding: 0.1rem;
 }
 .news-updated {
-    font-size: $font-size-s;
-    color: $color-pale-fg;
+    font-size: vars.$font-size-s;
+    color: vars.$color-pale-fg;
 }

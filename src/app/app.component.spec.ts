@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { MockComponent } from 'ng-mocks';
+import { MockComponents } from 'ng-mocks';
 import { AppComponent } from './app.component';
 import { ClockComponent } from './clock/clock.component';
 import { WeatherComponent } from './weather/weather.component';
@@ -14,19 +14,21 @@ describe('AppComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [
+            imports: [
                 AppComponent,
-                MockComponent(ClockComponent),
-                MockComponent(WeatherComponent),
-                MockComponent(TrainComponent),
-                MockComponent(BusComponent),
-                MockComponent(NewsComponent),
-                MockComponent(ChartComponent),
-                MockComponent(FxComponent),
-                MockComponent(DomoticsComponent),
+                MockComponents(
+                    ClockComponent,
+                    WeatherComponent,
+                    TrainComponent,
+                    BusComponent,
+                    NewsComponent,
+                    ChartComponent,
+                    FxComponent,
+                    DomoticsComponent,
+                ),
             ],
         })
-        .compileComponents();
+            .compileComponents();
     });
 
     it('creates the app', () => {

@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { timer } from 'rxjs';
 import { OvApiService } from '../_services/ov-api.service';
 import { ConfigService } from '../_services/config.service';
-import { timer } from 'rxjs';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 import { Animations } from '../_utils/animations';
+import { SpinnerDirective } from '../_directives/spinner.directive';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-bus',
     templateUrl: './bus.component.html',
     styleUrls: ['./bus.component.scss'],
     animations: [Animations.fadeTableRow()],
+    imports: [
+        SpinnerDirective,
+        DatePipe,
+    ],
 })
 export class BusComponent implements OnInit, DataLoading {
 

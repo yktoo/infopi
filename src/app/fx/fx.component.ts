@@ -3,6 +3,8 @@ import { FxService } from '../_services/fx.service';
 import { ConfigService } from '../_services/config.service';
 import { timer } from 'rxjs';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
+import { DecimalPipe } from '@angular/common';
+import { SpinnerDirective } from '../_directives/spinner.directive';
 
 class Rate {
     constructor(public currency: string, public rate: number, public move: number, public symbol: string) { }
@@ -11,7 +13,11 @@ class Rate {
 @Component({
     selector: 'app-fx',
     templateUrl: './fx.component.html',
-    styleUrls: ['./fx.component.scss']
+    styleUrls: ['./fx.component.scss'],
+    imports: [
+        DecimalPipe,
+        SpinnerDirective,
+    ],
 })
 export class FxComponent implements OnInit, DataLoading {
 

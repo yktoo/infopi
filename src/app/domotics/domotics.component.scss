@@ -8,13 +8,15 @@
     }
 
     .closed:before {
-        content: '\2705';
+        content: '✔️';
+        padding-right: 0.25rem;
         color: #99ff99;
     }
 
     .open {
         &:before {
             content: '\2757';
+            padding-right: 0.25rem;
         }
         color: #000000;
         background-color: #ffcf0a;
@@ -23,7 +25,7 @@
     .on {
         color: #000000;
         background-color: #ff0617;
-        animation: pulse 2s infinite;
+        animation: pulse 1s infinite;
     }
 
     @keyframes pulse {

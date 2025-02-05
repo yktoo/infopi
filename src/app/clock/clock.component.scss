@@ -1,15 +1,15 @@
-@import "src/vars";
+@use "src/vars";
 
 .date {
-    font-size: $font-size-xxl;
+    font-size: vars.$font-size-xxl;
 }
 
 .day-of-week {
-    font-size: $font-size-xl;
+    font-size: vars.$font-size-xl;
 }
 
 .time {
-    font-size: $font-size-xxl;
+    font-size: vars.$font-size-xxl;
 
 
     .hhmm {
@@ -17,7 +17,7 @@
     }
 
     .ss {
-        font-size: $font-size-l;
+        font-size: vars.$font-size-l;
         vertical-align: super;
     }
 }

@@ -1,14 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { timer } from 'rxjs';
-import { ChartDataset, ChartOptions } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { ConfigService } from '../_services/config.service';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
+import { SpinnerDirective } from '../_directives/spinner.directive';
 
 @Component({
     selector: 'app-chart',
     templateUrl: './chart.component.html',
-    styleUrls: ['./chart.component.scss']
+    styleUrls: ['./chart.component.scss'],
+    imports: [
+        SpinnerDirective,
+        BaseChartDirective,
+    ],
 })
 export class ChartComponent implements OnInit, DataLoading {
 
@@ -16,7 +22,7 @@ export class ChartComponent implements OnInit, DataLoading {
     dataLoading = false;
 
     chartLabels: string[];
-    chartDatasets: ChartDataset[];
+    chartData: ChartConfiguration['data'];
     chartOptions: ChartOptions = {
         // Disable chart animations as they seem to cause drawing issues in Electron on Raspberry Pi
         animations: false as any,
@@ -128,29 +134,31 @@ export class ChartComponent implements OnInit, DataLoading {
 
         // Prepare data series
         const transparent = 'rgba(0,0,0,0)';
-        this.chartDatasets = [
-            {
-                label: 'COVID-19 cases',
-                yAxisID: 'yLeft',
-                data: cases,
-                borderColor: '#a0dbff',
-                backgroundColor: transparent,
-                pointBorderColor: transparent,
-                pointBackgroundColor: transparent,
-                pointRadius: 1,
-                borderWidth: 2
-            },
-            {
-                label: 'Deceased',
-                yAxisID: 'yRight',
-                data: deceased,
-                borderColor: '#ffb45e',
-                backgroundColor: transparent,
-                pointBorderColor: transparent,
-                pointBackgroundColor: transparent,
-                pointRadius: 1,
-                borderWidth: 2
-            },
-        ];
+        this.chartData = {
+            datasets: [
+                {
+                    label:                'COVID-19 cases',
+                    yAxisID:              'yLeft',
+                    data:                 cases,
+                    borderColor:          '#a0dbff',
+                    backgroundColor:      transparent,
+                    pointBorderColor:     transparent,
+                    pointBackgroundColor: transparent,
+                    pointRadius:          1,
+                    borderWidth:          2
+                },
+                {
+                    label:                'Deceased',
+                    yAxisID:              'yRight',
+                    data:                 deceased,
+                    borderColor:          '#ffb45e',
+                    backgroundColor:      transparent,
+                    pointBorderColor:     transparent,
+                    pointBackgroundColor: transparent,
+                    pointRadius:          1,
+                    borderWidth:          2
+                },
+            ]
+        };
     }
 }

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockService } from 'ng-mocks';
 import { BusComponent } from './bus.component';
 import { OvApiService } from '../_services/ov-api.service';
-import { SpinnerDirective } from '../_directives/spinner.directive';
 
 describe('BusComponent', () => {
 
@@ -11,10 +10,12 @@ describe('BusComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [BusComponent, SpinnerDirective],
-            providers: [{provide: OvApiService, useValue: MockService(OvApiService)}],
+            imports: [BusComponent],
+            providers: [
+                {provide: OvApiService, useValue: MockService(OvApiService)},
+            ],
         })
-        .compileComponents();
+            .compileComponents();
 
         fixture = TestBed.createComponent(BusComponent);
         component = fixture.componentInstance;

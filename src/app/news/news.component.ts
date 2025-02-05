@@ -6,12 +6,18 @@ import { ConfigService } from '../_services/config.service';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 import { Animations } from '../_utils/animations';
 import { NewsItem, RawRssChannel } from '../_models/rss-data';
+import { TimeAgoPipe } from '../_pipes/time-ago.pipe';
+import { SpinnerDirective } from '../_directives/spinner.directive';
 
 @Component({
     selector: 'app-news',
     templateUrl: './news.component.html',
     styleUrls: ['./news.component.scss'],
     animations: [Animations.fadeInOnChange()],
+    imports: [
+        TimeAgoPipe,
+        SpinnerDirective,
+    ],
 })
 export class NewsComponent implements OnInit, DataLoading {
 

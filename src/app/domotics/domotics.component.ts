@@ -3,11 +3,17 @@ import { timer } from 'rxjs';
 import { ConfigService } from '../_services/config.service';
 import { OpenHabItem, OpenHabService } from '../_services/open-hab.service';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
+import { LowerCasePipe } from '@angular/common';
+import { SpinnerDirective } from '../_directives/spinner.directive';
 
 @Component({
     selector: 'app-domotics',
     templateUrl: './domotics.component.html',
     styleUrls: ['./domotics.component.scss'],
+    imports: [
+        LowerCasePipe,
+        SpinnerDirective,
+    ],
 })
 export class DomoticsComponent implements OnInit, DataLoading {
 

@@ -14,53 +14,39 @@ export class TimeAgoPipe implements PipeTransform {
         }
 
         const seconds = Math.floor((new Date().getTime() - d.getTime()) / 1000);
+        const formatter = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
 
         // Years
         let interval = Math.floor(seconds / 31536000);
-        if (interval > 1) {
-            return interval + ' years ago';
-        }
-        if (interval === 1) {
-            return 'A year ago';
+        if (interval >= 1) {
+            return formatter.format(-interval, 'year');
         }
 
         // Months
         interval = Math.floor(seconds / 2592000);
-        if (interval > 1) {
-            return interval + ' months ago';
-        }
-        if (interval === 1) {
-            return 'A month ago';
+        if (interval >= 1) {
+            return formatter.format(-interval, 'month');
         }
 
         // Days
         interval = Math.floor(seconds / 86400);
-        if (interval > 1) {
-            return interval + ' days ago';
-        }
-        if (interval === 1) {
-            return 'Yesterday';
+        if (interval >= 1) {
+            return formatter.format(-interval, 'day');
         }
 
         // Hours
         interval = Math.floor(seconds / 3600);
-        if (interval > 1) {
-            return interval + ' hours ago';
-        }
-        if (interval === 1) {
-            return 'An hour ago';
+        if (interval >= 1) {
+            return formatter.format(-interval, 'hour');
         }
 
         // Minutes
         interval = Math.floor(seconds / 60);
-        if (interval > 1) {
-            return interval + ' minutes ago';
-        }
-        if (interval === 1) {
-            return 'A minute ago';
+        if (interval >= 1) {
+            return formatter.format(-interval, 'minute');
         }
 
         // Less than a minute
-        return 'Just now';
+        return 'just now';
     }
 }

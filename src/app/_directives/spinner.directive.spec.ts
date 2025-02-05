@@ -1,10 +1,11 @@
-import { SpinnerDirective } from './spinner.directive';
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { SpinnerDirective } from './spinner.directive';
 
 @Component({
     template: '<div [appSpinner]="value"></div>',
+    imports: [SpinnerDirective],
 })
 class TestComponent {
     value = false;
@@ -18,7 +19,7 @@ describe('SpinnerDirective', () => {
 
     beforeEach(() => {
         fixture = TestBed.configureTestingModule({
-            declarations: [SpinnerDirective, TestComponent],
+            imports: [SpinnerDirective, TestComponent],
         })
             .createComponent(TestComponent);
         fixture.detectChanges();

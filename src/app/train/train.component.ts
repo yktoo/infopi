@@ -5,6 +5,8 @@ import { NsService } from '../_services/ns.service';
 import { TrainDeparture, TrainMessage } from '../_models/train-departure';
 import { DataLoading, loadsDataInto } from '../_utils/data-loading';
 import { Animations } from '../_utils/animations';
+import { DatePipe } from '@angular/common';
+import { SpinnerDirective } from '../_directives/spinner.directive';
 
 /**
  * Extension of TrainDeparture, which also allows to store delays and warnings.
@@ -19,6 +21,10 @@ export interface ExtendedTrainDeparture extends TrainDeparture {
     templateUrl: './train.component.html',
     styleUrls: ['./train.component.scss'],
     animations: [Animations.fadeTableRow()],
+    imports: [
+        DatePipe,
+        SpinnerDirective,
+    ],
 })
 export class TrainComponent implements OnInit, DataLoading {
 

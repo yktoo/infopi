@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { OvApiService } from './ov-api.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('OvApiService', () => {
 
@@ -10,8 +10,9 @@ describe('OvApiService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                HttpClientTestingModule,
+            providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
             ],
         });
 

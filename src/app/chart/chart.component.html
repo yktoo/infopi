@@ -1,10 +1,10 @@
 <section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
     <h2>COVID-19 daily figures</h2>
 
-    @if (chartDatasets) {
+    @if (chartData) {
         <div>
             <canvas baseChart width="540" height="200" type="line"
-                    [datasets]="chartDatasets"
+                    [data]="chartData"
                     [labels]="chartLabels"
                     [options]="chartOptions"></canvas>
         </div>

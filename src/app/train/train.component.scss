@@ -1,7 +1,7 @@
-@import "src/vars";
+@use "src/vars";
 
 .departures {
-    font-size: $font-size;
+    font-size: vars.$font-size;
 
     tr {
         td {
@@ -17,7 +17,7 @@
             background-color: #000;
             border-radius: 50%;
             padding: 6px;
-            font-size: $font-size-s;
+            font-size: vars.$font-size-s;
             font-weight: bold;
         }
     }
@@ -26,7 +26,7 @@
 
     .train-notes {
         color: #f00;
-        font-size: $font-size-s;
+        font-size: vars.$font-size-s;
         font-weight: bold;
     }
 

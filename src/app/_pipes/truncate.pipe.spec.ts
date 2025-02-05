@@ -13,7 +13,8 @@ describe('TruncatePipe', () => {
         {in: 'abc',     len: 80, want: 'abc'},
         {in: 'abc',     len:  3, want: 'abc'},
         {in: 'abc',     len:  2, want: 'a…'},
-    ].forEach(test =>
-        it(`given "${test.in}" and maxLength=${test.len} returns "${test.want}"`, () =>
-            expect(pipe.transform(test.in, test.len)).toBe(test.want)));
+    ]
+        .forEach(test =>
+            it(`given "${test.in}" and maxLength=${test.len} returns "${test.want}"`, () =>
+                expect(pipe.transform(test.in, test.len)).toBe(test.want)));
 });

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockService } from 'ng-mocks';
 import { DomoticsComponent } from './domotics.component';
 import { OpenHabService } from '../_services/open-hab.service';
-import { SpinnerDirective } from '../_directives/spinner.directive';
 
 describe('DomoticsComponent', () => {
 
@@ -11,12 +10,12 @@ describe('DomoticsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [DomoticsComponent, SpinnerDirective],
+            imports: [DomoticsComponent],
             providers: [
                 {provide: OpenHabService, useValue: MockService(OpenHabService)},
             ],
         })
-        .compileComponents();
+            .compileComponents();
 
         fixture = TestBed.createComponent(DomoticsComponent);
         component = fixture.componentInstance;

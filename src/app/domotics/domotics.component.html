@@ -12,7 +12,7 @@
             </tr>
             <tr>
                 @for (item of items; track item.name) {
-                    <td class="state" [ngClass]="item.state | lowercase">{{ item.state | lowercase }}</td>
+                    <td class="state" [class]="item.state | lowercase">{{ item.state | lowercase }}</td>
                 }
             </tr>
         </table>

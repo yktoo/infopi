@@ -8,9 +8,9 @@ describe('ClockComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ClockComponent],
+            imports: [ClockComponent],
         })
-        .compileComponents();
+            .compileComponents();
 
         jasmine.clock().mockDate(new Date('2006-05-04 23:01:59'));
         fixture = TestBed.createComponent(ClockComponent);

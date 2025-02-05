@@ -1,34 +1,36 @@
-@import "src/vars";
+@use "src/vars";
 
 .w-icon {
-    font-size: $font-size-xxl;
+    font-size: vars.$font-size-xxl;
 }
 
 .w-icon-text {
-    font-size: $font-size;
+    font-size: vars.$font-size;
 }
 
 .w-text {
-    font-size: $font-size;
+    font-size: vars.$font-size;
 }
 
 .w-temp {
-    font-size: $font-size-xxl;
+    font-size: vars.$font-size-xxl;
 }
 
 .w-temp .wi-celsius {
-    font-size: $font-size-xxl;
+    font-size: vars.$font-size-xxl;
     vertical-align: text-top;
 }
 
 .w-updated {
     position: absolute;
     bottom: 0.5rem;
-    left: 0;
-    right: 0;
-    font-size: $font-size-s;
-    text-align: center;
-    color: $color-pale-fg;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.2rem 0.33rem;
+    border-radius: 0.2rem;
+    font-size: vars.$font-size-s;
+    color: vars.$color-badge-light-fg;
+    background-color: vars.$color-badge-light-bg;
 }
 
 .w-radar-map {
@@ -56,7 +58,7 @@
 }
 
 .w-smallicon {
-    font-size: $font-size-xl;
+    font-size: vars.$font-size-xl;
 
     // Colorise the wind speeds
     .wi-wind-beaufort-0  { color: #ffffff; }
@@ -84,26 +86,26 @@
 }
 
 .w-smalltext {
-    font-size: $font-size-l;
+    font-size: vars.$font-size-l;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .w-unit {
-    font-size: $font-size;
+    font-size: vars.$font-size;
 }
 
 .w-wind-dir {
-    font-size: $font-size-xl;
+    font-size: vars.$font-size-xl;
 }
 
 .w-fcast {
-    font-size: $font-size;
+    font-size: vars.$font-size;
 
     th {
         background-color: #666666;
-        font-size: $font-size-l;
+        font-size: vars.$font-size-l;
         font-weight: bold;
         padding: 0.4rem;
     }
@@ -114,14 +116,14 @@
     }
 
     .w-fcast-icon {
-        font-size: $font-size-xl;
+        font-size: vars.$font-size-xl;
         color: #ffdbaf;
     }
 
     .w-fcast-temp{
-        font-size: $font-size-l;
+        font-size: vars.$font-size-l;
         &:after {
-            font-size: $font-size;
+            font-size: vars.$font-size;
             content: '\2103';
             padding-left: 3px;
             vertical-align: text-top;
