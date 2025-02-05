@@ -16,6 +16,7 @@ describe('SpinnerDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
     let de: DebugElement[];
     let div: HTMLDivElement;
+    let comp: TestComponent;
 
     beforeEach(() => {
         fixture = TestBed.configureTestingModule({
@@ -23,6 +24,7 @@ describe('SpinnerDirective', () => {
         })
             .createComponent(TestComponent);
         fixture.detectChanges();
+        comp = fixture.componentInstance;
 
         // All elements with an attached directive
         de = fixture.debugElement.queryAll(By.directive(SpinnerDirective));
@@ -37,26 +39,23 @@ describe('SpinnerDirective', () => {
     });
 
     it('is initially not spinning', () => {
-        expect(div.classList).not.toContain('spinning');
+        expect(div).not.toHaveClass('spinning');
     });
 
     it('starts spinner', fakeAsync(() => {
-        // Enable spinning
-        fixture.componentInstance.value = true;
+        // Enable spinning: no 'spinning' class just yet
+        comp.value = true;
         fixture.detectChanges();
-
-        // No class is assigned yet
-        expect(div.classList).not.toContain('spinning');
+        expect(div).not.toHaveClass('spinning');
 
         // The class gets assigned after 1000 ms
         tick(1001);
-        expect(div.classList).toContain('spinning');
-
-        // Disable spinning
-        fixture.componentInstance.value = false;
         fixture.detectChanges();
+        expect(div).toHaveClass('spinning');
 
-        // The class disappears immediately
-        expect(div.classList).not.toContain('spinning');
+        // Disable spinning: the class disappears immediately
+        comp.value = false;
+        fixture.detectChanges();
+        expect(div).not.toHaveClass('spinning');
     }));
 });
