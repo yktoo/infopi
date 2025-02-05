@@ -4,7 +4,6 @@ import { DomoticsComponent } from './domotics/domotics.component';
 import { ClockComponent } from './clock/clock.component';
 import { WeatherComponent } from './weather/weather.component';
 import { TrainComponent } from './train/train.component';
-import { BusComponent } from './bus/bus.component';
 
 @Component({
     selector: 'app-root',
@@ -16,7 +15,7 @@ import { BusComponent } from './bus/bus.component';
         ClockComponent,
         WeatherComponent,
         TrainComponent,
-        BusComponent,
+
     ],
 })
 export class AppComponent {
