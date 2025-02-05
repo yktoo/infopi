@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const packager = require('electron-packager');
 const installer = require('electron-installer-debian');
@@ -10,8 +10,8 @@ let archDeb = 'amd64';
 // The first command line argument can be 'rpi'
 if (process.argv.length > 2 && process.argv[2] === 'rpi') {
     platform = 'linux';
-    arch = 'armv7l';
-    archDeb = 'armhf';
+    arch = 'arm64';
+    archDeb = 'arm64';
 }
 
 async function makeDeb(path) {

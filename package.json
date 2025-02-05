@@ -13,7 +13,7 @@
         "electron": "ng build --base-href ./ && electron --no-sandbox .",
         "package": "npm run build:prod && node package.js",
         "package:rpi": "npm run build:prod && node package.js rpi",
-        "deploy": "npm run package:rpi && scp dist/installers/infopi_*_armhf.deb yrpi: && ssh yrpi sudo dpkg -i infopi_*_armhf.deb && ssh yrpi rm infopi_*_armhf.deb && npm run restart-infopi",
+        "deploy": "npm run package:rpi && scp dist/installers/infopi_*_arm64.deb yrpi: && ssh yrpi sudo dpkg -i infopi_*_arm64.deb && ssh yrpi rm infopi_*_arm64.deb && npm run restart-infopi",
         "restart-infopi": "ssh yrpi killall infopi; ssh yrpi 'env DISPLAY=:0 nohup infopi &>/dev/null &'"
     },
     "private": true,
