@@ -1,0 +1,64 @@
+@use "vars";
+
+.w-fcast {
+    font-size: vars.$font-size;
+
+    th {
+        background-color: #666666;
+        font-size: vars.$font-size-l;
+        font-weight: bold;
+        padding: 0.4rem;
+    }
+
+    td {
+        text-align: center;
+        padding: 0.4rem;
+    }
+
+    .w-fcast-icon {
+        font-size: vars.$font-size-xl;
+        color: #ffdbaf;
+    }
+
+    .w-fcast-temp{
+        font-size: vars.$font-size-l;
+        &:after {
+            font-size: vars.$font-size;
+            content: '\2103';
+            padding-left: 3px;
+            vertical-align: text-top;
+        }
+    }
+
+    .w-fcast-prob {
+        padding-left: 0.1rem;
+        padding-right: 0.5rem;
+        &:after {
+            content: '%';
+        }
+    }
+
+    .w-fcast-probs .wi-raindrop {
+        color: #99ccff;
+    }
+
+    .w-fcast-probs .wi-day-sunny {
+        color: #ffcc00;
+    }
+
+}
+
+.w-fcast-chart {
+    position: relative;
+    width: 97%;
+    margin-left: 10px;
+    height: 250px;
+}
+
+.temp-hi {
+    color: #ffcc00;
+}
+
+.temp-lo {
+    color: #99ccff;
+}

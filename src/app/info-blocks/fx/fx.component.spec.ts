@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockService } from 'ng-mocks';
 import { FxComponent } from './fx.component';
-import { FxService } from '../_services/fx.service';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('FxComponent', () => {
 
@@ -12,7 +11,7 @@ describe('FxComponent', () => {
         await TestBed.configureTestingModule({
             imports: [FxComponent],
             providers: [
-                {provide: FxService, useValue: MockService(FxService)},
+                provideHttpClientTesting(),
             ],
         })
             .compileComponents();

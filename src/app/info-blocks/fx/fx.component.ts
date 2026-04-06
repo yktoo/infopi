@@ -1,12 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { Observable, timer } from 'rxjs';
-import { DataLoading, loadsDataInto } from '../../_utils/data-loading';
+import { timer } from 'rxjs';
+import { DataLoading, loadsDataInto } from '../../core/data-loading';
 import { SpinnerDirective } from '../../core/spinner/spinner.directive';
 import { APP_CONFIG } from '../../core/config/config';
 import { HttpClient } from '@angular/common/http';
 import { XmlParserService } from '../../core/xml-parser/xml-parser.service';
-import { map } from 'rxjs/operators';
 
 interface FxBasic {
     'gesmes:Envelope': any;
@@ -42,24 +41,14 @@ export class FxComponent implements OnInit, DataLoading {
     }
 
     update() {
-        this.getFxRates()
+        // Request FX rates and return them wrapped in an Observable
+        this.http.get(FxComponent.baseUrl, {responseType: 'text'})
             .pipe(loadsDataInto(this))
             .subscribe({
-                next:  data => this.processData(data),
+                // Parse the XML response and process the data
+                next:  d => this.processData(d),
                 error: error => this.error = error,
             });
-    }
-
-    /**
-     * Request FX rates and return them wrapped in an Observable.
-     */
-    private getFxRates(): Observable<any> {
-        return this.http.get(FxComponent.baseUrl, {responseType: 'text'})
-            .pipe(
-                // Parse the XML response
-                map(d => this.xmlParser.parse<FxBasic>(d)),
-                // Unwrap the top level
-                map(res => res['gesmes:Envelope']));
     }
 
     private processData(data: any) {
@@ -67,8 +56,9 @@ export class FxComponent implements OnInit, DataLoading {
         this.error = undefined;
 
         // Extract current and previous rates into maps indexed by the currency symbol
-        const ratesCurrent  = this.getCurrencyRates(data.Cube[0].Cube[0].Cube);
-        const ratesPrevious = this.getCurrencyRates(data.Cube[0].Cube[1].Cube);
+        const fxData = this.xmlParser.parse<FxBasic>(data)['gesmes:Envelope'];
+        const ratesCurrent  = this.getCurrencyRates(fxData.Cube[0].Cube[0].Cube);
+        const ratesPrevious = this.getCurrencyRates(fxData.Cube[0].Cube[1].Cube);
 
         // Filter the currencies and calculate moves
         const currConfig = this.config.showCurrencies;

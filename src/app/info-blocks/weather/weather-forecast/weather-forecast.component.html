@@ -1,0 +1,55 @@
+<!-- Heading -->
+<h2>Weather forecast</h2>
+
+<!-- Forecast table -->
+@let df = dayForecasts();
+<table class="w-fcast v-ruled">
+    <!-- Table heading -->
+    <thead>
+        <tr>
+            @for (day of df; track day) {
+                <th>{{ day.dow }}</th>
+            }
+        </tr>
+    </thead>
+    <!-- Table body -->
+    <tbody>
+        <tr>
+            @for (day of df; track day) {
+                <td class="w-fcast-icon"><i class="wi" [class]="day.icon.wiClass"></i></td>
+            }
+        </tr>
+        <tr>
+            @for (day of df; track day) {
+                <td class="w-fcast w-fcast-probs">
+                    <i class="wi wi-day-sunny"></i> <span class="w-fcast-prob">{{ day.probSun }}</span>
+                </td>
+            }
+        </tr>
+        <tr>
+            @for (day of df; track day) {
+                <td class="w-fcast w-fcast-probs">
+                    <i class="wi wi-raindrop"></i> <span class="w-fcast-prob">{{ day.rain.probability }}</span>
+                </td>
+            }
+        </tr>
+        <tr>
+            @for (day of df; track day) {
+                <td class="w-fcast-temp temp-hi">{{ day.temperature.highMax }}</td>
+            }
+        </tr>
+        <tr>
+            <td colspan="5">
+                <!-- Temp chart -->
+                <div class="w-fcast-chart">
+                    <canvas baseChart width="400" height="400" [type]="'line'" [data]="chartData()" [options]="chartOptions"></canvas>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            @for (day of df; track day) {
+                <td class="w-fcast-temp temp-lo">{{ day.temperature.lowMin }}</td>
+            }
+        </tr>
+    </tbody>
+</table>

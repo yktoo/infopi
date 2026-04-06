@@ -2,13 +2,13 @@
     "extends": "./tsconfig.json",
     "compilerOptions": {
         "outDir": "./out-tsc/spec",
+        "strict": false,
         "types": [
-            "jasmine"
+            "vitest/globals"
         ]
     },
     "include": [
-        "src/**/*.spec.ts",
-        "src/**/*.mock.ts",
-        "src/**/*.d.ts"
+        "src/**/*.d.ts",
+        "src/**/*.spec.ts"
     ]
 }

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockService } from 'ng-mocks';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { BusScheduleComponent } from './bus-schedule.component';
-import { OvApiService } from '../_services/ov-api.service';
 
 describe('BusScheduleComponent', () => {
 
@@ -12,7 +11,7 @@ describe('BusScheduleComponent', () => {
         await TestBed.configureTestingModule({
             imports: [BusScheduleComponent],
             providers: [
-                {provide: OvApiService, useValue: MockService(OvApiService)},
+                provideHttpClientTesting(),
             ],
         })
             .compileComponents();

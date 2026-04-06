@@ -179,3 +179,13 @@ export interface WeatherDayForecast {
         wiClass:     string;
     };
 }
+
+/** Astronomic data about the sun and the moon. */
+export interface AstroData {
+    /** Time of sunrise. */
+    sunrise: Date,
+    /** Time of sunset. */
+    sunset: Date,
+    /** Moon phase in days (0..27). */
+    moonPhase: number,
+}

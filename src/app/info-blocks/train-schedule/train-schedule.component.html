@@ -1,28 +1,26 @@
-@if (departures) {
-    <section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
-        <!-- Heading -->
-        <h2>{{ departureStation }}</h2>
+<section (click)="update()" [class.outdated]="error()" [appSpinner]="dataLoading">
+    <!-- Heading -->
+    <h2>{{ config().departureTimesStationName }}</h2>
 
-        <!-- Departure times table -->
-        <table class="departures h-ruled">
-            @for (train of departures; track train.name) {
-                <tr @fadeTableRow [class.train-delayed]="train.delay" [class.train-canceled]="train.cancelled">
-                    <td class="train-time" >{{ train.plannedDateTime | date:'HH:mm' }}</td>
-                    <td class="train-delay">
-                        @if (train.delay) {
-                            <span class="delay-value">{{ train.delay }}</span>
-                        }
-                    </td>
-                    <td class="train-dest" >
-                        <div class="train-dest-name">{{ train.direction }}</div>
-                        @for (msg of train.disruptions; track msg) {
-                            <div class="train-notes">{{ msg.text }}</div>
-                        }
-                    </td>
-                    <td class="train-type" >{{ train.product.longCategoryName }}</td>
-                    <td class="train-platf">{{ train.actualTrack || train.plannedTrack }}</td>
-                </tr>
-            }
-        </table>
-    </section>
-}
+    <!-- Departure times table -->
+    <table class="departures h-ruled">
+        @for (train of departures(); track train.name) {
+            <tr animate.enter="fade-in" animate.leave="fade-out" [class.train-delayed]="train.delay" [class.train-canceled]="train.cancelled">
+                <td class="train-time" >{{ train.plannedDateTime | date:'HH:mm' }}</td>
+                <td class="train-delay">
+                    @if (train.delay) {
+                        <span class="delay-value">{{ train.delay }}</span>
+                    }
+                </td>
+                <td class="train-dest" >
+                    <div class="train-dest-name">{{ train.direction }}</div>
+                    @for (msg of train.disruptions; track msg) {
+                        <div class="train-notes">{{ msg.text }}</div>
+                    }
+                </td>
+                <td class="train-type" >{{ train.product?.longCategoryName }}</td>
+                <td class="train-platf">{{ train.actualTrack || train.plannedTrack }}</td>
+            </tr>
+        }
+    </table>
+</section>

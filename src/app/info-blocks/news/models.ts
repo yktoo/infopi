@@ -39,7 +39,8 @@ export interface RawRssFeed {
 }
 
 export interface NewsItem {
-    readonly title:       string;
+    readonly title: string;
     readonly description: string;
     readonly lastUpdate?: Date;
+    visible: boolean;
 }

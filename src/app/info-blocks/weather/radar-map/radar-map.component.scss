@@ -1,0 +1,23 @@
+.w-radar-map {
+    position: relative;
+    overflow: hidden hidden;
+    padding: 0;
+    flex-grow: 0;
+
+    .radar-map {
+        z-index: 10;
+        border: none;
+        width: 550px;
+        height: 512px;
+    }
+
+    .radar-cross {
+        position: absolute;
+        top: 246px;
+        left: 268px;
+        z-index: 20;
+        width: 20px;
+        height: 20px;
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAMElEQVQ4y2NgIAL87+v7/7+v7z8xapkYqAxGDRw1kAzASGyCHTAXMoxmvVEDh6OBADGuD6YQnXc4AAAAAElFTkSuQmCC);
+    }
+}

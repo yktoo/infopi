@@ -1,34 +1,27 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Observable, timer } from 'rxjs';
+import { Observable, Subscription, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BaseChartDirective } from 'ng2-charts';
-import { ChartData, ChartOptions } from 'chart.js';
-import { CurrentWeather, RawWeather, RawWeatherData, WeatherDayForecast } from './weather-data';
-import { DataLoading, loadsDataInto } from '../../_utils/data-loading';
+import { AstroData, CurrentWeather, RawWeather, RawWeatherData, WeatherDayForecast } from './models';
+import { DataLoading, loadsDataInto } from '../../core/data-loading';
 import { SpinnerDirective } from '../../core/spinner/spinner.directive';
-import { TruncatePipe } from '../../core/pipes/truncate.pipe';
-import { TimeAgoPipe } from '../../core/pipes/time-ago.pipe';
-import { APP_CONFIG } from '../../core/config/config';
 import { XmlParserService } from '../../core/xml-parser/xml-parser.service';
+import { CurrentWeatherComponent } from './current-weather/current-weather.component';
+import { RadarMapComponent } from './radar-map/radar-map.component';
+import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
+import { WeatherConfig } from '../../core/config/config';
 
 @Component({
     selector: 'app-weather',
     templateUrl: './weather.component.html',
-    styleUrls: ['./weather.component.scss'],
     imports: [
         SpinnerDirective,
-        NgClass,
-        TruncatePipe,
-        TimeAgoPipe,
-        DecimalPipe,
-        DatePipe,
-        BaseChartDirective,
+        CurrentWeatherComponent,
+        RadarMapComponent,
+        WeatherForecastComponent,
     ],
 })
-export class WeatherComponent implements OnInit, DataLoading {
+export class WeatherComponent implements DataLoading {
 
     private static readonly fullMoonTime = new Date('1999-08-11 13:09').getTime();
 
@@ -89,89 +82,26 @@ export class WeatherComponent implements OnInit, DataLoading {
         zz: 'wi-snow-wind',
     };
 
-    private static readonly moonPhaseMap = [
-        {text: 'New',             wicls: 'wi-moon-new'},
-        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-1'},
-        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-2'},
-        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-3'},
-        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-4'},
-        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-5'},
-        {text: 'Waxing crescent', wicls: 'wi-moon-waxing-crescent-6'},
-        {text: 'First quarter',   wicls: 'wi-moon-first-quarter'},
-        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-1'},
-        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-2'},
-        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-3'},
-        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-4'},
-        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-5'},
-        {text: 'Waxing gibbous',  wicls: 'wi-moon-waxing-gibbous-6'},
-        {text: 'Full',            wicls: 'wi-moon-full'},
-        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-1'},
-        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-2'},
-        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-3'},
-        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-4'},
-        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-5'},
-        {text: 'Waning gibbous',  wicls: 'wi-moon-waning-gibbous-6'},
-        {text: 'Third quarter',   wicls: 'wi-moon-third-quarter'},
-        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-1'},
-        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-2'},
-        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-3'},
-        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-4'},
-        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-5'},
-        {text: 'Waning crescent', wicls: 'wi-moon-waning-crescent-6'},
-    ];
-
-
     private readonly http = inject(HttpClient);
-    private readonly sanitizer = inject(DomSanitizer);
     private readonly xmlParser = inject(XmlParserService);
-    private readonly config = inject(APP_CONFIG).weather;
 
-    currentWeather?: CurrentWeather;
-    dayForecasts: WeatherDayForecast[];
-    sunMoon: any;
-    radarMapUrl: SafeResourceUrl;
+    /** Component configuration. */
+    readonly config = input.required<WeatherConfig>();
+
+    /** Current weather conditions. */
+    readonly currentWeather = signal<CurrentWeather | undefined>(undefined);
+
+    /** Current astronomic conditions. */
+    readonly astro = signal<AstroData | undefined>(undefined);
+
+    /** URL of the radar map. */
+    readonly radarMapUrl = signal<string | undefined>(undefined);
+
+    /** Weather forecasts for the upcoming days. */
+    readonly dayForecasts = signal<WeatherDayForecast[] | undefined>(undefined);
+
     error: any;
     dataLoading = false;
-
-    chartData: ChartData<'line'>;
-    chartOptions: ChartOptions<'line'> = {
-        // Disable chart animations as they seem to cause drawing issues in Electron on Raspberry Pi
-        animations: false as any,
-        maintainAspectRatio: false,
-        layout: {
-            padding: {left: 20, right: 50}
-        },
-        scales: {
-            y: {
-                display: true,
-                grid: {
-                    color:     ctx => ctx.tick.value === 0 ? '#aaaaaa' : '#333333',
-                    lineWidth: ctx => ctx.tick.value === 0 ? 2 : 1,
-                    tickLength: 5,
-                },
-                ticks: {
-                    padding: 10,
-                    font: {
-                        size: 15,
-                    },
-                },
-            },
-            x: {display: false},
-        },
-        plugins: {
-            legend: {display: false},
-        }
-    };
-
-    private readonly WEEKDAY_NAME_MAP: { [k: string]: string } = {
-        ma: 'Mon',
-        di: 'Tue',
-        wo: 'Wed',
-        do: 'Thu',
-        vr: 'Fri',
-        za: 'Sat',
-        zo: 'Sun',
-    };
 
     /**
      * Convert Buienradar's datetime of the format 'mm/dd/yyyy hh:mm:ss' into the ISO 8601 format.
@@ -180,13 +110,13 @@ export class WeatherComponent implements OnInit, DataLoading {
         return new Date(s.replace(/(\d\d)\/(\d\d)\/(\d\d\d\d)\s+([\d:]+)/, '$3-$1-$2T$4'));
     }
 
-    ngOnInit(): void {
-        timer(0, this.config.refreshRate).subscribe(() => this.update());
-        // Bump the "updated" value to update the "time ago" value (which just changes over time, without a change in the underlying value)
-        timer(0, 30 * 1000)
-            .subscribe(() =>
-                this.currentWeather?.station?.updated &&
-                (this.currentWeather.station.updated = new Date(this.currentWeather.station.updated)));
+    constructor() {
+        // (Re)subscribe on periodic updates
+        let t: Subscription;
+        effect(onCleanup => {
+            t = timer(0, this.config().refreshRate).subscribe(() => this.update());
+            onCleanup(() => t.unsubscribe());
+        });
     }
 
     update() {
@@ -198,7 +128,7 @@ export class WeatherComponent implements OnInit, DataLoading {
             });
 
         // Update the current radar map URL to reload the image
-        this.radarMapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        this.radarMapUrl.set(
             'https://gadgets.buienradar.nl/gadget/zoommap/' +
             '?lat=52.02833&lng=5.16806' +
             '&overname=2' +
@@ -227,16 +157,11 @@ export class WeatherComponent implements OnInit, DataLoading {
     }
 
     /**
-     * Calculate the current moon phase and return it as an object.
+     * Calculate the current moon phase and return it as a number in the range 0..27.
      */
-    private getMoonPhase(): any {
+    private getMoonPhase(): number {
         const diffDays = (new Date().getTime() - WeatherComponent.fullMoonTime) / 86400000;
-        const phase = Math.round((diffDays / 29.530588853) % 1 * 27);
-        return {
-            phase,
-            text:  WeatherComponent.moonPhaseMap[phase].text,
-            wicls: WeatherComponent.moonPhaseMap[phase].wicls,
-        };
+        return Math.round((diffDays / 29.530588853) % 1 * 27);
     }
 
     private processData(data: RawWeatherData) {
@@ -247,11 +172,11 @@ export class WeatherComponent implements OnInit, DataLoading {
         const curWeather = data.actueel_weer;
 
         // Prepare the current weather
-        const id = this.config.buienRadarStationId;
+        const id = this.config().buienRadarStationId;
         const station = curWeather.weerstations.weerstation.find(e => e.attr.id === id);
         if (station) {
             const icon = station.icoonactueel;
-            this.currentWeather = {
+            this.currentWeather.set({
                 station: {
                     code:       station.stationcode.text,
                     name:       station.stationnaam.text,
@@ -273,20 +198,21 @@ export class WeatherComponent implements OnInit, DataLoading {
                 icon: {
                     url:        icon.text,
                     wiClass:    this.getWeatherIconClass(icon.attr.ID),
-                    text:       icon.attr.zin,
+                    text:       icon.attr.zin ?? '',
                 },
                 message:        data.verwachting_vandaag.samenvatting.text,
-            };
+            });
         } else {
-            this.currentWeather = undefined;
+            this.currentWeather.set(undefined);
         }
 
         // Prepare weather forecast
-        this.dayForecasts = [1, 2, 3, 4, 5]
+        const weekdayMap = {ma: 'Mon', di: 'Tue', wo: 'Wed', do: 'Thu', vr: 'Fri', za: 'Sat', zo: 'Sun'};
+        this.dayForecasts.set([1, 2, 3, 4, 5]
             .map(i => data.verwachting_meerdaags[`dag-plus${i}` as 'dag-plus1'])
             .map(dw => ({
                 date:            dw.datum.text,               // Full date, eg 'zondag 17 april 2016'
-                dow:             this.WEEKDAY_NAME_MAP[dw.dagweek.text],
+                dow:             weekdayMap[dw.dagweek.text as keyof typeof weekdayMap],
                 probSun:         Number(dw.kanszon.text),     // Probability in percent
                 probSnow:        Number(dw.sneeuwcms.text),   // Probability in percent
                 rain: {
@@ -308,63 +234,13 @@ export class WeatherComponent implements OnInit, DataLoading {
                     url:         dw.icoon.text,
                     wiClass:     this.getWeatherIconClass(dw.icoon.attr.ID),
                 },
-            }));
+            })));
 
-        this.chartData = {
-            datasets: [
-                {
-                    label:                'High min',
-                    data:                 this.dayForecasts.map(f => f.temperature.highMin),
-                    borderColor:          '#ffcc00',
-                    backgroundColor:      '#ffcc0050',
-                    pointBorderColor:     '#ffcc00',
-                    pointBackgroundColor: '#ffcc00',
-                    borderWidth:          1,
-                    tension:              0.5,
-                    fill:                 '+1',
-                },
-                {
-                    label:                'High max',
-                    data:                 this.dayForecasts.map(f => f.temperature.highMax),
-                    borderColor:          '#ffcc00',
-                    pointBorderColor:     '#ffcc00',
-                    pointBackgroundColor: '#ffcc00',
-                    borderWidth:          2,
-                    tension:              0.5,
-                },
-                {
-                    label:                'Low min',
-                    data:                 this.dayForecasts.map(f => f.temperature.lowMin),
-                    borderColor:          '#99ccff',
-                    backgroundColor:      '#99ccff50',
-                    pointBorderColor:     '#99ccff',
-                    pointBackgroundColor: '#99ccff',
-                    borderWidth:          2,
-                    tension:              0.5,
-                    fill:                 '+1',
-                },
-                {
-                    label:                'Low max',
-                    data:                 this.dayForecasts.map(f => f.temperature.lowMax),
-                    borderColor:          '#99ccff',
-                    pointBorderColor:     '#99ccff',
-                    pointBackgroundColor: '#99ccff',
-                    borderWidth:          1,
-                    tension:              0.5,
-                },
-            ],
-            labels: this.dayForecasts.map(f => f.dow),
-        };
-
-        // Prepare sunrise, sunset and moon phase
-        const moonPhase = this.getMoonPhase();
-        this.sunMoon = {
-            sunrise:          WeatherComponent.convertDate(curWeather.buienradar.zonopkomst.text),
-            sunset:           WeatherComponent.convertDate(curWeather.buienradar.zononder.text),
-            moonPhase:        moonPhase.phase,  // Moon phase in days (0..27)
-            moonPhaseText:    moonPhase.text,   // Textual description
-            moonPhaseWiClass: moonPhase.wicls,  // One of the wi-* classes
-        };
+        // Update the sunrise, sunset and moon phase
+        this.astro.set({
+            sunrise:   WeatherComponent.convertDate(curWeather.buienradar.zonopkomst.text),
+            sunset:    WeatherComponent.convertDate(curWeather.buienradar.zononder.text),
+            moonPhase: this.getMoonPhase(),
+        });
     }
-
 }

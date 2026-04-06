@@ -6,7 +6,7 @@
         <!-- Departure times table -->
         <table class="departures h-ruled">
             @for (bus of departures; track bus.JourneyNumber) {
-                <tr @fadeTableRow [class.bus-delayed]="bus.delay">
+                <tr animate.enter="fade-in" animate.leave="fade-out" [class.bus-delayed]="bus.delay">
                     <td class="bus-time">{{ bus.TargetDepartureTime | date:'HH:mm' }}</td>
                     <td class="bus-delay">
                         @if (bus.delay) {

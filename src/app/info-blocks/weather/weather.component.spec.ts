@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockService } from 'ng-mocks';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { WeatherComponent } from './weather.component';
-import { BuienradarService } from '../_services/buienradar.service';
 
 describe('WeatherComponent', () => {
 
@@ -12,7 +11,7 @@ describe('WeatherComponent', () => {
         await TestBed.configureTestingModule({
             imports: [WeatherComponent],
             providers: [
-                {provide: BuienradarService, useValue: MockService(BuienradarService)},
+                provideHttpClientTesting(),
             ],
         })
             .compileComponents();

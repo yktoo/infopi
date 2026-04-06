@@ -3,8 +3,7 @@ import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DataLoading, loadsDataInto } from '../../_utils/data-loading';
-import { Animations } from '../../_utils/animations';
+import { DataLoading, loadsDataInto } from '../../core/data-loading';
 import { SpinnerDirective } from '../../core/spinner/spinner.directive';
 import { APP_CONFIG } from '../../core/config/config';
 
@@ -12,7 +11,6 @@ import { APP_CONFIG } from '../../core/config/config';
     selector: 'app-bus',
     templateUrl: './bus-schedule.component.html',
     styleUrls: ['./bus-schedule.component.scss'],
-    animations: [Animations.fadeTableRow()],
     imports: [
         SpinnerDirective,
         DatePipe,

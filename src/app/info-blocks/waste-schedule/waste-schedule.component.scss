@@ -1,0 +1,52 @@
+@use "vars";
+
+.waste-collection {
+    font-size: vars.$font-size;
+
+    tr {
+        td {
+            padding: 0.5rem 0.2rem;
+        }
+    }
+}
+
+.waste-day {
+    font-size: vars.$font-size-s;
+}
+
+.waste-type {
+    color: #fff;
+    text-align: center;
+}
+
+.day-yesterday {
+}
+
+.day-today {
+    color: #1dac05;
+    border-radius: 0.25rem;
+    padding: 0.33rem;
+}
+
+.day-tomorrow {
+    color: #000;
+    background-color: #ffe614;
+    border-radius: 0.25rem;
+    padding: 0.33rem;
+}
+
+.type-restafval {
+    background-color: #888888;
+}
+
+.type-pmd {
+    background-color: #ff9600;
+}
+
+.type-gft {
+    background-color: #1dac05;
+}
+
+.type-papier {
+    background-color: #0043ff;
+}

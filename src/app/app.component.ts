@@ -5,6 +5,7 @@ import { ClockComponent } from './info-blocks/clock/clock.component';
 import { WeatherComponent } from './info-blocks/weather/weather.component';
 import { TrainScheduleComponent } from './info-blocks/train-schedule/train-schedule.component';
 import { APP_CONFIG } from './core/config/config';
+import { WasteScheduleComponent } from './info-blocks/waste-schedule/waste-schedule.component';
 
 @Component({
     selector: 'app-root',
@@ -16,7 +17,7 @@ import { APP_CONFIG } from './core/config/config';
         ClockComponent,
         WeatherComponent,
         TrainScheduleComponent,
-
+        WasteScheduleComponent,
     ],
 })
 export class AppComponent {

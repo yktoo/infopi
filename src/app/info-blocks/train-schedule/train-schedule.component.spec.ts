@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockService } from 'ng-mocks';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TrainScheduleComponent } from './train-schedule.component';
-import { NsService } from '../_services/ns.service';
 
 describe('TrainScheduleComponent', () => {
 
@@ -12,7 +11,7 @@ describe('TrainScheduleComponent', () => {
         await TestBed.configureTestingModule({
             imports: [TrainScheduleComponent],
             providers: [
-                {provide: NsService, useValue: MockService(NsService)},
+                provideHttpClientTesting(),
             ],
         })
             .compileComponents();

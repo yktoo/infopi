@@ -1,6 +1,6 @@
 import { InfoPiConfig } from '../app/core/config/config';
 
-export const configuration: InfoPiConfig = {
+export const configuration: Partial<InfoPiConfig> = {
     // Clock settings
     clock: {
         enabled: true,

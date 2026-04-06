@@ -1,25 +1,69 @@
 @use "vars";
 
+.news-container {
+    position: relative;
+    margin: 1rem;
+}
+
 .news-item {
     text-align: center;
-    padding: 1rem;
 }
 
 .news-image {
+    text-align: center;
+    padding-top: 1rem;
+
     img {
         border-radius: 6px;
     }
 }
+
 .news-title {
     font-size: vars.$font-size;
     color: #fff1d0;
     padding: 0.2rem;
 }
+
 .news-desc {
     font-size: vars.$font-size-s;
     padding: 0.1rem;
 }
+
 .news-updated {
     font-size: vars.$font-size-s;
     color: vars.$color-pale-fg;
+}
+
+.slide-in {
+    animation: slide-in-animation 0.5s ease-in;
+}
+
+.slide-out {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    animation: slide-out-animation 0.35s ease-in;
+}
+
+@keyframes slide-in-animation {
+    from {
+        opacity: 0;
+        transform: translateY(25%);
+    }
+    to   {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-out-animation {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to   {
+        opacity: 0;
+        transform: translateY(-25%);
+    }
 }

@@ -63,6 +63,8 @@ export interface WasteScheduleConfig extends InfoBlockConfig {
     houseNumber: string;
     /** House number addition of the address. */
     houseNumberAddition: string;
+    /** Max. number of slots to display. */
+    maxCount: number;
 }
 
 export interface WeatherConfig extends InfoBlockConfig {
@@ -72,29 +74,88 @@ export interface WeatherConfig extends InfoBlockConfig {
 
 export interface InfoPiConfig {
     /** Waste settings. */
-    wasteSchedule?: WasteScheduleConfig;
+    readonly wasteSchedule: WasteScheduleConfig;
 
     /** Clock settings. */
-    clock?: ClockConfig;
+    readonly clock: ClockConfig;
 
     /** Weather settings. */
-    weather?: WeatherConfig;
+    readonly weather: WeatherConfig;
 
     /** Train settings. */
-    trainSchedule?: TrainScheduleConfig;
+    readonly trainSchedule: TrainScheduleConfig;
 
     /** Bus settings. */
-    busSchedule?: BusScheduleConfig;
+    readonly busSchedule: BusScheduleConfig;
 
     /** FX settings. */
-    fxRates?: FxRatesConfig;
+    readonly fxRates: FxRatesConfig;
 
     /** Home automation settings. */
-    homeAutomation?: HomeAutomationConfig;
+    readonly homeAutomation: HomeAutomationConfig;
 
     /** RSS settings. */
-    rssFeed?: RssFeedConfig;
+    readonly rssFeed: RssFeedConfig;
+}
+
+export class InfoPiConfigImpl implements InfoPiConfig {
+
+    readonly busSchedule: BusScheduleConfig = {
+        enabled: false,
+        refreshRate: 3600 * 1000,
+        ovapiStopName: '',
+        ovapiStopCode: '',
+        maxDepartureCount: 0,
+    };
+    readonly clock: ClockConfig = {
+        enabled: false,
+        refreshRate: 3600 * 1000,
+    };
+    readonly fxRates: FxRatesConfig = {
+        enabled: false,
+        refreshRate: 3600 * 1000,
+        baseCurrency: '',
+        showCurrencies: {},
+    };
+    readonly homeAutomation: HomeAutomationConfig = {
+        enabled: false,
+        refreshRate: 3600 * 1000,
+        openHabServerUrl: '',
+        showGroup: '',
+    };
+    readonly rssFeed: RssFeedConfig = {
+        enabled: false,
+        refreshRate: 3600 * 1000,
+        displayDuration: 10 * 1000,
+        feedUrl: '',
+    };
+    readonly trainSchedule: TrainScheduleConfig = {
+        enabled: false,
+        refreshRate: 3600 * 1000,
+        nsApiKey: '',
+        departureTimesStationName: '',
+        departureTimesStationCode: '',
+        maxDepartureCount: 10,
+    };
+    readonly wasteSchedule: WasteScheduleConfig = {
+        enabled: false,
+        refreshRate: 3600 * 1000,
+        apiKey: '',
+        postalCode: '',
+        houseNumber: '',
+        houseNumberAddition: '',
+        maxCount: 6,
+    };
+    readonly weather: WeatherConfig = {
+        enabled: false,
+        refreshRate: 3600 * 1000,
+        buienRadarStationId: '',
+    };
+
+    constructor(init: Partial<InfoPiConfig>) {
+        Object.assign(this, init);
+    }
 }
 
 /** Application configuration, obtained via environment. */
-export const APP_CONFIG = new InjectionToken<InfoPiConfig>('APP_CONFIG', {factory: () => environment.configuration});
+export const APP_CONFIG = new InjectionToken<InfoPiConfig>('APP_CONFIG', {factory: () => new InfoPiConfigImpl(environment.configuration)});

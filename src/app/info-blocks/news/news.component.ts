@@ -1,104 +1,104 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, input, linkedSignal, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { interval, Observable, startWith, Subscription, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { DataLoading, loadsDataInto } from '../../_utils/data-loading';
-import { Animations } from '../../_utils/animations';
-import { NewsItem, RawRssChannel, RawRssFeed } from './rss-data';
+import { Subscription, timer } from 'rxjs';
+import { DataLoading, loadsDataInto } from '../../core/data-loading';
+import { NewsItem, RawRssFeed } from './models';
 import { TimeAgoPipe } from '../../core/pipes/time-ago.pipe';
 import { SpinnerDirective } from '../../core/spinner/spinner.directive';
-import { APP_CONFIG } from '../../core/config/config';
 import { XmlParserService } from '../../core/xml-parser/xml-parser.service';
+import { RssFeedConfig } from '../../core/config/config';
 
 @Component({
     selector: 'app-news',
     templateUrl: './news.component.html',
     styleUrls: ['./news.component.scss'],
-    animations: [Animations.fadeInOnChange()],
     imports: [
         TimeAgoPipe,
         SpinnerDirective,
     ],
 })
-export class NewsComponent implements OnInit, DataLoading {
+export class NewsComponent implements DataLoading {
 
     private readonly sanitizer = inject(DomSanitizer);
-    private readonly config = inject(APP_CONFIG).rssFeed;
     private readonly http = inject(HttpClient);
     private readonly xmlParser = inject(XmlParserService);
 
-    error: any;
+    /** Component configuration. */
+    readonly config = input.required<RssFeedConfig>();
+
+    /** News items to display. */
+    readonly newsItems = signal<NewsItem[] | undefined>(undefined);
+
+    /** Index of the currently displayed item, randomly initialised on item list change. */
+    readonly currentIndex = linkedSignal<number>(() => Math.floor(Math.random() * (this.newsItems()?.length ?? 0)));
+
+    /** URL of the feed image, cleared as safe. */
+    readonly feedImageUrl = signal<SafeResourceUrl | undefined>(undefined);
+
+    /** Any error occurred during the load. */
+    readonly error = signal<any>(undefined);
+
     dataLoading = false;
-    feedImageUrl: SafeResourceUrl;
-    currentItem: NewsItem;
-    curIndex: number;
 
-    private newsItems: NewsItem[];
-    private curUpdateTimer: Subscription;
+    constructor() {
+        // (Re)subscribe on periodic updates
+        let t: Subscription;
+        effect(onCleanup => {
+            t = timer(0, this.config().refreshRate).subscribe(() => this.update());
+            onCleanup(() => t.unsubscribe());
+        });
 
-    ngOnInit(): void {
-        timer(0, this.config.refreshRate).subscribe(() => this.update());
+        // (Re)start current item advance timer
+        let ci: Subscription;
+        effect(onCleanup => {
+            const delay = this.config().displayDuration;
+
+            ci = timer(delay, delay).subscribe(() => this.advanceIndex());
+            onCleanup(() => ci.unsubscribe());
+        });
+
+        // Update all items to only show the current one on each items or index change.
+        effect(() => {
+            const i = this.currentIndex();
+            this.newsItems()?.forEach((ni, idx) => ni.visible = idx === i);
+        });
     }
 
     update() {
-        this.getRssItems(this.config.feedUrl)
+        // Fetch RSS items
+        this.http.get(this.config().feedUrl, {responseType: 'text'})
             .pipe(loadsDataInto(this))
             .subscribe({
-                next:  data => this.processData(data),
-                error: error => this.error = error,
+                next:  d => {
+                    // Parse the XML response
+                    const channel = this.xmlParser.parse<RawRssFeed>(d).rss.channel;
+
+                    // Update the feed URL
+                    this.feedImageUrl.set(channel.image?.url ? this.sanitizer.bypassSecurityTrustResourceUrl(channel.image.url.text) : undefined);
+
+                    // Convert RSS feed items
+                    this.newsItems.set(channel.item.map(e => ({
+                        title:       e.title.text,
+                        description: e.description?.text ?? '',
+                        lastUpdate:  new Date(e.pubDate?.text ?? ''),
+                        visible:     false,
+                    })));
+
+                },
+                error: e => this.error.set(e),
             });
     }
 
     /**
-     * Request RSS items and return them wrapped in an Observable.
+     * Update the current news item index.
      */
-    private getRssItems(url: string): Observable<RawRssChannel> {
-        return this.http.get(url, {responseType: 'text'})
-            .pipe(
-                // Parse the XML response
-                map(d => this.xmlParser.parse<RawRssFeed>(d)),
-                // Unwrap the top level
-                map(d => d.rss.channel));
-    }
-
-    private processData(data: RawRssChannel) {
-        // Remove any error
-        this.error = undefined;
-        this.currentItem = null;
-
-        // Cancel any existing current news update timer
-        if (this.curUpdateTimer) {
-            this.curUpdateTimer.unsubscribe();
-            this.curUpdateTimer = undefined;
+    private advanceIndex(): void {
+        const items = this.newsItems();
+        if (items?.length) {
+            // Move the index on to the next item, looping over
+            const newIdx = (this.currentIndex() + 1) % items.length;
+            this.currentIndex.set(newIdx);
         }
-        this.feedImageUrl = data.image?.url && this.sanitizer.bypassSecurityTrustResourceUrl(data.image.url.text);
-        this.newsItems = (data.item).map(e => ({
-            title:       e.title.text,
-            description: e.description?.text,
-            lastUpdate:  new Date(e.pubDate.text),
-        }));
-
-        // If there are any items
-        if (this.newsItems?.length) {
-            // Randomly initialise the current news
-            this.curIndex = Math.floor(Math.random() * this.newsItems.length);
-
-            // Set up periodic rotation
-            this.curUpdateTimer = interval(this.config.displayDuration)
-                .pipe(startWith(0))
-                .subscribe(() => this.updateCurrent());
-        }
-    }
-
-    /**
-     * Update the current news item.
-     */
-    private updateCurrent(): void {
-        // Update the item
-        this.currentItem = this.newsItems[this.curIndex];
-
-        // Move on to the next item
-        this.curIndex = (this.curIndex + 1) % this.newsItems.length;
     }
 }

@@ -1,12 +1,19 @@
-<section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
-    @if (currentItem; as i) {
-        <div [@fadeInOnChange]="curIndex" class="news-item">
-            @if (feedImageUrl) {
-                <div class="news-image"><img [src]="feedImageUrl" alt="News Image"></div>
-            }
-            <div class="news-title">{{ i.title }}</div>
-            <div class="news-desc">{{ i.description }}</div>
-            <div class="news-updated">{{ i.lastUpdate | timeAgo }}</div>
-        </div>
+<section (click)="update()" [class.outdated]="error()" [appSpinner]="dataLoading">
+    <!-- RSS feed logo -->
+    @if (feedImageUrl(); as u) {
+        <div class="news-image"><img [src]="u" alt="News Image"></div>
     }
+
+    <!-- Feed items (actually, only the current one, and the next one while being animated ) -->
+    <div class="news-container">
+        @for (item of newsItems(); track $index) {
+            @if (item.visible) {
+                <div animate.enter="slide-in" animate.leave="slide-out" class="news-item">
+                    <div class="news-title">{{ item.title }}</div>
+                    <div class="news-desc">{{ item.description }}</div>
+                    <div class="news-updated">{{ item.lastUpdate | timeAgo }}</div>
+                </div>
+            }
+        }
+    </div>
 </section>

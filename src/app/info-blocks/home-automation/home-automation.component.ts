@@ -3,7 +3,7 @@ import { LowerCasePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DataLoading, loadsDataInto } from '../../_utils/data-loading';
+import { DataLoading, loadsDataInto } from '../../core/data-loading';
 import { SpinnerDirective } from '../../core/spinner/spinner.directive';
 import { APP_CONFIG } from '../../core/config/config';
 
@@ -21,7 +21,7 @@ export interface OpenHabItem {
 }
 
 @Component({
-    selector: 'app-domotics',
+    selector: 'app-home-automation',
     templateUrl: './home-automation.component.html',
     styleUrls: ['./home-automation.component.scss'],
     imports: [
@@ -31,7 +31,7 @@ export interface OpenHabItem {
 })
 export class HomeAutomationComponent implements OnInit, DataLoading {
 
-    items: OpenHabItem[];
+    items?: OpenHabItem[];
     error: any;
     dataLoading = false;
 
@@ -57,7 +57,7 @@ export class HomeAutomationComponent implements OnInit, DataLoading {
      * @param item Regular or group item to request.
      */
     private getItems(item: string): Observable<OpenHabItem[]> {
-        return this.http.get<OpenHabItem>(this.baseUrl + item).pipe(map(data => data.members));
+        return this.http.get<OpenHabItem>(this.baseUrl + item).pipe(map(data => data.members ?? []));
     }
 
     private processData(items: OpenHabItem[]) {

@@ -3,6 +3,10 @@
 @use "vars";
 @import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
 
+// Weather icons
+@import "weather-icons/css/weather-icons.css";
+@import "weather-icons/css/weather-icons-wind.css";
+
 /***********************************************************************************************************************
  Establish base rules
 ***********************************************************************************************************************/
@@ -238,4 +242,21 @@ table {
 
 .position-relative {
     position: relative;
+}
+
+/***********************************************************************************************************************
+ Animations
+***********************************************************************************************************************/
+
+.fade-in {
+    animation: fade-in-animation 0.5s ease-in;
+}
+
+.fade-out {
+    animation: fade-in-animation 0.5s reverse ease-out;
+}
+
+@keyframes fade-in-animation {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }

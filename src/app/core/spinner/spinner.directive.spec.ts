@@ -39,23 +39,23 @@ describe('SpinnerDirective', () => {
     });
 
     it('is initially not spinning', () => {
-        expect(div).not.toHaveClass('spinning');
+        expect(div.classList.contains('spinning')).toBe(false);
     });
 
     it('starts spinner', fakeAsync(() => {
         // Enable spinning: no 'spinning' class just yet
         comp.value = true;
         fixture.detectChanges();
-        expect(div).not.toHaveClass('spinning');
+        expect(div.classList.contains('spinning')).toBe(false);
 
         // The class gets assigned after 1000 ms
         tick(1001);
         fixture.detectChanges();
-        expect(div).toHaveClass('spinning');
+        expect(div.classList.contains('spinning')).toBe(true);
 
         // Disable spinning: the class disappears immediately
         comp.value = false;
         fixture.detectChanges();
-        expect(div).not.toHaveClass('spinning');
+        expect(div.classList.contains('spinning')).toBe(false);
     }));
 });

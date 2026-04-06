@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TimeAgoPipe } from './time-ago.pipe';
 
 describe('TimeAgoPipe', () => {
@@ -8,11 +9,11 @@ describe('TimeAgoPipe', () => {
         pipe = new TimeAgoPipe();
 
         // Fix the clock at 31-12-2010, 14:15:16
-        jasmine.clock().install();
-        jasmine.clock().mockDate(new Date(2010, 11, 31, 14, 15, 16));
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date(2010, 11, 31, 14, 15, 16));
     });
 
-    afterEach(() => jasmine.clock().uninstall());
+    afterEach(() => vi.useRealTimers());
 
     [
         {date: undefined,                          want: ''},

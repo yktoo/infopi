@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { ClockComponent } from './clock.component';
 
 describe('ClockComponent', () => {
@@ -12,7 +13,7 @@ describe('ClockComponent', () => {
         })
             .compileComponents();
 
-        jasmine.clock().mockDate(new Date('2006-05-04 23:01:59'));
+        vi.setSystemTime(new Date('2006-05-04 23:01:59'));
         fixture = TestBed.createComponent(ClockComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
@@ -39,7 +40,7 @@ describe('ClockComponent', () => {
         expect(component.now).toEqual(new Date('2006-05-04 23:01:59'));
 
         // Change and update the date/time
-        jasmine.clock().mockDate(new Date('2006-05-04 23:03:02'));
+        vi.setSystemTime(new Date('2006-05-04 23:03:02'));
         component.update();
 
         // Check the updated date/time

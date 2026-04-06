@@ -38,13 +38,12 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "src/_vars.scss",
-                            "src/styles.scss",
-                            "node_modules/weather-icons/css/weather-icons.css"
+                            "src/styles.scss"
                         ],
                         "stylePreprocessorOptions": {
                             "includePaths": [
-                                "src"
+                                "src",
+                                "node_modules"
                             ]
                         },
                         "scripts": []
@@ -101,24 +100,10 @@
                     }
                 },
                 "test": {
-                    "builder": "@angular/build:karma",
+                    "builder": "@angular/build:unit-test",
                     "options": {
-                        "polyfills": [
-                            "zone.js",
-                            "zone.js/testing"
-                        ],
-                        "tsConfig": "tsconfig.spec.json",
-                        "karmaConfig": "karma.conf.js",
-                        "codeCoverage": true,
-                        "assets": [
-                            "src/favicon.ico",
-                            "src/assets"
-                        ],
-                        "styles": [
-                            "src/styles.scss",
-                            "node_modules/weather-icons/css/weather-icons.css"
-                        ],
-                        "scripts": []
+                        "tsConfig": "./tsconfig.spec.json",
+                        "runnerConfig": "vitest.config.ts"
                     }
                 },
                 "lint": {
