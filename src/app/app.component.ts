@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { NewsComponent } from './news/news.component';
-import { DomoticsComponent } from './domotics/domotics.component';
-import { ClockComponent } from './clock/clock.component';
-import { WeatherComponent } from './weather/weather.component';
-import { TrainComponent } from './train/train.component';
+import { Component, inject } from '@angular/core';
+import { NewsComponent } from './info-blocks/news/news.component';
+import { HomeAutomationComponent } from './info-blocks/home-automation/home-automation.component';
+import { ClockComponent } from './info-blocks/clock/clock.component';
+import { WeatherComponent } from './info-blocks/weather/weather.component';
+import { TrainScheduleComponent } from './info-blocks/train-schedule/train-schedule.component';
+import { APP_CONFIG } from './core/config/config';
 
 @Component({
     selector: 'app-root',
@@ -11,13 +12,14 @@ import { TrainComponent } from './train/train.component';
     styleUrls: ['./app.component.scss'],
     imports: [
         NewsComponent,
-        DomoticsComponent,
+        HomeAutomationComponent,
         ClockComponent,
         WeatherComponent,
-        TrainComponent,
+        TrainScheduleComponent,
 
     ],
 })
 export class AppComponent {
-    title = 'InfoPi';
+
+    readonly config = inject(APP_CONFIG);
 }

@@ -11,18 +11,14 @@
         "strict": true,
         "strictNullChecks": false,
         "importHelpers": true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "noImplicitOverride": true,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitThis": true,
         "useDefineForClassFields": false,
         "target": "ES2022",
-        "module": "ES2022",
-        "lib": [
-            "ES2022",
-            "dom"
-        ]
+        "module": "ES2022"
     },
     "angularCompilerOptions": {
         "fullTemplateTypeCheck": true,

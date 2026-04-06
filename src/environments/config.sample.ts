@@ -1,22 +1,23 @@
-export const configuration = {
-    // API settings
-    api: {
-        nsApiKey: '-your-key-here-',
-    },
+import { InfoPiConfig } from '../app/core/config/config';
 
+export const configuration: InfoPiConfig = {
     // Clock settings
     clock: {
+        enabled: true,
         refreshRate: 1000 /* Once a second */,
     },
 
     // Weather settings
     weather: {
+        enabled: true,
         refreshRate: 10 * 60 * 1000 /* Once in 10 minutes */,
         buienRadarStationId: '6260' /* Meetstation De Bilt */,
     },
 
     // Train settings
-    trains: {
+    trainSchedule: {
+        enabled: true,
+        nsApiKey: '-your-key-here-',
         refreshRate: 30 * 1000   /* Once half a minute */,
         departureTimesStationName: 'Houten Castellum',
         departureTimesStationCode: 'htnc',
@@ -24,7 +25,8 @@ export const configuration = {
     },
 
     // Bus settings
-    busses: {
+    busSchedule: {
+        enabled: true,
         refreshRate: 30 * 1000  /* Once half a minute */,
         ovapiStopName: 'De Erven/De Schaft',
         ovapiStopCode: 'hoterv',
@@ -32,30 +34,26 @@ export const configuration = {
     },
 
     // FX settings
-    fx: {
+    fxRates: {
+        enabled: true,
         refreshRate: 60 * 60 * 1000  /* Once an hour */,
         baseCurrency: 'RUB',
         showCurrencies: {EUR: '€', USD: '$', GBP: '£', CHF: 'Fr'},
     },
 
     // Home automation settings
-    domotics: {
+    homeAutomation: {
+        enabled: true,
         refreshRate: 10 * 1000  /* Once every 10 seconds */,
         openHabServerUrl: 'http://pihub:8080',
         showGroup: 'gSecurity',
     },
 
     // RSS settings
-    rss: {
+    rssFeed: {
+        enabled: true,
         refreshRate: 10 * 60 * 1000 /* Once in 10 minutes */,
         displayDuration: 10 * 1000  /* 10 seconds */,
         feedUrl: 'https://feeds.bbci.co.uk/news/world/rss.xml',
-    },
-
-    // Chart settings
-    chart: {
-        refreshRate: 4 * 3600 * 1000  /* Once in 4 hours */,
-        url: 'https://data.rivm.nl/covid-19/COVID-19_aantallen_gemeente_per_dag.json',
-        maxElements: 90, /* How many last elements to pick */
     },
 };

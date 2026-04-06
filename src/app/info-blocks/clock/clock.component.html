@@ -1,0 +1,9 @@
+@let n = now();
+<section class="clock row ruler" (click)="update()">
+    <div class="card w-4 date" >{{ n | date:'d.MM' }}</div>
+    <div class="card w-4 day-of-week" >{{ n | date:'EEEE' }}</div>
+    <div class="card w-4 time">
+        <span class="hhmm">{{ n | date:'HH:mm' }}</span>
+        <span class="ss">{{ n | date:':ss' }}</span>
+    </div>
+</section>

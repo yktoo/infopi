@@ -1,0 +1,35 @@
+@use "vars";
+
+.departures {
+    font-size: vars.$font-size;
+
+    tr {
+        td {
+            padding: 0.5rem 0.2rem;
+        }
+    }
+
+    .bus-time { }
+
+    .bus-delay {
+        .delay-value {
+            color: #f44;
+            background-color: #000;
+            border-radius: 50%;
+            padding: 6px;
+            font-size: vars.$font-size-s;
+            font-weight: bold;
+        }
+    }
+
+    .bus-line {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .bus-dest { }
+    .bus-delayed {
+        background-color: #444;
+    }
+
+}

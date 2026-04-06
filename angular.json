@@ -15,17 +15,20 @@
             "prefix": "app",
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:browser",
+                    "builder": "@angular/build:application",
                     "defaultConfiguration": "production",
                     "options": {
-                        "outputPath": "dist",
+                        "outputPath": {
+                            "base": "dist",
+                            "browser": ""
+                        },
                         "index": "src/index.html",
-                        "main": "src/main.ts",
+                        "browser": "src/main.ts",
                         "polyfills": [
                             "zone.js"
                         ],
                         "tsConfig": "tsconfig.app.json",
-                        "aot": true,
+                        "inlineStyleLanguage": "scss",
                         "allowedCommonJsDependencies": [
                             "chart.js",
                             "xml-js"
@@ -35,10 +38,15 @@
                             "src/assets"
                         ],
                         "styles": [
+                            "src/_vars.scss",
                             "src/styles.scss",
-                            "node_modules/weather-icons/css/weather-icons.css",
-                            "node_modules/weather-icons/css/weather-icons-wind.css"
+                            "node_modules/weather-icons/css/weather-icons.css"
                         ],
+                        "stylePreprocessorOptions": {
+                            "includePaths": [
+                                "src"
+                            ]
+                        },
                         "scripts": []
                     },
                     "configurations": {
@@ -49,13 +57,7 @@
                                     "with": "src/environments/environment.prod.ts"
                                 }
                             ],
-                            "optimization": true,
                             "outputHashing": "all",
-                            "sourceMap": false,
-                            "namedChunks": false,
-                            "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true,
                             "budgets": [
                                 {
                                     "type": "initial",
@@ -70,19 +72,15 @@
                             ]
                         },
                         "development": {
-                            "buildOptimizer": false,
                             "optimization": false,
-                            "outputHashing": "none",
                             "sourceMap": true,
                             "namedChunks": true,
-                            "extractLicenses": false,
-                            "vendorChunk": true,
-                            "budgets": []
+                            "extractLicenses": false
                         }
                     }
                 },
                 "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "builder": "@angular/build:dev-server",
                     "defaultConfiguration": "development",
                     "options": {
                         "buildTarget": "infopi:build"
@@ -97,13 +95,13 @@
                     }
                 },
                 "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "builder": "@angular/build:extract-i18n",
                     "options": {
                         "buildTarget": "infopi:build"
                     }
                 },
                 "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
+                    "builder": "@angular/build:karma",
                     "options": {
                         "polyfills": [
                             "zone.js",
@@ -118,8 +116,7 @@
                         ],
                         "styles": [
                             "src/styles.scss",
-                            "node_modules/weather-icons/css/weather-icons.css",
-                            "node_modules/weather-icons/css/weather-icons-wind.css"
+                            "node_modules/weather-icons/css/weather-icons.css"
                         ],
                         "scripts": []
                     }

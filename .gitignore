@@ -6,6 +6,7 @@
 __pycache__/
 
 # dependencies
+/.yarn/
 /node_modules
 
 # profiling files

@@ -1,0 +1,23 @@
+@use "vars";
+
+.date {
+    font-size: vars.$font-size-xxl;
+}
+
+.day-of-week {
+    font-size: vars.$font-size-xl;
+}
+
+.time {
+    font-size: vars.$font-size-xxl;
+
+
+    .hhmm {
+        font-weight: bold;
+    }
+
+    .ss {
+        font-size: vars.$font-size-l;
+        vertical-align: super;
+    }
+}
