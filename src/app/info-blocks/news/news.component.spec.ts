@@ -18,6 +18,12 @@ describe('NewsComponent', () => {
 
         fixture = TestBed.createComponent(NewsComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('config', {
+            enabled: true,
+            refreshRate: 1000,
+            displayDuration: 2000,
+            feedUrl: 'https://example.com/rss.xml',
+        });
         fixture.detectChanges();
     });
 

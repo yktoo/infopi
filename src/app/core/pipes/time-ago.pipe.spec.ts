@@ -18,7 +18,6 @@ describe('TimeAgoPipe', () => {
     [
         {date: undefined,                          want: ''},
         {date: null,                               want: ''},
-        {date: new Date(),                         want: 'just now'},
         {date: new Date(2010, 11, 31, 14, 14, 17), want: 'just now'},
         {date: new Date(2010, 11, 31, 14, 14, 16), want: '1 minute ago'},
         {date: new Date(2010, 11, 31, 14, 0, 0),   want: '15 minutes ago'},

@@ -1,14 +1,14 @@
-import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { Component, DebugElement, signal } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SpinnerDirective } from './spinner.directive';
 
 @Component({
-    template: '<div [appSpinner]="value"></div>',
+    template: '<div [appSpinner]="spinning()"></div>',
     imports: [SpinnerDirective],
 })
 class TestComponent {
-    value = false;
+    readonly spinning = signal(false);
 }
 
 describe('SpinnerDirective', () => {
@@ -42,20 +42,24 @@ describe('SpinnerDirective', () => {
         expect(div.classList.contains('spinning')).toBe(false);
     });
 
-    it('starts spinner', fakeAsync(() => {
+    it('starts spinner', () => {
+        vi.useFakeTimers();
+
         // Enable spinning: no 'spinning' class just yet
-        comp.value = true;
+        comp.spinning.set(true);
         fixture.detectChanges();
         expect(div.classList.contains('spinning')).toBe(false);
 
         // The class gets assigned after 1000 ms
-        tick(1001);
+        vi.advanceTimersByTime(1001);
         fixture.detectChanges();
         expect(div.classList.contains('spinning')).toBe(true);
 
         // Disable spinning: the class disappears immediately
-        comp.value = false;
+        comp.spinning.set(false);
         fixture.detectChanges();
         expect(div.classList.contains('spinning')).toBe(false);
-    }));
+
+        vi.useRealTimers();
+    });
 });

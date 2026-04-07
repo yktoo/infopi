@@ -14,6 +14,7 @@ describe('RadarMapComponent', () => {
 
         fixture = TestBed.createComponent(RadarMapComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('mapUrl', 'https://example.com/a.jpg');
         fixture.detectChanges();
     });
 

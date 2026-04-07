@@ -1,14 +1,17 @@
-const { app, BrowserWindow } = require("electron");
-const path = require("path");
-const url = require("url");
+import { app, BrowserWindow } from "electron";
+import path from "path";
+import url from "url";
 
 let win;
 
 function loadApp() {
+    // Get the name of the current dir
+    const dir = path.dirname(url.fileURLToPath(import.meta.url));
+
     // Load the dist folder from Angular
     return win.loadURL(
         url.format({
-            pathname: path.join(__dirname, `/dist/index.html`),
+            pathname: path.join(dir, `/dist/index.html`),
             protocol: "file:",
             slashes: true
         })
@@ -26,11 +29,9 @@ function createWindow() {
     });
 
     // Reset cache
-    (process.argv.indexOf("--nocache") >= 0 ?
-            win.webContents.session.clearCache() :
-            Promise.resolve())
+    (process.argv.indexOf("--nocache") >= 0 ? win.webContents.session.clearCache() : Promise.resolve())
         // Open developer tools in the debug mode
-        .then(function() {
+        .then(function () {
             if (process.argv.indexOf("--debug") >= 0) {
                 win.webContents.openDevTools();
             }
@@ -38,9 +39,7 @@ function createWindow() {
         // Load the application
         .then(loadApp)
 
-    win.on("closed", () => {
-        win = null;
-    });
+    win.on("closed", () => win = null);
 }
 
 app.on("ready", createWindow);

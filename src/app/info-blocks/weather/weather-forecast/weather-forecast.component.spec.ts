@@ -14,6 +14,7 @@ describe('WeatherForecastComponent', () => {
 
         fixture = TestBed.createComponent(WeatherForecastComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('dayForecasts', []);
         fixture.detectChanges();
     });
 

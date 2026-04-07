@@ -1,7 +1,5 @@
-'use strict';
-
-const packager = require('electron-packager');
-const installer = require('electron-installer-debian');
+import packager from 'electron-packager';
+import installer from 'electron-installer-debian';
 
 let platform;
 let arch;

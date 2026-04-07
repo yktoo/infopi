@@ -16,6 +16,7 @@ describe('ClockComponent', () => {
         vi.setSystemTime(new Date('2006-05-04 23:01:59'));
         fixture = TestBed.createComponent(ClockComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('config', {enabled: true, refreshRate: 1000});
         fixture.detectChanges();
     });
 
@@ -37,13 +38,13 @@ describe('ClockComponent', () => {
 
     it('updates time', () => {
         // Check initial date/time
-        expect(component.now).toEqual(new Date('2006-05-04 23:01:59'));
+        expect(component.now()).toEqual(new Date('2006-05-04 23:01:59'));
 
         // Change and update the date/time
         vi.setSystemTime(new Date('2006-05-04 23:03:02'));
         component.update();
 
         // Check the updated date/time
-        expect(component.now).toEqual(new Date('2006-05-04 23:03:02'));
+        expect(component.now()).toEqual(new Date('2006-05-04 23:03:02'));
     });
 });

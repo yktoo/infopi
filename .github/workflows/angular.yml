@@ -10,25 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Install Chrome
-        uses: browser-actions/setup-chrome@latest
+      - uses: actions/checkout@v6
 
       - name: Set up Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v6
         with:
-          node-version: 20.x
+          node-version: 24.x
 
       - name: Cache node modules
-        id: cache-nodemodules
-        uses: actions/cache@v2
+        id: cache-node-modules
+        uses: actions/cache@v5
         env:
           cache-name: cache-node-modules
         with:
           # caching node_modules
           path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
@@ -36,18 +33,16 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: npm ci
+        run: yarn install
 
       - name: Make config from sample
         run: cp src/environments/config.sample.ts src/environments/config.ts
 
       - name: Lint
-        run: npm run lint
+        run: yarn run lint
 
       - name: Test
-        run: |
-          export CHROME_BIN=$(which chrome)
-          npm run test:ci
+        run: yarn run test
 
       - name: Package
-        run: npm run package
+        run: yarn run package

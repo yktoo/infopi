@@ -14,6 +14,15 @@ describe('WasteScheduleComponent', () => {
 
         fixture = TestBed.createComponent(WasteScheduleComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('config', {
+            enabled: true,
+            refreshRate: 1000,
+            apiKey: 'secret',
+            postalCode: '1234AA',
+            houseNumber: '12',
+            houseNumberAddition: '',
+            maxCount: 6,
+        });
         fixture.detectChanges();
     });
 

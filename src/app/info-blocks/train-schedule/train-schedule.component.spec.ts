@@ -18,6 +18,14 @@ describe('TrainScheduleComponent', () => {
 
         fixture = TestBed.createComponent(TrainScheduleComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('config', {
+            enabled: true,
+            refreshRate: 1000,
+            nsApiKey: 'secret',
+            departureTimesStationName: 'Utrecht',
+            departureTimesStationCode: 'ut',
+            maxDepartureCount: 10,
+        });
         fixture.detectChanges();
     });
 

@@ -18,6 +18,7 @@ describe('WeatherComponent', () => {
 
         fixture = TestBed.createComponent(WeatherComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('config', {enabled: true, refreshRate: 1000, buienRadarStationId: '123'});
         fixture.detectChanges();
     });
 

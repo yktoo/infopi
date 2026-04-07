@@ -1,14 +1,14 @@
 {
     "name": "infopi",
-    "version": "2.12.0",
+    "version": "2.13.0",
     "main": "bootstrap.js",
+    "type": "module",
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build --configuration development",
         "build:prod": "ng build --base-href ./",
         "test": "ng test",
-        "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadlessNoSandbox",
         "lint": "ng lint",
         "electron": "ng build --base-href ./ && electron --no-sandbox .",
         "package": "yarn run build:prod && node package.js",
@@ -53,7 +53,7 @@
         "eslint-plugin-import": "^2.32.0",
         "eslint-plugin-jsdoc": "^62.9.0",
         "eslint-plugin-prefer-arrow": "^1.2.3",
-        "jsdom": "^29.0.1",
+        "jsdom": "^29.0.2",
         "typescript": "~5.9.3",
         "vitest": "^4.1.2"
     },
