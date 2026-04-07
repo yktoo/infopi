@@ -17,6 +17,9 @@ jobs:
         with:
           node-version: 24.x
 
+      - name: Enable corepack
+        run: corepack enable
+
       - name: Cache node modules
         id: cache-node-modules
         uses: actions/cache@v5
