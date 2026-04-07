@@ -93,6 +93,6 @@ export class WeatherForecastComponent {
                 },
             ],
             labels: df.map(f => f.dow),
-        }
+        };
     });
 }

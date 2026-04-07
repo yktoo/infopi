@@ -25,7 +25,7 @@ export class WeatherComponent implements DataLoading {
 
     private static readonly fullMoonTime = new Date('1999-08-11 13:09').getTime();
 
-    private static readonly iconToWiClassMap: { [k: string]: string } = {
+    private static readonly iconToWiClassMap: Record<string, string> = {
         // Day
         a: 'wi-day-sunny',
         b: 'wi-day-sunny-overcast',

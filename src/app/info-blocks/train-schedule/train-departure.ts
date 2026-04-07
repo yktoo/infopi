@@ -33,7 +33,6 @@ export interface TrainDeparture {
     product?: {
         categoryCode?:      string;
         longCategoryName?:  string;
-        // eslint-disable-next-line id-blacklist
         number?:            string;
         operatorCode?:      string;
         operatorName?:      string;

@@ -2,4 +2,4 @@ export interface TextNode {
     text: string;
 }
 
-export type Attributes = { [a: string]: string };
+export type Attributes = Record<string, string>;

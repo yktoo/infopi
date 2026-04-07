@@ -102,7 +102,7 @@ export class WasteScheduleComponent implements DataLoading {
                 const date = new Date(rd.date);
 
                 // Determine the "date name"
-                let dateName: DateName = ''
+                let dateName: DateName = '';
                 const tDiff = today.getTime() - date.getTime();
                 const oneDay = 24 * 3600 * 1000;
                 if (tDiff > 0 && tDiff <= oneDay) {

@@ -18,6 +18,7 @@ export interface BusScheduleConfig extends InfoBlockConfig {
     maxDepartureCount: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ClockConfig extends InfoBlockConfig {
     // Nothing additional here
 }
@@ -26,7 +27,7 @@ export interface FxRatesConfig extends InfoBlockConfig {
     /** Base currency to show conversion rates for. */
     baseCurrency: string;
     /** Currencies to show conversion rates from the base for. */
-    showCurrencies: { [k: string]: string };
+    showCurrencies: Record<string, string>;
 }
 
 export interface HomeAutomationConfig extends InfoBlockConfig {
