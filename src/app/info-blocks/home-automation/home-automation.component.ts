@@ -1,11 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { LowerCasePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Observable, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { DataLoading, loadsDataInto } from '../../core/data-loading';
+import { httpResource } from '@angular/common/http';
+import { Subscription, timer } from 'rxjs';
 import { SpinnerDirective } from '../../core/spinner/spinner.directive';
-import { APP_CONFIG } from '../../core/config/config';
+import { HomeAutomationConfig } from '../../core/config/config';
 
 export interface OpenHabItem {
     members?:    OpenHabItem[];
@@ -29,42 +27,30 @@ export interface OpenHabItem {
         SpinnerDirective,
     ],
 })
-export class HomeAutomationComponent implements OnInit, DataLoading {
+export class HomeAutomationComponent {
 
-    items?: OpenHabItem[];
-    error: any;
-    dataLoading = false;
+    /** Component configuration. */
+    readonly config = input.required<HomeAutomationConfig>();
 
-    private readonly config = inject(APP_CONFIG).homeAutomation;
-    private readonly http = inject(HttpClient);
-    private readonly baseUrl = this.config.openHabServerUrl + '/rest/items/';
+    /** Waste collection schedule resource. */
+    readonly itemsResource = httpResource<{readonly members: OpenHabItem[]}>(() => {
+        const cfg = this.config();
+        return `${cfg.openHabServerUrl}/rest/items/${cfg.showGroup}`;
+    });
 
-    ngOnInit(): void {
-        timer(0, this.config.refreshRate).subscribe(() => this.update());
-    }
+    /** Items being displayed. */
+    readonly items = computed<OpenHabItem[] | undefined>(() =>
+        this.itemsResource.hasValue() ?
+            // Sort members by label/name
+            this.itemsResource.value()?.members.sort((a, b) => (a.label || a.name).localeCompare(b.label || b.name)) :
+            undefined);
 
-    update() {
-        this.getItems(this.config.showGroup)
-            .pipe(loadsDataInto(this))
-            .subscribe({
-                next:  items => this.processData(items),
-                error: error => this.error = error,
-            });
-    }
-
-    /**
-     * Request items from the OpenHAB server and return them wrapped in an Observable.
-     * @param item Regular or group item to request.
-     */
-    private getItems(item: string): Observable<OpenHabItem[]> {
-        return this.http.get<OpenHabItem>(this.baseUrl + item).pipe(map(data => data.members ?? []));
-    }
-
-    private processData(items: OpenHabItem[]) {
-        // Remove any error
-        this.error = undefined;
-
-        // Handle the data
-        this.items = items.sort((a, b) => (a.label || a.name).localeCompare(b.label || b.name));
+    constructor() {
+        // (Re)subscribe on periodic updates
+        let t: Subscription;
+        effect(onCleanup => {
+            t = timer(0, this.config().refreshRate).subscribe(() => this.itemsResource.reload());
+            onCleanup(() => t.unsubscribe());
+        });
     }
 }

@@ -48,9 +48,9 @@ export interface TrainScheduleConfig extends InfoBlockConfig {
     /** NS API key. */
     nsApiKey: string;
     /** Name of the departure station. */
-    departureTimesStationName: string;
+    departureStationName: string;
     /** Code of the departure station. */
-    departureTimesStationCode: string;
+    departureStationCode: string;
     /** Max. number of departure slots to display. */
     maxDepartureCount: number;
 }
@@ -134,8 +134,8 @@ export class InfoPiConfigImpl implements InfoPiConfig {
         enabled: false,
         refreshRate: 3600 * 1000,
         nsApiKey: '',
-        departureTimesStationName: '',
-        departureTimesStationCode: '',
+        departureStationName: '',
+        departureStationCode: '',
         maxDepartureCount: 10,
     };
     readonly wasteSchedule: WasteScheduleConfig = {

@@ -19,8 +19,8 @@ export const configuration: Partial<InfoPiConfig> = {
         enabled: true,
         nsApiKey: '-your-key-here-',
         refreshRate: 30 * 1000 /* Once half a minute */,
-        departureTimesStationName: 'Houten Castellum',
-        departureTimesStationCode: 'htnc',
+        departureStationName: 'Houten Castellum',
+        departureStationCode: 'htnc',
         maxDepartureCount: 12,
     },
 
@@ -55,5 +55,16 @@ export const configuration: Partial<InfoPiConfig> = {
         refreshRate: 10 * 60 * 1000 /* Once in 10 minutes */,
         displayDuration: 10 * 1000  /* 10 seconds */,
         feedUrl: 'https://feeds.bbci.co.uk/news/world/rss.xml',
+    },
+
+    // Waste collection schedule settings
+    wasteSchedule: {
+        enabled:              true,
+        refreshRate:          6 * 60 * 60 * 1000 /* Once in 6 hours */,
+        apiKey:              '-api-key-here-',
+        postalCode:          '1234AA',
+        houseNumber:         '123',
+        houseNumberAddition: 'XYZ',
+        maxCount:            6,
     },
 };

@@ -1,23 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FxComponent } from './fx.component';
+import { FxRatesComponent } from './fx-rates.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-describe('FxComponent', () => {
+describe('FxRatesComponent', () => {
 
-    let component: FxComponent;
-    let fixture: ComponentFixture<FxComponent>;
+    let component: FxRatesComponent;
+    let fixture: ComponentFixture<FxRatesComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [FxComponent],
+            imports: [FxRatesComponent],
             providers: [
                 provideHttpClientTesting(),
             ],
         })
             .compileComponents();
 
-        fixture = TestBed.createComponent(FxComponent);
+        fixture = TestBed.createComponent(FxRatesComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('config', {
+            enabled: true,
+            refreshRate: 1000,
+            baseCurrency: 'EUR',
+            showCurrencies: {USD: '$', GBP: '£'},
+        });
         fixture.detectChanges();
     });
 

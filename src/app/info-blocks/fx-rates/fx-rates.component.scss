@@ -1,0 +1,41 @@
+@use "vars";
+
+.fx {
+    td {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+.fx-ccy {
+    font-size: vars.$font-size-xl;
+    font-weight: bold;
+    color: #ffe614;
+    margin-right: 0.25rem;
+}
+
+.fx-rate {
+    font-size: vars.$font-size-l;
+}
+
+.fx-move {
+    font-size: vars.$font-size-s;
+}
+.fx-move-up {
+    color: #1dac05;
+
+    &:before {
+        content: '\25b2';
+    }
+}
+
+.fx-move-down {
+    color: #ff2d2d;
+
+    &:before {
+        content: '\25bc';
+    }
+}

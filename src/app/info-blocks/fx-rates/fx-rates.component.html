@@ -1,0 +1,23 @@
+<section (click)="fxrResource.reload()" [class.outdated]="fxrResource.error()" [appSpinner]="fxrResource.isLoading()">
+    <h2>Exchange rates</h2>
+
+    <!-- FX rates -->
+    @if (fxRates(); as rates) {
+        <table class="fx v-ruled">
+            <tr>
+                @for (rate of rates; track $index) {
+                    <td>
+                        <!-- Symbol -->
+                        <span class="fx-ccy">{{ rate.symbol }}</span>
+                        <!-- Rate -->
+                        <span class="fx-rate">{{ rate.rate | number:'.2-2' }}</span>
+                        <!-- Move -->
+                        <span class="fx-move" [class.fx-move-up]="rate.move > 0" [class.fx-move-down]="rate.move < 0">
+                            {{ rate.move | number:'.2-2' }}
+                        </span>
+                    </td>
+                }
+            </tr>
+        </table>
+    }
+</section>

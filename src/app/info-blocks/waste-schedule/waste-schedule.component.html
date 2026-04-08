@@ -1,10 +1,10 @@
-<section (click)="update()" [class.outdated]="error()" [appSpinner]="dataLoading">
+<section (click)="wcsResource.reload()" [class.outdated]="wcsResource.error()" [appSpinner]="wcsResource.isLoading()">
     <!-- Heading -->
     <h2>Waste collection</h2>
 
     <!-- Departure times table -->
     <table class="waste-collection h-ruled">
-        @for (cd of collectionDays(); track $index) {
+        @for (cd of collectionDays(); track cd.date) {
             <tr animate.enter="fade-in" animate.leave="fade-out">
                 <td>{{ cd.date | date:'ccc dd MMM' }}</td>
                 <td class="waste-day"><span [class]="'day-'+cd.dateName">{{ cd.dateName }}</span></td>

@@ -18,6 +18,12 @@ describe('DomoticsComponent', () => {
 
         fixture = TestBed.createComponent(HomeAutomationComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('config', {
+            enabled: true,
+            refreshRate: 1000,
+            openHabServerUrl: 'http://localhost:3128',
+            showGroup: 'foo',
+        });
         fixture.detectChanges();
     });
 

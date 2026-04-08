@@ -22,8 +22,8 @@ describe('TrainScheduleComponent', () => {
             enabled: true,
             refreshRate: 1000,
             nsApiKey: 'secret',
-            departureTimesStationName: 'Utrecht',
-            departureTimesStationCode: 'ut',
+            departureStationName: 'Utrecht',
+            departureStationCode: 'ut',
             maxDepartureCount: 10,
         });
         fixture.detectChanges();

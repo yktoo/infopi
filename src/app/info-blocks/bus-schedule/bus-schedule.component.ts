@@ -1,11 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Observable, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { DataLoading, loadsDataInto } from '../../core/data-loading';
+import { httpResource } from '@angular/common/http';
+import { Subscription, timer } from 'rxjs';
 import { SpinnerDirective } from '../../core/spinner/spinner.directive';
-import { APP_CONFIG } from '../../core/config/config';
+import { BusScheduleConfig } from '../../core/config/config';
 
 @Component({
     selector: 'app-bus',
@@ -16,46 +14,26 @@ import { APP_CONFIG } from '../../core/config/config';
         DatePipe,
     ],
 })
-export class BusScheduleComponent implements OnInit, DataLoading {
+export class BusScheduleComponent {
 
-    private static baseUrl = 'https://v0.ovapi.nl/stopareacode/';
+    /** Component configuration. */
+    readonly config = input.required<BusScheduleConfig>();
 
-    private readonly config = inject(APP_CONFIG).busSchedule;
-    private readonly http = inject(HttpClient);
+    /** Raw bus schedule data received from the API. */
+    readonly bussesResource = httpResource<any>(() => `https://v0.ovapi.nl/stopareacode/${this.config().ovapiStopCode}`);
 
-    readonly departureStation = this.config.ovapiStopName;
+    /** Bus departures being displayed. */
+    readonly departures = computed(() => {
+        if (!this.bussesResource.hasValue()) {
+            return undefined;
+        }
 
-    departures: any;
-    error: any;
-    dataLoading = false;
+        const dep = this.bussesResource.value()?.[this.config().ovapiStopCode];
+        if (!dep) {
+            return undefined;
+        }
 
-    ngOnInit(): void {
-        timer(0, this.config.refreshRate).subscribe(() => this.update());
-    }
-
-    update() {
-        this.getDepartureTimes(this.config.ovapiStopCode)
-            .pipe(loadsDataInto(this))
-            .subscribe({
-                next:  data => this.processData(data),
-                error: error => this.error = error,
-            });
-    }
-
-    /**
-     * Request bus departure times for the specified stop and return them wrapped in an Observable.
-     * @param stopCode Bus stop code to request departure times for.
-     */
-    private getDepartureTimes(stopCode: string): Observable<any> {
-        return this.http.get(BusScheduleComponent.baseUrl + stopCode).pipe(map((data: any) => data[stopCode]));
-    }
-
-    private processData(data: any) {
-        // Remove any error
-        this.error = undefined;
-
-        // Handle the data
-        this.departures = Object.values(data)
+        return Object.values(dep)
             // Flatten passes
             .flatMap(stop => Object.values((stop as any).Passes))
             .map(pass => pass as any)
@@ -75,6 +53,15 @@ export class BusScheduleComponent implements OnInit, DataLoading {
                 (a.TargetDepartureTime === b.TargetDepartureTime ? 0 : 1),
             )
             // Limit the number of items
-            .slice(0, this.config.maxDepartureCount);
+            .slice(0, this.config().maxDepartureCount);
+    });
+
+    constructor() {
+        // (Re)subscribe on periodic updates
+        let t: Subscription;
+        effect(onCleanup => {
+            t = timer(0, this.config().refreshRate).subscribe(() => this.bussesResource.reload());
+            onCleanup(() => t.unsubscribe());
+        });
     }
 }

@@ -29,11 +29,20 @@
         </div>
     </div>
 
+    <!-- FX rates -->
+    @if (config.fxRates.enabled) {
+        <div class="fixed-bottom opaque ruler-top pb-2">
+            <div class="row flex-start flex-justify-center">
+                <app-fx-rates [config]="config.fxRates"/>
+            </div>
+        </div>
+    }
+
     <!-- Home automation -->
     @if (config.homeAutomation.enabled) {
         <div class="fixed-bottom opaque ruler-top pb-2">
             <div class="row flex-start flex-justify-center">
-                <app-home-automation/>
+                <app-home-automation [config]="config.homeAutomation"/>
             </div>
         </div>
     }

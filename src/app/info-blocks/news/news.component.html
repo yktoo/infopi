@@ -1,4 +1,4 @@
-<section (click)="update()" [class.outdated]="error()" [appSpinner]="dataLoading">
+<section (click)="rssResource.reload()" [class.outdated]="rssResource.error()" [appSpinner]="rssResource.isLoading()">
     <!-- RSS feed logo -->
     @if (feedImageUrl(); as u) {
         <div class="news-image"><img [src]="u" alt="News Image"></div>
@@ -6,8 +6,9 @@
 
     <!-- Feed items (actually, only the current one, and the next one while being animated ) -->
     <div class="news-container">
-        @for (item of newsItems(); track $index) {
-            @if (item.visible) {
+        @let curIdx = currentIndex();
+        @for (item of newsItems(); track item.id; let idx = $index) {
+            @if (idx === curIdx) {
                 <div animate.enter="slide-in" animate.leave="slide-out" class="news-item">
                     <div class="news-title">{{ item.title }}</div>
                     <div class="news-desc">{{ item.description }}</div>

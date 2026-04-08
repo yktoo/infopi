@@ -1,22 +1,20 @@
-@if (departures) {
-    <section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
-        <!-- Heading -->
-        <h2>{{ departureStation }}</h2>
+<section (click)="bussesResource.reload()" [class.outdated]="bussesResource.error()" [appSpinner]="bussesResource.isLoading()">
+    <!-- Heading -->
+    <h2>{{ config().ovapiStopName }}</h2>
 
-        <!-- Departure times table -->
-        <table class="departures h-ruled">
-            @for (bus of departures; track bus.JourneyNumber) {
-                <tr animate.enter="fade-in" animate.leave="fade-out" [class.bus-delayed]="bus.delay">
-                    <td class="bus-time">{{ bus.TargetDepartureTime | date:'HH:mm' }}</td>
-                    <td class="bus-delay">
-                        @if (bus.delay) {
-                            <span class="delay-value">{{ bus.delay }}</span>
-                        }
-                    </td>
-                    <td class="bus-line">{{ bus.LinePublicNumber }}</td>
-                    <td class="bus-dest">{{ bus.DestinationName50 }}</td>
-                </tr>
-            }
-        </table>
-    </section>
-}
+    <!-- Departure times table -->
+    <table class="departures h-ruled">
+        @for (bus of departures(); track bus.JourneyNumber) {
+            <tr animate.enter="fade-in" animate.leave="fade-out" [class.bus-delayed]="bus.delay">
+                <td class="bus-time">{{ bus.TargetDepartureTime | date:'HH:mm' }}</td>
+                <td class="bus-delay">
+                    @if (bus.delay) {
+                        <span class="delay-value">{{ bus.delay }}</span>
+                    }
+                </td>
+                <td class="bus-line">{{ bus.LinePublicNumber }}</td>
+                <td class="bus-dest">{{ bus.DestinationName50 }}</td>
+            </tr>
+        }
+    </table>
+</section>

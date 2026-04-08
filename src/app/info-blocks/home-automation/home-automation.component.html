@@ -1,20 +1,21 @@
-@if (items) {
-    <section (click)="update()" [class.outdated]="error" [appSpinner]="dataLoading">
-        <!-- Heading -->
-        <h2>Security</h2>
+<section (click)="itemsResource.reload()" [class.outdated]="itemsResource.error()" [appSpinner]="itemsResource.isLoading()">
+    <!-- Heading -->
+    <h2>Security</h2>
 
-        <!-- Security items -->
+    <!-- Security items -->
+    @let its = items();
+    @if (its?.length) {
         <table class="items v-ruled">
             <tr>
-                @for (item of items; track item.name) {
+                @for (item of its; track item.name) {
                     <th>{{ item.label || item.name }}</th>
                 }
             </tr>
             <tr>
-                @for (item of items; track item.name) {
+                @for (item of its; track item.name) {
                     <td class="state" [class]="item.state | lowercase">{{ item.state | lowercase }}</td>
                 }
             </tr>
         </table>
-    </section>
-}
+    }
+</section>

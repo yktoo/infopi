@@ -6,6 +6,7 @@ import { WeatherComponent } from './info-blocks/weather/weather.component';
 import { TrainScheduleComponent } from './info-blocks/train-schedule/train-schedule.component';
 import { APP_CONFIG } from './core/config/config';
 import { WasteScheduleComponent } from './info-blocks/waste-schedule/waste-schedule.component';
+import { FxRatesComponent } from './info-blocks/fx-rates/fx-rates.component';
 
 @Component({
     selector: 'app-root',
@@ -18,6 +19,7 @@ import { WasteScheduleComponent } from './info-blocks/waste-schedule/waste-sched
         WeatherComponent,
         TrainScheduleComponent,
         WasteScheduleComponent,
+        FxRatesComponent,
     ],
 })
 export class AppComponent {

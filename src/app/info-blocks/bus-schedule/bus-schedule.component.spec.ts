@@ -18,6 +18,13 @@ describe('BusScheduleComponent', () => {
 
         fixture = TestBed.createComponent(BusScheduleComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('config', {
+            enabled: true,
+            refreshRate: 1000,
+            ovapiStopName: 'foo',
+            ovapiStopCode: 'foo',
+            maxDepartureCount: 10,
+        });
         fixture.detectChanges();
     });
 

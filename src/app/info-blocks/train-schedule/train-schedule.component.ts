@@ -1,19 +1,10 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, effect, input } from '@angular/core';
+import { DatePipe, SlicePipe } from '@angular/common';
+import { httpResource } from '@angular/common/http';
 import { Subscription, timer } from 'rxjs';
-import { TrainDeparture, TrainMessage } from './train-departure';
-import { DataLoading, loadsDataInto } from '../../core/data-loading';
 import { SpinnerDirective } from '../../core/spinner/spinner.directive';
 import { TrainScheduleConfig } from '../../core/config/config';
-
-/**
- * Extension of TrainDeparture, which also allows to store delays and warnings.
- */
-export interface ExtendedTrainDeparture extends TrainDeparture {
-    delay?:       string;
-    disruptions?: TrainMessage[];
-}
+import { RawNsApiDepartureResponse, TrainDeparture } from './models';
 
 @Component({
     selector: 'app-train',
@@ -22,65 +13,40 @@ export interface ExtendedTrainDeparture extends TrainDeparture {
     imports: [
         DatePipe,
         SpinnerDirective,
+        SlicePipe,
     ],
 })
-export class TrainScheduleComponent implements DataLoading {
-
-    /** NS API base URL. */
-    private static baseUrl = 'https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/';
-
-    private readonly http = inject(HttpClient);
+export class TrainScheduleComponent {
 
     /** Component configuration. */
     readonly config = input.required<TrainScheduleConfig>();
 
-    /** Train departures being displayed. */
-    readonly departures = signal<ExtendedTrainDeparture[] | undefined>(undefined);
-
-    /** Error occurred during data load, if any. */
-    readonly error = signal<any>(undefined);
-
-    dataLoading = false;
+    /** Raw train departure schedule data received from the API. */
+    readonly trainsResource = httpResource<RawNsApiDepartureResponse>(() => {
+        const cfg = this.config();
+        return {
+            url:     'https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/departures',
+            headers: {'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': cfg.nsApiKey},
+            params:  {station: cfg.departureStationCode, lang: 'en'},
+        };
+    });
 
     constructor() {
         // (Re)subscribe on periodic updates
         let t: Subscription;
         effect(onCleanup => {
-            t = timer(0, this.config().refreshRate).subscribe(() => this.update());
+            t = timer(0, this.config().refreshRate).subscribe(() => this.trainsResource.reload());
             onCleanup(() => t.unsubscribe());
         });
     }
 
-    update() {
-        // Remove any error
-        this.error.set(undefined);
-
-        // Fetch train schedule data
-        const cfg = this.config();
-        const httpOptions = {
-            headers: new HttpHeaders({'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key': this.config().nsApiKey}),
-            params: {station: cfg.departureTimesStationCode, lang: 'en'},
-        };
-        this.http.get<any>(TrainScheduleComponent.baseUrl + 'departures', httpOptions)
-            .pipe(loadsDataInto(this))
-            .subscribe({
-                next:  data => this.departures.set(
-                    data.payload.departures
-                        .slice(0, this.config().maxDepartureCount)
-                        .map((e: ExtendedTrainDeparture) => {
-                            // Calculate delays
-                            const delay = Math.round(
-                                (new Date(e.actualDateTime ?? '').getTime() - new Date(e.plannedDateTime ?? '').getTime()) /
-                                (1000 * 60));
-                            if (delay > 0) {
-                                e.delay = '+' + delay;
-                            }
-
-                            // Filter warnings
-                            e.disruptions = e.messages?.filter(msg => msg.type === 'DISRUPTION');
-                            return e;
-                        })),
-                error: e => this.error.set(e),
-            });
+    /**
+     * Calculate train departure delay in minutes.
+     * @param dep Train to calculate the delay for.
+     */
+    delayInMinutes(dep: TrainDeparture): number {
+        return dep.actualDateTime && dep.plannedDateTime ?
+            Math.round((new Date(dep.actualDateTime).getTime() - new Date(dep.plannedDateTime).getTime()) / 60_1000) :
+            0;
     }
 }
