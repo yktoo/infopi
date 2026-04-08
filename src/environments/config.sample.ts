@@ -11,14 +11,14 @@ export const configuration: Partial<InfoPiConfig> = {
     weather: {
         enabled: true,
         refreshRate: 10 * 60 * 1000 /* Once in 10 minutes */,
-        buienRadarStationId: '6260' /* Meetstation De Bilt */,
+        buienRadarStationId: 6260   /* Meetstation De Bilt */,
     },
 
     // Train settings
     trainSchedule: {
         enabled: true,
         nsApiKey: '-your-key-here-',
-        refreshRate: 30 * 1000   /* Once half a minute */,
+        refreshRate: 30 * 1000 /* Once half a minute */,
         departureTimesStationName: 'Houten Castellum',
         departureTimesStationCode: 'htnc',
         maxDepartureCount: 12,

@@ -70,7 +70,7 @@ export interface WasteScheduleConfig extends InfoBlockConfig {
 
 export interface WeatherConfig extends InfoBlockConfig {
     /** Weather station ID for Buienradar. */
-    buienRadarStationId: string;
+    buienRadarStationId: number;
 }
 
 export interface InfoPiConfig {
@@ -150,7 +150,7 @@ export class InfoPiConfigImpl implements InfoPiConfig {
     readonly weather: WeatherConfig = {
         enabled: false,
         refreshRate: 3600 * 1000,
-        buienRadarStationId: '',
+        buienRadarStationId: 0,
     };
 
     constructor(init: Partial<InfoPiConfig>) {

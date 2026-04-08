@@ -1,12 +1,14 @@
 import { Component, computed, input } from '@angular/core';
+import { DatePipe, formatDate } from '@angular/common';
 import { ChartData, ChartOptions } from 'chart.js';
-import { WeatherDayForecast } from '../models';
 import { BaseChartDirective } from 'ng2-charts';
+import { WeatherDayForecast } from '../models';
 
 @Component({
     selector: 'app-weather-forecast',
     imports: [
         BaseChartDirective,
+        DatePipe,
     ],
     templateUrl: './weather-forecast.component.html',
     styleUrl: './weather-forecast.component.scss',
@@ -92,7 +94,7 @@ export class WeatherForecastComponent {
                     tension:              0.5,
                 },
             ],
-            labels: df.map(f => f.dow),
+            labels: df.map(f => formatDate(f.date, 'ccc', 'en')),
         };
     });
 }

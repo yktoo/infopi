@@ -1,6 +1,6 @@
 @let cw = currentWeather();
 @let ast = astro();
-<section [class.outdated]="error" [appSpinner]="dataLoading">
+<section [class.outdated]="weather.error()" [appSpinner]="weather.isLoading()">
     <!-- Current weather and astronomic data -->
     @if (cw && ast) {
         <app-current-weather [weather]="cw" [astro]="ast" (click)="update()"/>

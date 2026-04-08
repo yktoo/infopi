@@ -5,8 +5,8 @@
 <div class="row ruler flex-items-stretch">
     <!-- Current weather icon and text -->
     <div class="card w-2 w-icon">
-        <i class="wi" [class]="wth.icon.wiClass"></i>
-        <div class="w-icon-text">{{ wth.icon.text }}</div>
+        <i class="wi" [class]="wth.icon"></i>
+        <div class="w-icon-text">{{ wth.description }}</div>
     </div>
     <!-- Weather message -->
     <div class="card w-7 w-text position-relative">
@@ -26,7 +26,7 @@
         <!-- Wind direction and speed -->
         <td>
             <div class="w-smallicon">
-                <i class="wi w-wind" [class]="'wi-wind-beaufort-' + wth.wind.speed"></i>
+                <i class="wi w-wind" [class]="'wi-wind-beaufort-' + wth.wind.speedBft"></i>
             </div>
             <div class="w-smalltext">
                 {{ wth.wind.dirText }}
@@ -57,7 +57,7 @@
         <!-- Rain -->
         <td>
             <div class="w-smallicon"><i class="wi wi-raindrops"></i></div>
-            <div class="w-smalltext">{{ wth.rain === '-' ? 0 : wth.rain }} <span class="w-unit">mm/h</span></div>
+            <div class="w-smalltext">{{ wth.rain }} <span class="w-unit">mm/h</span></div>
         </td>
 
         <!-- Sunrise -->

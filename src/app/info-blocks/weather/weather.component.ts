@@ -1,15 +1,12 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, Subscription, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AstroData, CurrentWeather, RawWeather, RawWeatherData, WeatherDayForecast } from './models';
-import { DataLoading, loadsDataInto } from '../../core/data-loading';
+import { Component, computed, effect, input, signal } from '@angular/core';
+import { httpResource } from '@angular/common/http';
+import { Subscription, timer } from 'rxjs';
 import { SpinnerDirective } from '../../core/spinner/spinner.directive';
-import { XmlParserService } from '../../core/xml-parser/xml-parser.service';
 import { CurrentWeatherComponent } from './current-weather/current-weather.component';
 import { RadarMapComponent } from './radar-map/radar-map.component';
 import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
 import { WeatherConfig } from '../../core/config/config';
+import { AstroData, CurrentWeather, RawBuienradarWeatherResponse, WeatherDayForecast } from './models';
 
 @Component({
     selector: 'app-weather',
@@ -21,7 +18,7 @@ import { WeatherConfig } from '../../core/config/config';
         WeatherForecastComponent,
     ],
 })
-export class WeatherComponent implements DataLoading {
+export class WeatherComponent {
 
     private static readonly fullMoonTime = new Date('1999-08-11 13:09').getTime();
 
@@ -82,32 +79,100 @@ export class WeatherComponent implements DataLoading {
         zz: 'wi-snow-wind',
     };
 
-    private readonly http = inject(HttpClient);
-    private readonly xmlParser = inject(XmlParserService);
-
     /** Component configuration. */
     readonly config = input.required<WeatherConfig>();
 
+    /** Station ID to use. */
+    readonly stationId = computed<number>(() => this.config().buienRadarStationId);
+
+    /** Weather resource. */
+    readonly weather = httpResource<RawBuienradarWeatherResponse>(() => 'https://data.buienradar.nl/2.0/feed/json');
+
     /** Current weather conditions. */
-    readonly currentWeather = signal<CurrentWeather | undefined>(undefined);
+    readonly currentWeather = computed<CurrentWeather | undefined>(() => {
+        if (!this.weather.hasValue()) {
+            return undefined;
+        }
+        const weather = this.weather.value();
+
+        // Find the station in question
+        const stationId = this.stationId();
+        const station = weather?.actual.stationmeasurements.find(sm => sm.stationid === stationId);
+        if (!station) {
+            return undefined;
+        }
+
+        return {
+            station: {
+                code:       station.stationid,
+                name:       station.stationname,
+                latitude:   station.lat,
+                longitude:  station.lon,
+                updated:    new Date(station.timestamp),
+            },
+            temperature:    station.temperature,
+            humidity:       station.humidity,
+            pressure:       station.airpressure,
+            wind: {
+                dirText:    station.winddirection,
+                dirDegrees: station.winddirectiondegrees,
+                speed:      station.windspeed,
+                speedBft:   station.windspeedBft,
+                gusts:      station.windgusts,
+            },
+            rain:           station.precipitation,
+            visibility:     station.visibility,
+            icon:           WeatherComponent.getWeatherIconClass(station.iconurl),
+            description:    station.weatherdescription,
+            message:        weather?.forecast.weatherreport.summary ?? '',
+        };
+    });
 
     /** Current astronomic conditions. */
-    readonly astro = signal<AstroData | undefined>(undefined);
+    readonly astro = computed<AstroData | undefined>(() => this.weather.hasValue() ?
+        {
+            sunrise:   new Date(this.weather.value()?.actual.sunrise),
+            sunset:    new Date(this.weather.value()?.actual.sunset),
+            moonPhase: this.getMoonPhase(),
+        } :
+        undefined);
+
+    /** Weather forecasts for the upcoming days. */
+    readonly dayForecasts = computed<WeatherDayForecast[] | undefined>(() => this.weather.hasValue() ?
+        this.weather.value()?.forecast.fivedayforecast.map(fc => ({
+            date:            new Date(fc.day),
+            probSun:         fc.sunChance,
+            rain: {
+                probability: fc.rainChance,
+                minAmount:   fc.mmRainMin,
+                maxAmount:   fc.mmRainMax,
+            },
+            temperature: {
+                highMax:     fc.maxtemperatureMax,
+                highMin:     fc.maxtemperatureMin,
+                lowMax:      fc.mintemperatureMax,
+                lowMin:      fc.mintemperatureMin,
+            },
+            wind: {
+                dirText:     fc.windDirection,
+                speedBft:    fc.wind,
+            },
+            icon:            WeatherComponent.getWeatherIconClass(fc.iconurl),
+        })) :
+        undefined);
 
     /** URL of the radar map. */
     readonly radarMapUrl = signal<string | undefined>(undefined);
 
-    /** Weather forecasts for the upcoming days. */
-    readonly dayForecasts = signal<WeatherDayForecast[] | undefined>(undefined);
-
-    error: any;
-    dataLoading = false;
-
     /**
-     * Convert Buienradar's datetime of the format 'mm/dd/yyyy hh:mm:ss' into the ISO 8601 format.
+     * Return the name of a WeatherIcons class for the given Buienradar icon URL.
+     * @param iconUrl Buienradar icon URL.
      */
-    private static convertDate(s: string): Date {
-        return new Date(s.replace(/(\d\d)\/(\d\d)\/(\d\d\d\d)\s+([\d:]+)/, '$3-$1-$2T$4'));
+    private static getWeatherIconClass(iconUrl: string): string {
+        // Extract name of the icon file (the last component of the URL), without the extension
+        const fn = iconUrl.replace(/^.+\/(\w+)\.png$/, '$1');
+        // Convert that name into an icon
+        return this.iconToWiClassMap[fn] || 'wi-na';
     }
 
     constructor() {
@@ -120,12 +185,7 @@ export class WeatherComponent implements DataLoading {
     }
 
     update() {
-        this.getWeather()
-            .pipe(loadsDataInto(this))
-            .subscribe({
-                next:  data => this.processData(data),
-                error: error => this.error = error,
-            });
+        this.weather.reload();
 
         // Update the current radar map URL to reload the image
         this.radarMapUrl.set(
@@ -138,109 +198,11 @@ export class WeatherComponent implements DataLoading {
             '&random=' + Math.random());
     }
 
-    private getWeather(): Observable<RawWeatherData> {
-        return this.http.get('https://data.buienradar.nl/1.0/feed/xml', {responseType: 'text'})
-            .pipe(
-                // Parse the XML response from Buienradar
-                map(d => this.xmlParser.parse<RawWeather>(d)),
-                // Unwrap the top two levels
-                map(res => res.buienradarnl.weergegevens));
-
-    }
-
-    /**
-     * Return the name of a WeatherIcons class for the given Buienradar icon ID.
-     * @param buienradarIconId Name of Buienradar icon ID.
-     */
-    getWeatherIconClass(buienradarIconId: string): string {
-        return WeatherComponent.iconToWiClassMap[buienradarIconId] || 'wi-na';
-    }
-
     /**
      * Calculate the current moon phase and return it as a number in the range 0..27.
      */
     private getMoonPhase(): number {
         const diffDays = (new Date().getTime() - WeatherComponent.fullMoonTime) / 86400000;
         return Math.round((diffDays / 29.530588853) % 1 * 27);
-    }
-
-    private processData(data: RawWeatherData) {
-        // Remove any error
-        this.error = undefined;
-
-        // Find the desired weather station by its ID
-        const curWeather = data.actueel_weer;
-
-        // Prepare the current weather
-        const id = this.config().buienRadarStationId;
-        const station = curWeather.weerstations.weerstation.find(e => e.attr.id === id);
-        if (station) {
-            const icon = station.icoonactueel;
-            this.currentWeather.set({
-                station: {
-                    code:       station.stationcode.text,
-                    name:       station.stationnaam.text,
-                    latitude:   station.lat.text,
-                    longitude:  station.lon.text,
-                    updated:    WeatherComponent.convertDate(station.datum.text),
-                },
-                temperature:    station.temperatuurGC.text,
-                humidity:       station.luchtvochtigheid.text,
-                pressure:       station.luchtdruk.text,
-                wind: {
-                    dirText:    station.windrichting.text,
-                    dirDegrees: station.windrichtingGR.text,
-                    speed:      station.windsnelheidBF.text,
-                    gusts:      station.windstotenMS.text
-                },
-                rain:           station.regenMMPU.text,
-                visibility:     station.zichtmeters.text,
-                icon: {
-                    url:        icon.text,
-                    wiClass:    this.getWeatherIconClass(icon.attr.ID),
-                    text:       icon.attr.zin ?? '',
-                },
-                message:        data.verwachting_vandaag.samenvatting.text,
-            });
-        } else {
-            this.currentWeather.set(undefined);
-        }
-
-        // Prepare weather forecast
-        const weekdayMap = {ma: 'Mon', di: 'Tue', wo: 'Wed', do: 'Thu', vr: 'Fri', za: 'Sat', zo: 'Sun'};
-        this.dayForecasts.set([1, 2, 3, 4, 5]
-            .map(i => data.verwachting_meerdaags[`dag-plus${i}` as 'dag-plus1'])
-            .map(dw => ({
-                date:            dw.datum.text,               // Full date, eg 'zondag 17 april 2016'
-                dow:             weekdayMap[dw.dagweek.text as keyof typeof weekdayMap],
-                probSun:         Number(dw.kanszon.text),     // Probability in percent
-                probSnow:        Number(dw.sneeuwcms.text),   // Probability in percent
-                rain: {
-                    probability: Number(dw.kansregen.text),   // Probability in percent
-                    minAmount:   Number(dw.minmmregen.text),  // Minimum amount in mm
-                    maxAmount:   Number(dw.maxmmregen.text),  // Maximum amount in mm
-                },
-                temperature: {
-                    highMax:     Number(dw.maxtempmax.text),  // In °C
-                    highMin:     Number(dw.maxtemp.text),     // In °C
-                    lowMax:      Number(dw.mintempmax.text),  // In °C
-                    lowMin:      Number(dw.mintemp.text),     // In °C
-                },
-                wind: {
-                    dirText:     dw.windrichting.text,        // Text, like 'WZW'
-                    speed:       Number(dw.windkracht.text),  // In bft
-                },
-                icon: {
-                    url:         dw.icoon.text,
-                    wiClass:     this.getWeatherIconClass(dw.icoon.attr.ID),
-                },
-            })));
-
-        // Update the sunrise, sunset and moon phase
-        this.astro.set({
-            sunrise:   WeatherComponent.convertDate(curWeather.buienradar.zonopkomst.text),
-            sunset:    WeatherComponent.convertDate(curWeather.buienradar.zononder.text),
-            moonPhase: this.getMoonPhase(),
-        });
     }
 }

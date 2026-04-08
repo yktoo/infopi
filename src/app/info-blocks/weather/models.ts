@@ -1,126 +1,89 @@
-import { TextNode } from '../../core/gen-types';
+// Weather data model definitions for JSON provided by https://data.buienradar.nl/2.0/feed/json
 
-export interface RawWeatherIcon {
-    attr: {
-        ID: string;
-        zin?: string;
-    };
-    text: string;
+export interface RawBuienradarWeatherResponse {
+    readonly buienradar: RawBuienradarWeatherMetadata;
+    readonly actual:     RawBuienradarActualWeather;
+    readonly forecast:   RawBuienradarWeatherForecast;
 }
 
-export interface RawWeatherStation {
-    attr: {
-        id: string;
-    };
-    stationcode: TextNode;
-    stationnaam: {
-        attr: { regio: string };
-        text: string;
-    };
-    lat: TextNode;
-    lon: TextNode;
-    datum: TextNode;
-    luchtvochtigheid: TextNode;
-    temperatuurGC: TextNode;
-    windsnelheidMS: TextNode;
-    windsnelheidBF: TextNode;
-    windrichtingGR: TextNode;
-    windrichting: TextNode;
-    luchtdruk: TextNode;
-    zichtmeters: TextNode;
-    windstotenMS: TextNode;
-    regenMMPU: TextNode;
-    zonintensiteitWM2: TextNode;
-    icoonactueel: RawWeatherIcon;
-    temperatuur10cm: TextNode;
-    url: TextNode;
-    latGraden: TextNode;
-    lonGraden: TextNode;
+export interface RawBuienradarWeatherMetadata {
+    readonly copyright: string;
+    readonly terms:     string;
 }
 
-export interface RawWeatherDayForecast {
-    datum: TextNode;
-    dagweek: TextNode;
-    kanszon: TextNode;
-    kansregen: TextNode;
-    minmmregen: TextNode;
-    maxmmregen: TextNode;
-    mintemp: TextNode;
-    mintempmax: TextNode;
-    maxtemp: TextNode;
-    maxtempmax: TextNode;
-    windrichting: TextNode;
-    windkracht: TextNode;
-    icoon: RawWeatherIcon;
-    sneeuwcms: TextNode;
+export interface RawBuienradarActualWeather {
+    readonly actualradarurl:      string;
+    readonly sunrise:             string;
+    readonly sunset:              string;
+    readonly stationmeasurements: RawBuienradarStationMeasurement[];
 }
 
-export interface RawCurrentWeather {
-    weerstations: {
-        weerstation: RawWeatherStation[];
-    };
-    buienindex: {
-        waardepercentage: TextNode;
-        datum: TextNode;
-    };
-    buienradar: {
-        url: TextNode;
-        urlbackup: TextNode;
-        icoonactueel: RawWeatherIcon;
-        zonopkomst: TextNode;
-        zononder: TextNode;
-    };
-    aantalonweer: TextNode;
-    aantalhagel: TextNode;
+export interface RawBuienradarWeatherForecast {
+    readonly weatherreport:   RawBuienradarWeatherReport;
+    readonly shortterm:       RawBuienradarWeatherTermForecast;
+    readonly longterm:        RawBuienradarWeatherTermForecast;
+    readonly fivedayforecast: RawBuienradarDayWeatherForecast[];
 }
 
-export interface RawWeatherData {
-    titel: TextNode;
-    link: TextNode;
-    omschrijving: TextNode;
-    language: TextNode;
-    copyright: TextNode;
-    gebruik: TextNode;
-    image: {
-        titel: TextNode;
-        link: TextNode;
-        url: TextNode;
-        width: TextNode;
-        height: TextNode;
-    };
-    actueel_weer: RawCurrentWeather;
-    verwachting_meerdaags: {
-        url: TextNode;
-        urlbackup: TextNode;
-        tekst_middellang: {
-            attr: { periode: string };
-            text: string;
-        };
-        tekst_lang: {
-            attr: { periode: string };
-            text: string;
-        };
-        'dag-plus1': RawWeatherDayForecast;
-        'dag-plus2': RawWeatherDayForecast;
-        'dag-plus3': RawWeatherDayForecast;
-        'dag-plus4': RawWeatherDayForecast;
-        'dag-plus5': RawWeatherDayForecast;
-    };
-    verwachting_vandaag: {
-        url: TextNode;
-        urlbackup: TextNode;
-        titel: TextNode;
-        tijdweerbericht: TextNode;
-        samenvatting: TextNode;
-        tekst: TextNode;
-        formattedtekst: TextNode;
-    };
+export interface RawBuienradarStationMeasurement {
+    readonly stationid:            number; // 6275
+    readonly stationname:          string; // "Meetstation Arnhem"
+    readonly lat:                  number; // 52.07
+    readonly lon:                  number; // 5.88
+    readonly regio:                string; // "Arnhem"
+    readonly timestamp:            string; // "2026-04-08T10:10:00"
+    readonly weatherdescription:   string; // "Vrijwel onbewolkt (zonnig/helder)"
+    readonly iconurl:              string; // "https://cdn.buienradar.nl/resources/images/icons/weather/30x30/a.png"
+    readonly fullIconUrl:          string; // "https://cdn.buienradar.nl/resources/images/icons/weather/96x96/A.png"
+    readonly graphUrl:             string; // "https://www.buienradar.nl/nederland/weerbericht/weergrafieken/a"
+    readonly winddirection:        string; // "OZO"
+    readonly airpressure:          number; // 1026.5
+    readonly temperature:          number; // 12.9
+    readonly groundtemperature:    number; // 12.2
+    readonly feeltemperature:      number; // 11.7
+    readonly visibility:           number; // 43500.0
+    readonly windgusts:            number; // 4.8
+    readonly windspeed:            number; // 3.6
+    readonly windspeedBft:         number; // 3
+    readonly humidity:             number; // 39.0
+    readonly precipitation:        number; // 0.0
+    readonly sunpower:             number; // 452.0
+    readonly rainFallLastHour:     number; // 0.0
+    readonly winddirectiondegrees: number; // 108
 }
 
-export interface RawWeather {
-    buienradarnl: {
-        weergegevens: RawWeatherData;
-    };
+export interface RawBuienradarWeatherReport {
+    readonly published: string; // "2026-04-08T08:00:00"
+    readonly title:     string; // "Volop zon en warm voor april"
+    readonly summary:   string; // "Vandaag is het een echte toplentedag met volop zon..."
+    readonly text:      string; // "Vandaag is het een echte toplentedag met volop zon..."
+    readonly author:    string; // "Ed Aldus",
+    readonly authorbio: string; // "Sinds februari 2008 werkzaam voor Buienradar..."
+}
+
+export interface RawBuienradarWeatherTermForecast {
+    readonly startdate: string; // "2026-04-14T00:00:00"
+    readonly enddate:   string; // "2026-04-18T00:00:00"
+    readonly forecast:  string; // "Grote kans (60%) op een rustig, meest droog en zonnig weertype, met temperaturen rond het langjarig..."
+}
+
+export interface RawBuienradarDayWeatherForecast {
+    readonly day:                string; // "2026-04-08T00:00:00"
+    readonly mintemperature:     string; // "2"
+    readonly maxtemperature:     string; // "18"
+    readonly mintemperatureMax:  number; // 2
+    readonly mintemperatureMin:  number; // 2
+    readonly maxtemperatureMax:  number; // 18
+    readonly maxtemperatureMin:  number; // 18
+    readonly rainChance:         number; // 0
+    readonly sunChance:          number; // 100
+    readonly windDirection:      string; // "o"
+    readonly wind:               number; // 3
+    readonly mmRainMin:          number; // 0.0
+    readonly mmRainMax:          number; // 0.0
+    readonly weatherdescription: string; // "Vrijwel onbewolkt (zonnig/helder)"
+    readonly iconurl:            string; // "https://cdn.buienradar.nl/resources/images/icons/weather/30x30/a.png"
+    readonly fullIconUrl:        string; // "https://cdn.buienradar.nl/resources/images/icons/weather/96x96/A.png"
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -128,56 +91,49 @@ export interface RawWeather {
 //------------------------------------------------------------------------------------------------------------------------------------------
 
 export interface CurrentWeather {
-    station: {
-        code:      string;
-        name:      string;
-        latitude:  string;
-        longitude: string;
-        updated:   Date;
+    readonly  station: {
+        readonly  code:      number;
+        readonly  name:      string;
+        readonly  latitude:  number;
+        readonly  longitude: number;
+        readonly  updated:   Date;
     };
-    temperature: string;    // In °C
-    humidity:    string;
-    pressure:    string;    // In hPa
-    wind: {
-        dirText:    string; // Text, like 'WZW'
-        dirDegrees: string; // In degrees
-        speed:      string; // In bft
-        gusts:      string; // In m/s
+    readonly temperature:    number; // In °C
+    readonly humidity:       number; // In %
+    readonly pressure:       number; // In hPa
+    readonly wind: {
+        readonly dirText:    string; // Text, like 'WZW'
+        readonly dirDegrees: number; // In degrees
+        readonly speed:      number; // In m/s
+        readonly speedBft:   number; // In bft
+        readonly gusts:      number; // In m/s
     };
-    rain:       string;     // In mm/h
-    visibility: string;     // In metres
-    icon: {
-        url:     string;    // Full image URL
-        wiClass: string;    // One of the wi-* classes
-        text:    string;    // In Dutch
-    };
-    message: string;
+    readonly rain:           number; // In mm/h
+    readonly visibility:     number; // In metres
+    readonly icon:           string; // One of the wi-* classes
+    readonly description:    string; // Short weather description
+    readonly message:        string;
 }
 
 export interface WeatherDayForecast {
-    date:            string; // Full date, eg 'zondag 17 april 2016'
-    dow:             string; // Day of week
-    probSun:         number; // Sun probability in percent
-    probSnow:        number; // Snow probability in percent
-    rain: {
-        probability: number; // Probability in percent
-        minAmount:   number; // Minimum amount in mm
-        maxAmount:   number; // Maximum amount in mm
+    readonly date:            Date;   // Day the forecast is about
+    readonly probSun:         number; // Sun probability in percent
+    readonly rain: {
+        readonly probability: number; // Probability in percent
+        readonly minAmount:   number; // Minimum amount in mm
+        readonly maxAmount:   number; // Maximum amount in mm
     };
-    temperature: {
-        highMax:     number; // In °C
-        highMin:     number; // In °C
-        lowMax:      number; // In °C
-        lowMin:      number; // In °C
+    readonly temperature: {
+        readonly highMax:     number; // In °C
+        readonly highMin:     number; // In °C
+        readonly lowMax:      number; // In °C
+        readonly lowMin:      number; // In °C
     };
-    wind: {
-        dirText:     string; // Text, like 'WZW'
-        speed:       number; // In bft
+    readonly wind: {
+        readonly dirText:     string; // Text, like 'WZW'
+        readonly speedBft:    number; // In bft
     };
-    icon: {
-        url:         string;
-        wiClass:     string;
-    };
+    readonly icon:            string; // One of the wi-* classes
 }
 
 /** Astronomic data about the sun and the moon. */
