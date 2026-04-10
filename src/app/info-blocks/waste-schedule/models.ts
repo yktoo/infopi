@@ -56,7 +56,8 @@ export type DateName = '' | 'yesterday' | 'today' | 'tomorrow';
 
 /** Derived, improved collection scchedule item. */
 export interface WasteCollectionDay {
-    type:     string;
-    date:     Date;
-    dateName: DateName;
+    type:        string;
+    date:        Date;
+    dateName:    DateName;
+    daysFromNow: number;
 }

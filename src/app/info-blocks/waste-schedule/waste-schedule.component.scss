@@ -12,6 +12,8 @@
 
 .waste-day {
     font-size: vars.$font-size-s;
+    color: vars.$color-pale-fg;
+    text-align: center;
 }
 
 .waste-type {
@@ -19,20 +21,44 @@
     text-align: center;
 }
 
+.wave-animation-container {
+    display: inline-block;
+    background-color: #ffffff;
+    border-radius: 0.25rem;
+}
+
+.badge {
+    display: inline-block;
+    border-radius: 0.25rem;
+    padding: 0.33rem;
+}
+
+.wave-animation {
+    mask-image: linear-gradient(130deg, #fff 55%, #ffffff30 75%, #fff 95%);
+    mask-size: 200% 100%;
+    animation: wave-animation-frames 2s linear infinite;
+    border-radius: 0.25rem;
+    padding: 0.33rem;
+}
+
+@keyframes wave-animation-frames {
+    100% {
+        mask-position: -200% 0%;
+    }
+}
+
 .day-yesterday {
+    color: #1dac05;
 }
 
 .day-today {
-    color: #1dac05;
-    border-radius: 0.25rem;
-    padding: 0.33rem;
+    color: #fff;
+    background-color: #1dac05;
 }
 
 .day-tomorrow {
     color: #000;
     background-color: #ffe614;
-    border-radius: 0.25rem;
-    padding: 0.33rem;
 }
 
 .type-restafval {

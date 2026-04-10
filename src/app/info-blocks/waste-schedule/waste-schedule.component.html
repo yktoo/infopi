@@ -7,7 +7,18 @@
         @for (cd of collectionDays(); track cd.date) {
             <tr animate.enter="fade-in" animate.leave="fade-out">
                 <td>{{ cd.date | date:'ccc dd MMM' }}</td>
-                <td class="waste-day"><span [class]="'day-'+cd.dateName">{{ cd.dateName }}</span></td>
+                <td class="waste-day">
+                    @let animate = cd.dateName === 'tomorrow';
+                    <div [class.wave-animation-container]="animate">
+                        <div [class]="'day-'+cd.dateName" [class.wave-animation]="animate" class="badge">
+                            @if (cd.dateName) {
+                                <ng-container>{{ cd.dateName | titlecase }}</ng-container>
+                            } @else {
+                                <ng-container>In {{ cd.daysFromNow }} days</ng-container>
+                            }
+                        </div>
+                    </div>
+                </td>
                 <td class="waste-type" [class]="'type-'+cd.type">{{ cd.type | titlecase }}</td>
             </tr>
         }

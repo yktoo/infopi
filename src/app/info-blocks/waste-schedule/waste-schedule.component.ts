@@ -50,6 +50,8 @@ export class WasteScheduleComponent {
         // Calculate the "today's midnight"
         const today = new Date();
         today.setHours(0, 0, 0, 0);
+        const todayTime = today.getTime();
+        const oneDay = 24 * 3600 * 1000;
 
         // Process the raw days
         return this.wcsResource.value()?.data?.ophaaldagen?.data
@@ -60,8 +62,7 @@ export class WasteScheduleComponent {
 
                 // Determine the "date name"
                 let dateName: DateName = '';
-                const tDiff = today.getTime() - date.getTime();
-                const oneDay = 24 * 3600 * 1000;
+                const tDiff = todayTime - date.getTime();
                 if (tDiff > 0 && tDiff <= oneDay) {
                     dateName = 'yesterday';
                 } else if (tDiff <= 0 && tDiff > -oneDay) {
@@ -69,12 +70,12 @@ export class WasteScheduleComponent {
                 } else if (tDiff <= -oneDay && tDiff > -2*oneDay) {
                     dateName = 'tomorrow';
                 }
-                return {type: rd.type, date, dateName};
+                return {type: rd.type, date, dateName, daysFromNow: Math.floor(-tDiff / oneDay)};
             })
             // Sort by date
             .sort((a, b) => a.date.getTime() - b.date.getTime())
-            // Only keep the current and future dates
-            .filter(d => d.date >= today)
+            // Only keep dates starting yesterday on
+            .filter(d => d.date.getTime() >= todayTime - oneDay)
             // Limit the number of days
             .slice(0, this.config().maxCount);
 
