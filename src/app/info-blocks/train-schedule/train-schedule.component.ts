@@ -46,7 +46,7 @@ export class TrainScheduleComponent {
      */
     delayInMinutes(dep: TrainDeparture): number {
         return dep.actualDateTime && dep.plannedDateTime ?
-            Math.round((new Date(dep.actualDateTime).getTime() - new Date(dep.plannedDateTime).getTime()) / 60_1000) :
+            Math.round((new Date(dep.actualDateTime).getTime() - new Date(dep.plannedDateTime).getTime()) / 60_000) :
             0;
     }
 }

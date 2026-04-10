@@ -39,9 +39,7 @@ export class BusScheduleComponent {
             .map(pass => pass as any)
             // Calculate delays
             .map(pass => {
-                const delay = Math.round(
-                    (new Date(pass.TargetDepartureTime).getTime() - new Date(pass.ExpectedDepartureTime).getTime()) /
-                    (1000 * 60));
+                const delay = Math.round((new Date(pass.TargetDepartureTime).getTime() - new Date(pass.ExpectedDepartureTime).getTime()) / 60_000);
                 if (delay > 0) {
                     pass.delay = '+' + delay;
                 }
