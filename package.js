@@ -1,28 +1,12 @@
-import packager from 'electron-packager';
+import { packager } from '@electron/packager';
 import installer from 'electron-installer-debian';
 
-let platform;
-let arch;
-let archDeb = 'amd64';
-
-// The first command line argument can be 'rpi'
-if (process.argv.length > 2 && process.argv[2] === 'rpi') {
-    platform = 'linux';
-    arch = 'arm64';
-    archDeb = 'arm64';
-}
-
-async function makeDeb(path) {
-    let installerOptions = {
-        src:         path,
-        dest:        'dist/installers/',
-        arch:        archDeb,
-        compression: 'xz',
-    };
-
+async function makeDeb(src) {
+    const dest = 'dist/installers/';
     try {
-        await installer(installerOptions);
-        console.log(`Successfully created DEB package at ${installerOptions.dest}`);
+        // Run all makers in parallel
+        await Promise.all(['amd64', 'arm64'].map(arch => installer({src, dest, arch, compression: 'xz'})));
+        console.log(`Created DEB packages at ${dest}`);
     } catch (err) {
         console.error(err, err.stack);
         process.exit(1)
@@ -31,13 +15,13 @@ async function makeDeb(path) {
 
 async function bundle() {
     // Prepare options
-    let packagerOptions = {
-        arch:      arch,
+    const packagerOptions = {
+        arch:      ['x64', 'arm64'],
         asar:      false,
         dir:       '.',
         icon:      'src/favicon.ico',
         ignore:    [/\/\..*/, /\/node_modules/, /\/doc/, /\/src/, /\.iml$/],
-        platform:  platform,
+        platform:  'linux',
         prune:     true,
         overwrite: true,
         out:       'dist/installers'
@@ -47,7 +31,8 @@ async function bundle() {
     let paths;
     try {
         paths = await packager(packagerOptions);
-        console.log(`Electron app bundles created:\n${paths.join("\n")}`)
+        console.log('Electron app bundles created:')
+        paths.forEach(p => console.log(` * ${p}`));
     } catch (err) {
         console.error(err, err.stack);
         process.exit(1)
