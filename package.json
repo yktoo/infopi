@@ -1,6 +1,6 @@
 {
     "name": "infopi",
-    "version": "2.16.1",
+    "version": "2.16.2",
     "main": "bootstrap.js",
     "type": "module",
     "scripts": {
@@ -11,8 +11,11 @@
         "test": "ng test",
         "lint": "ng lint",
         "electron": "ng build --base-href ./ && electron --no-sandbox .",
-        "package": "yarn run build:prod && node package.js",
-        "deploy": "yarn run package && scp dist/installers/infopi_${npm_package_version}_arm64.deb infopi: && ssh infopi sudo dpkg -i infopi_${npm_package_version}_arm64.deb && ssh infopi rm infopi_${npm_package_version}_arm64.deb && yarn run restart-infopi",
+        "package": "yarn build:prod && node package.js",
+        "deploy": "yarn package && yarn deploy:copy && yarn deploy:install && yarn deploy:clean && yarn restart-infopi",
+        "deploy:clean": "ssh infopi rm infopi_${npm_package_version}_arm64.deb",
+        "deploy:copy": "scp dist/installers/infopi_${npm_package_version}_arm64.deb infopi:",
+        "deploy:install": "ssh infopi sudo dpkg -i infopi_${npm_package_version}_arm64.deb",
         "restart-infopi": "ssh infopi killall infopi; ssh infopi 'env DISPLAY=:0 nohup infopi &>/dev/null &'"
     },
     "private": true,

@@ -3,9 +3,16 @@ import installer from 'electron-installer-debian';
 
 async function makeDeb(src) {
     const dest = 'dist/installers/';
+
+    // Find out the arch: it's the last component of the path, and 'x64' is translated into 'amd64'
+    let arch = src.split('-').pop()
+    if (arch === 'x64') {
+        arch = 'amd64'
+    }
+
+    // Run the DEB maker
     try {
-        // Run all makers in parallel
-        await Promise.all(['amd64', 'arm64'].map(arch => installer({src, dest, arch, compression: 'xz'})));
+        await installer({src, dest, arch, compression: 'xz'});
         console.log(`Created DEB packages at ${dest}`);
     } catch (err) {
         console.error(err, err.stack);
@@ -38,8 +45,8 @@ async function bundle() {
         process.exit(1)
     }
 
-    // Make a DEB
-    await makeDeb(paths[0]);
+    // Make DEBs (all in parallel)
+    await Promise.all(paths.map(p => makeDeb(p)));
 }
 
 // noinspection JSIgnoredPromiseFromCall
