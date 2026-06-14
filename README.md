@@ -85,7 +85,7 @@ Credits
 * [ng2-charts](https://valor-software.com/ng2-charts/)
 * [xml-js](https://www.npmjs.com/package/xml-js)
 * [Weather Icons](https://erikflowers.github.io/weather-icons/)
-* [Electron](https://www.electronjs.org/), [electron-packager](https://github.com/electron/electron-packager) and [electron-installer-debian](https://github.com/electron-userland/electron-installer-debian)
+* [Electron](https://www.electronjs.org/), [@electron/packager](https://github.com/electron/packager) and [electron-installer-debian](https://github.com/electron-userland/electron-installer-debian)
 
 
 Data providers
