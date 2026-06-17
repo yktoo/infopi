@@ -1,92 +1,89 @@
 // Weather data model definitions for JSON provided by https://data.buienradar.nl/2.0/feed/json
 
 export interface RawBuienradarWeatherResponse {
-    readonly Metadata: RawBuienradarWeatherMetadata;
-    readonly Actual:   RawBuienradarActualWeather;
-    readonly Forecast: RawBuienradarWeatherForecast;
+    readonly buienradar: RawBuienradarWeatherMetadata;
+    readonly actual:     RawBuienradarActualWeather;
+    readonly forecast:   RawBuienradarWeatherForecast;
 }
 
 export interface RawBuienradarWeatherMetadata {
-    readonly Copyright: string; // "(C)opyright Buienradar / RTL. Alle rechten voorbehouden",
-    readonly Terms:     string; // "Deze feed mag vrij worden gebruikt onder voorwaarde van bronvermelding buienradar.nl inclusief een hyperlink naar https://www.buienradar.nl. Aan de feed kunnen door gebruikers of andere personen geen rechten worden ontleend."
+    readonly copyright: string; // "(C)opyright Buienradar / RTL. Alle rechten voorbehouden",
+    readonly terms:     string; // "Deze feed mag vrij worden gebruikt onder voorwaarde van bronvermelding buienradar.nl inclusief een hyperlink naar https://www.buienradar.nl. Aan de feed kunnen door gebruikers of andere personen geen rechten worden ontleend."
 }
 
 export interface RawBuienradarActualWeather {
-    readonly ActualRadarUrl:      string; // "https://api.buienradar.nl/image/1.0/RadarMapNL?w=500\u0026h=512"
-    readonly Sunrise:             string; // "2026-06-13T05:14:00"
-    readonly Sunset:              string; // "2026-06-13T22:00:00"
-    readonly WeatherStationMeasurements: RawBuienradarWeatherStationMeasurements[];
+    readonly actualradarurl:      string; // "https://api.buienradar.nl/image/1.0/RadarMapNL?w=500\u0026h=512"
+    readonly sunrise:             string; // "2026-06-13T05:14:00"
+    readonly sunset:              string; // "2026-06-13T22:00:00"
+    readonly stationmeasurements: RawBuienradarWeatherStationMeasurement[];
 }
 
 export interface RawBuienradarWeatherForecast {
-    readonly WeatherReport:     RawBuienradarWeatherReport;
-    readonly ShortTermForecast: RawBuienradarWeatherTermForecast;
-    readonly LongTerm:          RawBuienradarWeatherTermForecast;
-    readonly FiveDayForecast:   RawBuienradarDayWeatherForecast[];
+    readonly weatherreport:   RawBuienradarWeatherReport;
+    readonly shortterm:       RawBuienradarWeatherTermForecast;
+    readonly longterm:        RawBuienradarWeatherTermForecast;
+    readonly fivedayforecast: RawBuienradarDayWeatherForecast[];
 }
 
-export interface RawBuienradarWeatherStationMeasurements {
-    readonly StationId:            number; // 6275
-    readonly StationName:          string; // "Meetstation Arnhem"
-    readonly Latitude:             number; // 52.07
-    readonly Longitude:            number; // 5.88
-    readonly Region:               string; // "Arnhem"
-    readonly Timestamp:            string; // "2026-04-08T10:10:00"
-    readonly WeatherDescription:   string; // "Vrijwel onbewolkt (zonnig/helder)"
-    readonly IconUrl:              string; // "https://cdn.buienradar.nl/resources/images/icons/weather/30x30/a.png"
-    readonly FullIconUrl:          string; // "https://cdn.buienradar.nl/resources/images/icons/weather/96x96/A.png"
-    readonly GraphUrl:             string; // "https://www.buienradar.nl/nederland/weerbericht/weergrafieken/a"
-    readonly WindDirection:        number; // 11
-    readonly AirPressure:          number; // 1026.5
-    readonly Temperature:          number; // 12.9
-    readonly GroundTemperature:    number; // 12.2
-    readonly FeelTemperature:      number; // 11.7
-    readonly Visibility:           number; // 43500.0
-    readonly WindGusts:            number; // 4.8
-    readonly Windspeed:            number; // 3.6
-    readonly WindspeedBeaufort:    null;
-    readonly Humidity:             number; // 39.0
-    readonly Precipitation:        number; // 0.0
-    readonly Sunpower:             number; // 452.0
-    readonly RainfallLast24Hour:   number; // 0.0
-    readonly RainfallLastHour:     number; // 0
-    readonly WindDirectionDegrees: number; // 246
-    readonly DayHistory:           null
+export interface RawBuienradarWeatherStationMeasurement {
+    readonly stationid:            number; // 6275
+    readonly stationname:          string; // "Meetstation Arnhem"
+    readonly lat:                  number; // 52.07
+    readonly lon:                  number; // 5.88
+    readonly regio:                string; // "Arnhem"
+    readonly timestamp:            string; // "2026-04-08T10:10:00"
+    readonly weatherdescription:   string; // "Vrijwel onbewolkt (zonnig/helder)"
+    readonly iconurl:              string; // "https://cdn.buienradar.nl/resources/images/icons/weather/30x30/a.png"
+    readonly fullIconUrl:          string; // "https://cdn.buienradar.nl/resources/images/icons/weather/96x96/A.png"
+    readonly graphUrl:             string; // "https://www.buienradar.nl/nederland/weerbericht/weergrafieken/a"
+    readonly winddirection:        string; // "OZO"
+    readonly airpressure:          number; // 1026.5
+    readonly temperature:          number; // 12.9
+    readonly groundtemperature:    number; // 12.2
+    readonly feeltemperature:      number; // 11.7
+    readonly visibility:           number; // 43500.0
+    readonly windgusts:            number; // 4.8
+    readonly windspeed:            number; // 3.6
+    readonly windspeedBft:         number; // 3
+    readonly humidity:             number; // 39.0
+    readonly precipitation:        number; // 0.0
+    readonly sunpower:             number; // 452.0
+    readonly rainFallLastHour:     number; // 0.0
+    readonly winddirectiondegrees: number; // 108
 }
 
 export interface RawBuienradarWeatherReport {
-    readonly Published: string; // "2026-04-08T08:00:00"
-    readonly Title:     string; // "Volop zon en warm voor april"
-    readonly Summary:   string; // "Vandaag is het een echte toplentedag met volop zon..."
-    readonly Text:      string; // "Vandaag is het een echte toplentedag met volop zon..."
-    readonly Author:    string; // "Ed Aldus",
-    readonly Authorbio: string; // "Sinds februari 2008 werkzaam voor Buienradar..."
-    readonly Url:       null;
+    readonly published: string; // "2026-04-08T08:00:00"
+    readonly title:     string; // "Volop zon en warm voor april"
+    readonly summary:   string; // "Vandaag is het een echte toplentedag met volop zon..."
+    readonly text:      string; // "Vandaag is het een echte toplentedag met volop zon..."
+    readonly author:    string; // "Ed Aldus",
+    readonly authorbio: string; // "Sinds februari 2008 werkzaam voor Buienradar..."
 }
 
 export interface RawBuienradarWeatherTermForecast {
-    readonly StartDate: string; // "2026-04-14T00:00:00"
-    readonly EndDate:   string; // "2026-04-18T00:00:00"
-    readonly Forecast:  string; // "Grote kans (60%) op een rustig, meest droog en zonnig weertype, met temperaturen rond het langjarig..."
+    readonly startdate: string; // "2026-04-14T00:00:00"
+    readonly enddate:   string; // "2026-04-18T00:00:00"
+    readonly forecast:  string; // "Grote kans (60%) op een rustig, meest droog en zonnig weertype, met temperaturen rond het langjarig..."
 }
 
 export interface RawBuienradarDayWeatherForecast {
-    readonly Day:                string; // "2026-04-08T00:00:00"
-    readonly MinTemperature:     string; // "2"
-    readonly MaxTemperature:     string; // "18"
-    readonly MinTemperatureMax:  number; // 2
-    readonly MinTemperatureMin:  number; // 2
-    readonly MaxTemperatureMax:  number; // 18
-    readonly MaxTemperatureMin:  number; // 18
-    readonly RainChance:         number; // 0
-    readonly SunChance:          number; // 100
-    readonly WindDirection:      string; // "o"
-    readonly WindBeaufort:       number; // 3
-    readonly RainMinMm:          number; // 0.0
-    readonly RainMaxMm:          number; // 0.0
-    readonly WeatherDescription: string; // "Vrijwel onbewolkt (zonnig/helder)"
-    readonly IconUrl:            string; // "https://cdn.buienradar.nl/resources/images/icons/weather/30x30/a.png"
-    readonly FullIconUrl:        string; // "https://cdn.buienradar.nl/resources/images/icons/weather/96x96/A.png"
+    readonly day:                string; // "2026-04-08T00:00:00"
+    readonly mintemperature:     string; // "2"
+    readonly maxtemperature:     string; // "18"
+    readonly mintemperatureMax:  number; // 2
+    readonly mintemperatureMin:  number; // 2
+    readonly maxtemperatureMax:  number; // 18
+    readonly maxtemperatureMin:  number; // 18
+    readonly rainChance:         number; // 0
+    readonly sunChance:          number; // 100
+    readonly windDirection:      string; // "o"
+    readonly wind:               number; // 3
+    readonly mmRainMin:          number; // 0.0
+    readonly mmRainMax:          number; // 0.0
+    readonly weatherdescription: string; // "Vrijwel onbewolkt (zonnig/helder)"
+    readonly iconurl:            string; // "https://cdn.buienradar.nl/resources/images/icons/weather/30x30/a.png"
+    readonly fullIconUrl:        string; // "https://cdn.buienradar.nl/resources/images/icons/weather/96x96/A.png"
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------

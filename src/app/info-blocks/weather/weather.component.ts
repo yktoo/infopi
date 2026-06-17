@@ -97,67 +97,67 @@ export class WeatherComponent {
 
         // Find the station in question
         const stationId = this.stationId();
-        const station = weather?.Actual.WeatherStationMeasurements.find(sm => sm.StationId === stationId);
+        const station = weather?.actual.stationmeasurements.find(sm => sm.stationid === stationId);
         if (!station) {
             return undefined;
         }
 
         return {
             station: {
-                code:       station.StationId,
-                name:       station.StationName,
-                latitude:   station.Latitude,
-                longitude:  station.Longitude,
-                updated:    new Date(station.Timestamp),
+                code:       station.stationid,
+                name:       station.stationname,
+                latitude:   station.lat,
+                longitude:  station.lon,
+                updated:    new Date(station.timestamp),
             },
-            temperature:    station.Temperature,
-            humidity:       station.Humidity,
-            pressure:       station.AirPressure,
+            temperature:    station.temperature,
+            humidity:       station.humidity,
+            pressure:       station.airpressure,
             wind: {
-                dirText:    WeatherComponent.windDirIndexToText(station.WindDirection),
-                dirDegrees: station.WindDirectionDegrees,
-                speed:      station.Windspeed,
-                speedBft:   WeatherComponent.windSpeedMpsToBft(station.Windspeed),
-                gusts:      station.WindGusts,
+                dirText:    station.winddirection,
+                dirDegrees: station.winddirectiondegrees,
+                speed:      station.windspeed,
+                speedBft:   station.windspeedBft,
+                gusts:      station.windgusts,
             },
-            rain:           station.Precipitation,
-            visibility:     station.Visibility,
-            icon:           WeatherComponent.getWeatherIconClass(station.IconUrl),
-            description:    station.WeatherDescription,
-            message:        weather?.Forecast.WeatherReport.Summary ?? '',
+            rain:           station.precipitation,
+            visibility:     station.visibility,
+            icon:           WeatherComponent.getWeatherIconClass(station.iconurl),
+            description:    station.weatherdescription,
+            message:        weather?.forecast.weatherreport.summary ?? '',
         };
     });
 
     /** Current astronomic conditions. */
     readonly astro = computed<AstroData | undefined>(() => this.weather.hasValue() ?
         {
-            sunrise:   new Date(this.weather.value()?.Actual.Sunrise),
-            sunset:    new Date(this.weather.value()?.Actual.Sunset),
+            sunrise:   new Date(this.weather.value()?.actual.sunrise),
+            sunset:    new Date(this.weather.value()?.actual.sunset),
             moonPhase: this.getMoonPhase(),
         } :
         undefined);
 
     /** Weather forecasts for the upcoming days. */
     readonly dayForecasts = computed<WeatherDayForecast[] | undefined>(() => this.weather.hasValue() ?
-        this.weather.value()?.Forecast.FiveDayForecast.map(fc => ({
-            date:            new Date(fc.Day),
-            probSun:         fc.SunChance,
+        this.weather.value()?.forecast.fivedayforecast.map(fc => ({
+            date:            new Date(fc.day),
+            probSun:         fc.sunChance,
             rain: {
-                probability: fc.RainChance,
-                minAmount:   fc.RainMinMm,
-                maxAmount:   fc.RainMaxMm,
+                probability: fc.rainChance,
+                minAmount:   fc.mmRainMin,
+                maxAmount:   fc.mmRainMax,
             },
             temperature: {
-                highMax:     fc.MaxTemperatureMax,
-                highMin:     fc.MaxTemperatureMin,
-                lowMax:      fc.MinTemperatureMax,
-                lowMin:      fc.MinTemperatureMin,
+                highMax:     fc.maxtemperatureMax,
+                highMin:     fc.maxtemperatureMin,
+                lowMax:      fc.mintemperatureMax,
+                lowMin:      fc.mintemperatureMin,
             },
             wind: {
-                dirText:     fc.WindDirection,
-                speedBft:    fc.WindBeaufort,
+                dirText:     fc.windDirection,
+                speedBft:    fc.wind,
             },
-            icon:            WeatherComponent.getWeatherIconClass(fc.IconUrl),
+            icon:            WeatherComponent.getWeatherIconClass(fc.iconurl),
         })) :
         undefined);
 
@@ -173,55 +173,6 @@ export class WeatherComponent {
         const fn = iconUrl.replace(/^.+\/(\w+)\.png$/, '$1');
         // Convert that name into an icon
         return this.iconToWiClassMap[fn] || 'wi-na';
-    }
-
-    /**
-     * Return the textual representation of a wind direction for the given Buienradar direction index.
-     * @param index Wind direction index in the range 0..15
-     */
-    private static windDirIndexToText(index: number): string {
-        switch (index) {
-            case 0:  return 'N';
-            case 1:  return 'NNO';
-            case 2:  return 'NO';
-            case 3:  return 'ONO';
-            case 4:  return 'O';
-            case 5:  return 'OZO';
-            case 6:  return 'ZO';
-            case 7:  return 'ZZO';
-            case 8:  return 'Z';
-            case 9:  return 'ZZW';
-            case 10: return 'ZW';
-            case 11: return 'WZW';
-            case 12: return 'W';
-            case 13: return 'WNW';
-            case 14: return 'NW';
-            case 15: return 'NNW';
-            default: return '';
-        }
-    }
-
-    /**
-     * Convert the given wind speed expressed in m/s into wind speed in Beaufort.
-     * @param mps Wind speed in m/s.
-     */
-    private static windSpeedMpsToBft(mps: number): number {
-        switch (true) {
-            case mps <= 0.2: return 0;
-            case mps <= 1.5: return 1;
-            case mps <= 3.3: return 2;
-            case mps <= 5.4: return 3;
-            case mps <= 7.9: return 4;
-            case mps <= 10.7: return 5;
-            case mps <= 13.8: return 6;
-            case mps <= 17.1: return 7;
-            case mps <= 20.7: return 8;
-            case mps <= 24.4: return 9;
-            case mps <= 28.4: return 10;
-            case mps <= 32.6: return 11;
-            case mps >  32.6: return 12;
-            default: return NaN;
-        }
     }
 
     constructor() {

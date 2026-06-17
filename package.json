@@ -1,6 +1,6 @@
 {
     "name": "infopi",
-    "version": "2.16.4",
+    "version": "2.16.5",
     "main": "bootstrap.js",
     "type": "module",
     "scripts": {
@@ -84,5 +84,5 @@
         "Buienradar"
     ],
     "license": "MIT",
-    "packageManager": "yarn@4.16.0"
+    "packageManager": "yarn@4.17.0"
 }
