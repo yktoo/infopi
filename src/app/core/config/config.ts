@@ -18,6 +18,11 @@ export interface BusScheduleConfig extends InfoBlockConfig {
     maxDepartureCount: number;
 }
 
+export interface ElectricityPriceConfig extends InfoBlockConfig {
+    /** ID of the electricity supplier. */
+    supplierId: number;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ClockConfig extends InfoBlockConfig {
     // Nothing additional here
@@ -89,6 +94,9 @@ export interface InfoPiConfig {
     /** Bus settings. */
     readonly busSchedule: BusScheduleConfig;
 
+    /** Electricity price settings. */
+    readonly electricityPrice: ElectricityPriceConfig;
+
     /** FX settings. */
     readonly fxRates: FxRatesConfig;
 
@@ -111,6 +119,11 @@ export class InfoPiConfigImpl implements InfoPiConfig {
     readonly clock: ClockConfig = {
         enabled: false,
         refreshRate: 3600 * 1000,
+    };
+    readonly electricityPrice: ElectricityPriceConfig = {
+        enabled: false,
+        refreshRate: 3600 * 1000,
+        supplierId: 0,
     };
     readonly fxRates: FxRatesConfig = {
         enabled: false,

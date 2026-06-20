@@ -1,0 +1,9 @@
+<section (click)="pricesResource.reload()" [appSpinner]="pricesResource.isLoading()">
+    @if (chartData(); as cd) {
+        <div>
+            <canvas baseChart width="540" height="200" type="line" [data]="cd" [options]="chartOptions"></canvas>
+        </div>
+    } @else {
+        <div class="unavailable-placeholder">Not available yet</div>
+    }
+</section>

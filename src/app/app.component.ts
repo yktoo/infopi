@@ -7,6 +7,7 @@ import { TrainScheduleComponent } from './info-blocks/train-schedule/train-sched
 import { APP_CONFIG } from './core/config/config';
 import { WasteScheduleComponent } from './info-blocks/waste-schedule/waste-schedule.component';
 import { FxRatesComponent } from './info-blocks/fx-rates/fx-rates.component';
+import { ElectricityPriceComponent } from './info-blocks/electricity-price/electricity-price.component';
 
 @Component({
     selector: 'app-root',
@@ -20,6 +21,7 @@ import { FxRatesComponent } from './info-blocks/fx-rates/fx-rates.component';
         TrainScheduleComponent,
         WasteScheduleComponent,
         FxRatesComponent,
+        ElectricityPriceComponent,
     ],
 })
 export class AppComponent {

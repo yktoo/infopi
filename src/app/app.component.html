@@ -29,6 +29,25 @@
         </div>
     </div>
 
+    <!-- Electricity price -->
+    @if (config.electricityPrice.enabled) {
+        <div class="row flex-start ruler">
+            <!-- Today's prices -->
+            <div class="w-6 pl-1 pr-2">
+                <h2>Today's energy prices</h2>
+                <app-electricity-price [config]="config.electricityPrice"/>
+            </div>
+            <!-- Tomorrow's prices -->
+            <div class="w-6 pl-1 pr-2">
+                <h2>Tomorrow's energy prices</h2>
+                <app-electricity-price [config]="config.electricityPrice" [addDays]="1"/>
+            </div>
+        </div>
+    }
+
+    <!-- Spacer to let the page scroll up (when scrollable) -->
+    <div style="margin-bottom: 6rem"></div>
+
     <!-- FX rates -->
     @if (config.fxRates.enabled) {
         <div class="fixed-bottom opaque ruler-top pb-2">
