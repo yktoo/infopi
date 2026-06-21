@@ -3949,6 +3949,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chartjs-plugin-annotation@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "chartjs-plugin-annotation@npm:3.1.0"
+  peerDependencies:
+    chart.js: ">=4.0.0"
+  checksum: 10c0/5494a008a013888b122ac6754c1314e100b6368f55110f08401e3cbdb5969b372ece9569ed3b166b8fbad8c2dc84f15795602079613e2f5f65f787a0931bd676
+  languageName: node
+  linkType: hard
+
 "chokidar@npm:^4.0.0":
   version: 4.0.3
   resolution: "chokidar@npm:4.0.3"
@@ -5766,6 +5775,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^8.61.0"
     angular-eslint: "npm:^22.0.0"
     chart.js: "npm:^4.5.1"
+    chartjs-plugin-annotation: "npm:^3.1.0"
     electron: "npm:^42.4.0"
     electron-installer-debian: "npm:^3.2.0"
     eslint: "npm:^10.5.0"

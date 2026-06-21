@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ElectricityPriceComponent } from './electricity-price.component';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import Annotation from 'chartjs-plugin-annotation';
 
 describe('ElectricityPriceComponent', () => {
 
@@ -9,6 +11,7 @@ describe('ElectricityPriceComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [ElectricityPriceComponent],
+            providers: [provideCharts(withDefaultRegisterables(Annotation))],
         })
             .compileComponents();
 

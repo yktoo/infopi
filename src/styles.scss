@@ -122,8 +122,19 @@ table {
 @for $i from 1 through 6 {
     h#{$i} {
         text-align: center;
-        margin: 1em 0 0.14em 0;
     }
+}
+
+h1 {
+    margin: 1em 0 0.14em 0;
+}
+
+h2 {
+    margin: 1em 0 0.14em 0;
+}
+
+h3 {
+    margin: 0.45em 0 0.1em 0;
 }
 
 @keyframes spinner-border {
@@ -191,6 +202,10 @@ table {
 }
 .ruler-top {
     border-top: 1px vars.$color-ruler solid;
+}
+
+.mt-0 {
+    margin-top: 0;
 }
 
 .pl-1 {
