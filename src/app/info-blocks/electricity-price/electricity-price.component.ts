@@ -1,4 +1,4 @@
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { Subscription, timer } from 'rxjs';
 import { BaseChartDirective } from 'ng2-charts';
@@ -32,24 +32,27 @@ export class ElectricityPriceComponent {
     /** Number of days to add to the today's date for fetching the prices. */
     readonly addDays = input(0);
 
-    /** Electricity price resource. */
-    readonly pricesResource = httpResource(() =>
-        `https://www.stroomperuur.nl/ajax/tarieven.php?leverancier=${this.config().supplierId}&datum=${this.dateString}`);
+    /** Date to request prices for, as an ISO string ('yyyy-mm-dd'). */
+    readonly dateString = signal('');
 
-    /** Today's electricity prices. */
-    readonly prices = computed<ElectricityPriceData | undefined>(() => this.pricesResource.error() ? undefined : this.convertPriceData(this.pricesResource.value()));
+    /** Electricity price resource. */
+    readonly pricesResource = httpResource(
+        // Postpone the request until dateString is set
+        () => this.dateString() ?
+            {url: 'https://www.stroomperuur.nl/ajax/tarieven.php', params: {leverancier: this.config().supplierId, datum: this.dateString()}} :
+            undefined);
+
+    /** Fetched electricity prices. */
+    readonly prices = computed<ElectricityPriceData | undefined>(() =>
+        this.pricesResource.error() ? undefined : this.convertPriceData(this.pricesResource.value()));
 
     /** Chart data being displayed. */
     readonly chartData = computed<ChartConfiguration['data'] | undefined>(() => this.toChartData(this.prices()));
 
     /** Chart options. */
     readonly chartOptions: ChartOptions = {
-        // Disable chart animations as they seem to cause drawing issues in Electron on Raspberry Pi
-        animations: false as any,
         maintainAspectRatio: false,
-        layout: {
-            padding: {left: 20, right: 50}
-        },
+        layout: {padding: {left: 5, right: 5}},
         plugins: {
             legend: {
                 display: true,
@@ -60,9 +63,7 @@ export class ElectricityPriceComponent {
                     boxHeight: 5,
                 },
             },
-            annotation: {
-                annotations: [],
-            },
+            annotation: {annotations: []},
         },
         scales: {
             y: {
@@ -75,9 +76,7 @@ export class ElectricityPriceComponent {
                 ticks: {
                     padding: 3,
                     color: ctx => ctx.tick.value < 0 ? '#8abe76' : ctx.tick.value > 0 ? '#a87070' : '#cccccc',
-                    font: {
-                        size: 13,
-                    },
+                    font: {size: 13},
                     callback: v => (v as number).toFixed(2),
                 },
             },
@@ -97,32 +96,19 @@ export class ElectricityPriceComponent {
         },
     };
 
-    /**
-     * Date to request prices for, as an ISO string ('yyyy-mm-dd'). Must NOT be a signal, even though it depends on one, because it has to
-     * always use the current date.
-     */
-    get dateString(): string {
-        const d = new Date();
-        d.setDate(d.getDate() + this.addDays());
-        return d.toISOString().substring(0, 10);
-    }
-
     constructor() {
-        // (Re)subscribe on periodic updates
-        let t: Subscription;
-        effect(onCleanup => {
-            t = timer(0, this.config().refreshRate).subscribe(() => this.pricesResource.reload());
-            onCleanup(() => t.unsubscribe());
-        });
-
-        // Also update the "now" bar once in 5 minutes
+        // Update the date and the "now" bar once in 5 minutes
         let tn: Subscription;
         effect(onCleanup => {
-            // Only applies when displaying today's prices
-            if (this.addDays() === 0) {
-                tn = timer(0, 5 * 60 * 1000).subscribe(() => this.updateNowMark());
-                onCleanup(() => tn.unsubscribe());
-            }
+            tn = timer(0, 5 * 60 * 1000).subscribe(() => this.updateNow());
+            onCleanup(() => tn.unsubscribe());
+        });
+
+        // (Re)subscribe on periodic updates
+        let td: Subscription;
+        effect(onCleanup => {
+            td = timer(0, this.config().refreshRate).subscribe(() => this.pricesResource.reload());
+            onCleanup(() => td.unsubscribe());
         });
     }
 
@@ -182,12 +168,16 @@ export class ElectricityPriceComponent {
         };
     }
 
-    /**
-     * Update the "now" box annotation in the chart.
-     * @private
-     */
-    private updateNowMark() {
-        const hour = new Date().getHours();
-        this.chartOptions.plugins!.annotation!.annotations = [{type: 'box', xMin: hour, xMax: hour+1, backgroundColor: '#e07a0066'}];
+    private updateNow() {
+        // Update the displayed date signal
+        const d = new Date();
+        d.setDate(d.getDate() + this.addDays());
+        this.dateString.set(d.toISOString().substring(0, 10));
+
+        // Update the "now" box annotation in the chart. Only applies when displaying today's prices
+        if (this.addDays() === 0) {
+            const hour = new Date().getHours();
+            this.chartOptions.plugins!.annotation!.annotations = [{type: 'box', xMin: hour, xMax: hour + 1, backgroundColor: '#e0c20080'}];
+        }
     }
 }
