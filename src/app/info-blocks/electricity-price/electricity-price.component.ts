@@ -13,6 +13,8 @@ export interface ElectricityPriceData {
     readonly hourlySurcharges: number[];
     /** Fixed procurement fee in euros. */
     readonly fee: number;
+    /** All-in prices in euros, consisting of surcharges and the fee, per hour [0..23]. */
+    readonly hourlyAllInPrices: number[];
 }
 
 @Component({
@@ -64,6 +66,7 @@ export class ElectricityPriceComponent {
                 },
             },
             annotation: {annotations: []},
+            datalabels: {},
         },
         scales: {
             y: {
@@ -125,11 +128,10 @@ export class ElectricityPriceComponent {
         }
 
         // Convert the data
-        return {
-            hourlyPrices:     data[0],
-            hourlySurcharges: data[1],
-            fee:              data[3],
-        };
+        const hourlyPrices     = data[0];
+        const hourlySurcharges = data[1];
+        const fee = data[3];
+        return {hourlyPrices, hourlySurcharges, fee, hourlyAllInPrices: hourlyPrices.map((n, i) => n + hourlySurcharges[i] + fee)};
     }
 
     private toChartData(data: ElectricityPriceData | undefined): ChartConfiguration['data'] | undefined {
@@ -137,31 +139,50 @@ export class ElectricityPriceComponent {
             return undefined;
         }
 
+        // Find the index of the minimum/maximum all-in price
+        const minPriceIdx = data.hourlyAllInPrices.reduce((minIdx, v, idx, a) => v < a[minIdx] ? idx : minIdx, 0);
+        const maxPriceIdx = data.hourlyAllInPrices.reduce((maxIdx, v, idx, a) => v > a[maxIdx] ? idx : maxIdx, 0);
+
+        // Mark the min/max points with a different colour
+        const getPointColour = (ctx: any) =>
+            ctx.dataIndex === minPriceIdx ? '#59ff16' : ctx.dataIndex === maxPriceIdx ? '#ff4545' : '#00e9ca';
+
         return {
             datasets: [
                 {
                     label:                'Market',
                     data:                 data.hourlyPrices,
-                    borderColor:          '#35c000',
-                    backgroundColor:      '#35c00050',
-                    pointBorderColor:     '#35c000',
-                    pointBackgroundColor: '#35c000',
+                    borderColor:          '#73a168',
+                    backgroundColor:      '#73a16850',
+                    pointBorderColor:     '#73a168',
+                    pointBackgroundColor: '#73a168',
                     pointRadius:          1,
                     borderWidth:          2,
-                    tension:              0.5,
+                    tension:              0.1,
                     fill:                 true,
+                    datalabels: {
+                        display: false,
+                    }
                 },
                 {
                     label:                'All-in',
-                    data:                 data.hourlyPrices.map((p, i) => p + data.hourlySurcharges[i] + data.fee),
+                    data:                 data.hourlyAllInPrices,
                     borderColor:          '#00e9ca',
                     backgroundColor:      '#00e9ca50',
-                    pointBorderColor:     '#00e9ca',
-                    pointBackgroundColor: '#00e9ca',
-                    pointRadius:          1,
+                    pointBorderColor:     getPointColour,
+                    pointBackgroundColor: getPointColour,
+                    pointRadius:          (ctx: any) => ctx.dataIndex === minPriceIdx || ctx.dataIndex === maxPriceIdx ? 3 : 1,
                     borderWidth:          2,
-                    tension:              0.5,
+                    tension:              0.1,
                     fill:                 '-1',
+                    // Display a data label above the min and the max
+                    datalabels: {
+                        display:   ctx => ctx.dataIndex === minPriceIdx || ctx.dataIndex === maxPriceIdx,
+                        color:     getPointColour,
+                        align:     'top',
+                        offset:    2,
+                        formatter: (v: number) => v.toFixed(2),
+                    }
                 },
             ],
             labels: data.hourlyPrices.map((_, idx) => `${idx}:00`),
