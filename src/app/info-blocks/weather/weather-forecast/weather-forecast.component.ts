@@ -45,6 +45,7 @@ export class WeatherForecastComponent {
         },
         plugins: {
             legend: {display: false},
+            datalabels: {display: false},
         }
     };
 

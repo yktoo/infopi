@@ -71,6 +71,7 @@ export class ElectricityPriceComponent {
         scales: {
             y: {
                 display: true,
+                stacked: true,
                 position: 'left',
                 grid: {
                     color: ctx => ctx.tick.value === 0 ? '#cccccc' : '#333333',
@@ -85,6 +86,7 @@ export class ElectricityPriceComponent {
             },
             x: {
                 display: true,
+                stacked: true,
                 grid: {
                     color: '#333333',
                     tickLength: 5,
@@ -143,20 +145,13 @@ export class ElectricityPriceComponent {
         const minPriceIdx = data.hourlyAllInPrices.reduce((minIdx, v, idx, a) => v < a[minIdx] ? idx : minIdx, 0);
         const maxPriceIdx = data.hourlyAllInPrices.reduce((maxIdx, v, idx, a) => v > a[maxIdx] ? idx : maxIdx, 0);
 
-        // Mark the min/max points with a different colour
-        const getPointColour = (ctx: any) =>
-            ctx.dataIndex === minPriceIdx ? '#59ff16' : ctx.dataIndex === maxPriceIdx ? '#ff4545' : '#00e9ca';
-
         return {
             datasets: [
                 {
                     label:                'Market',
                     data:                 data.hourlyPrices,
-                    borderColor:          '#73a168',
-                    backgroundColor:      '#73a16850',
-                    pointBorderColor:     '#73a168',
-                    pointBackgroundColor: '#73a168',
-                    pointRadius:          1,
+                    borderColor:          '#5dc846',
+                    backgroundColor:      '#73a16899',
                     borderWidth:          2,
                     tension:              0.1,
                     fill:                 true,
@@ -165,22 +160,21 @@ export class ElectricityPriceComponent {
                     }
                 },
                 {
-                    label:                'All-in',
-                    data:                 data.hourlyAllInPrices,
+                    label:                'Surcharge',
+                    data:                 data.hourlySurcharges.map(n => n+data.fee),
                     borderColor:          '#00e9ca',
-                    backgroundColor:      '#00e9ca50',
-                    pointBorderColor:     getPointColour,
-                    pointBackgroundColor: getPointColour,
-                    pointRadius:          (ctx: any) => ctx.dataIndex === minPriceIdx || ctx.dataIndex === maxPriceIdx ? 3 : 1,
+                    backgroundColor:      '#00e9ca99',
                     borderWidth:          2,
                     tension:              0.1,
                     fill:                 '-1',
                     // Display a data label above the min and the max
                     datalabels: {
                         display:   ctx => ctx.dataIndex === minPriceIdx || ctx.dataIndex === maxPriceIdx,
-                        color:     getPointColour,
-                        align:     'top',
-                        offset:    2,
+                        color:     ctx => ctx.dataIndex === minPriceIdx ? '#59ff16' : ctx.dataIndex === maxPriceIdx ? '#ff4545' : '#00e9ca',
+                        font:      {weight: 'bold'},
+                        align:     'end',
+                        anchor:    'end',
+                        offset:    -4,
                         formatter: (v: number) => v.toFixed(2),
                     }
                 },
@@ -198,7 +192,7 @@ export class ElectricityPriceComponent {
         // Update the "now" box annotation in the chart. Only applies when displaying today's prices
         if (this.addDays() === 0) {
             const hour = new Date().getHours();
-            this.chartOptions.plugins!.annotation!.annotations = [{type: 'box', xMin: hour, xMax: hour + 1, backgroundColor: '#e0c20080'}];
+            this.chartOptions.plugins!.annotation!.annotations = [{type: 'box', xMin: hour-0.5, xMax: hour+0.5, backgroundColor: '#e0c20080'}];
         }
     }
 }
