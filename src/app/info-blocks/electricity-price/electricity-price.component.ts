@@ -87,10 +87,6 @@ export class ElectricityPriceComponent {
             x: {
                 display: true,
                 stacked: true,
-                grid: {
-                    color: '#333333',
-                    tickLength: 5,
-                },
                 ticks: {
                     color: '#aaaaaa',
                     font: {
@@ -175,7 +171,7 @@ export class ElectricityPriceComponent {
                         align:     'end',
                         anchor:    'end',
                         offset:    -4,
-                        formatter: (v: number) => v.toFixed(2),
+                        formatter: (_, ctx) => data.hourlyAllInPrices[ctx.dataIndex].toFixed(2),
                     }
                 },
             ],
