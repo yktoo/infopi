@@ -1,10 +1,11 @@
-import { Component, computed, effect, input, signal } from '@angular/core';
+import { Component, computed, effect, input, linkedSignal, signal } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { Subscription, timer } from 'rxjs';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { SpinnerDirective } from '../../core/spinner/spinner.directive';
 import { ElectricityPriceConfig } from '../../core/config/config';
+import { AnnotationOptions } from 'chartjs-plugin-annotation';
 
 export interface ElectricityPriceData {
     /** Prices in euros, per hour [0..23]. */
@@ -51,8 +52,17 @@ export class ElectricityPriceComponent {
     /** Chart data being displayed. */
     readonly chartData = computed<ChartConfiguration['data'] | undefined>(() => this.toChartData(this.prices()));
 
+    /** Current hour number. -1 when it doesn't apply to the current chart (i.e. when addDays is nonzero). */
+    private readonly currentHour = linkedSignal<number>(() => this.addDays() && -1);
+
+    /** Chart annotattions; specifically, the "now" bar annotation. */
+    private readonly chartAnnotations = computed<AnnotationOptions[] | undefined>(() => {
+        const h = this.currentHour();
+        return h >= 0 ? [{type: 'box', xMin: h-0.5, xMax: h+0.5, backgroundColor: '#e0c20080'}] : undefined;
+    });
+
     /** Chart options. */
-    readonly chartOptions: ChartOptions = {
+    readonly chartOptions = computed<ChartOptions>(() => ({
         maintainAspectRatio: false,
         layout: {padding: {left: 5, right: 5}},
         plugins: {
@@ -65,7 +75,7 @@ export class ElectricityPriceComponent {
                     boxHeight: 5,
                 },
             },
-            annotation: {annotations: []},
+            annotation: {annotations: this.chartAnnotations()},
             datalabels: {},
         },
         scales: {
@@ -95,13 +105,13 @@ export class ElectricityPriceComponent {
                 },
             },
         },
-    };
+    }));
 
     constructor() {
-        // Update the date and the "now" bar once in 5 minutes
+        // Update the date and the "now" bar once a minute
         let tn: Subscription;
         effect(onCleanup => {
-            tn = timer(0, 5 * 60 * 1000).subscribe(() => this.updateNow());
+            tn = timer(0, 60 * 1000).subscribe(() => this.updateNow());
             onCleanup(() => tn.unsubscribe());
         });
 
@@ -187,8 +197,7 @@ export class ElectricityPriceComponent {
 
         // Update the "now" box annotation in the chart. Only applies when displaying today's prices
         if (this.addDays() === 0) {
-            const hour = new Date().getHours();
-            this.chartOptions.plugins!.annotation!.annotations = [{type: 'box', xMin: hour-0.5, xMax: hour+0.5, backgroundColor: '#e0c20080'}];
+            this.currentHour.set(new Date().getHours());
         }
     }
 }
