@@ -9,7 +9,7 @@ import { RawNsApiDepartureResponse, TrainDeparture } from './models';
 @Component({
     selector: 'app-train',
     templateUrl: './train-schedule.component.html',
-    styleUrls: ['./train-schedule.component.scss'],
+    styleUrl: './train-schedule.component.scss',
     imports: [
         DatePipe,
         SpinnerDirective,

@@ -54,7 +54,7 @@ export class WasteScheduleComponent {
         const oneDay = 24 * 3600 * 1000;
 
         // Process the raw days
-        return this.wcsResource.value()?.data?.ophaaldagen?.data
+        return this.wcsResource.value().data?.ophaaldagen?.data
             // Convert into a "parsed" model
             ?.map<WasteCollectionDay>(rd => {
                 // Parse the string into a Date

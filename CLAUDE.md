@@ -19,7 +19,7 @@ cp src/environments/config.sample.ts src/environments/config.ts
 ## Commands
 
 ```bash
-yarn lint                 # ESLint over src/**/*.ts and src/**/*.html
+yarn lint                 # ESLint over the whole repo (app, templates and the Node-side scripts)
 yarn test                 # ng test -> @angular/build:unit-test (vitest + jsdom)
 yarn build                # development build
 yarn build:prod           # production build into dist/
@@ -37,7 +37,7 @@ yarn test --filter '^FxRates'      # matches suite/test names
 yarn test --watch=false            # watch defaults to on in a TTY
 ```
 
-CI (`.github/workflows/angular.yml`, on `master` and `dev`) copies the sample config, then runs lint, test and package.
+CI (`.github/workflows/angular.yml`, on pushes and PRs to `master` and `dev`) copies the sample config, then runs lint, test and package.
 
 ## Architecture
 
@@ -59,13 +59,14 @@ To add a block: add its config interface + `InfoPiConfig` member + `InfoPiConfig
 
 **Styling.** Global `src/styles.scss` defines a dark kiosk theme plus a hand-rolled 12-column flex grid (`.row`, `.w-1`…`.w-12`, `.pl-*`/`.pr-*`, `.ruler*`) used by the layout; shared SCSS variables live in `src/_vars.scss` and are consumed via `@use "vars"`. Component styles are SCSS with `src` and `node_modules` on the include path, and are capped at 6 kB (warning) / 10 kB (error) by the production budgets. Weather glyphs come from the `weather-icons` font; `WeatherComponent.iconToWiClassMap` maps Buienradar icon file names to `wi-*` classes.
 
-**Tests** are vitest specs with Angular `TestBed`; the typical spec just creates the component, `setInput('config', {...})` and asserts it renders. `tsconfig.spec.json` sets `strict: false` and vitest globals. `no-only-tests` is configured to fail on both `.only` and `.skip`.
+**Tests** are vitest specs with Angular `TestBed`; the typical spec just creates the component, `setInput('config', {...})` and asserts it renders. `tsconfig.spec.json` sets `strict: false` and vitest globals. `no-only-tests` is scoped to `*.spec.ts` and fails on `.only`, `.skip` and `.todo`.
 
 ## Conventions
 
-- 4-space indentation, single quotes, mandatory semicolons and braces (`curly: all`) — enforced partly by `eslint.config.mjs`.
+- 4-space indentation, single quotes, mandatory semicolons and braces (`curly: all`) — enforced by `eslint.config.mjs` via `@stylistic` rules.
 - Modern Angular only: standalone components with `imports`, `inject()` over constructor params, signals (`input`, `computed`, `linkedSignal`, `effect`), and `@if`/`@for` control flow in templates. No NgModules, no decorated `@Input()`/`@Output()`.
-- Strict TS and strict Angular templates are on for app code.
+- Strict TS and strict Angular templates are on for app code. ESLint also runs type-aware rules (`no-unnecessary-condition`, `no-floating-promises`, …) against `tsconfig.eslint.json`, a lint-only project that covers all of `src/**/*.ts` — the app and spec tsconfigs are too narrow for typed linting on their own.
+- Pipes, components and directives are all prefixed `app` (`appTimeAgo`, `app-news`, `appSpinner`), enforced by `pipe-prefix` / `component-selector` / `directive-selector`.
 - `stream` is a real dependency despite having no import in `src`: `xml-js` pulls in `sax`, which does `require('stream')`. Don't "clean" it away.
 
 ## Git

@@ -6,7 +6,7 @@ import { ClockConfig } from '../../core/config/config';
 @Component({
     selector: 'app-clock',
     templateUrl: './clock.component.html',
-    styleUrls: ['./clock.component.scss'],
+    styleUrl: './clock.component.scss',
     imports: [
         DatePipe,
     ],

@@ -11,7 +11,7 @@ import { RssFeedConfig } from '../../core/config/config';
 @Component({
     selector: 'app-news',
     templateUrl: './news.component.html',
-    styleUrls: ['./news.component.scss'],
+    styleUrl: './news.component.scss',
     imports: [
         TimeAgoPipe,
         SpinnerDirective,

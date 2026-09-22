@@ -10,7 +10,7 @@
     </div>
     <!-- Weather message -->
     <div class="card w-7 w-text position-relative">
-        {{ wth.message | truncate:300 }}
+        {{ wth.message | appTruncate:300 }}
         <!-- Last updated -->
         <div class="w-updated">{{ updatedTimeAgo() }}</div>
     </div>
@@ -26,12 +26,12 @@
         <!-- Wind direction and speed -->
         <td>
             <div class="w-smallicon">
-                <i class="wi w-wind" [class]="'wi-wind-beaufort-' + wth.wind.speedBft"></i>
+                <i class="wi w-wind" [class]="`wi-wind-beaufort-${wth.wind.speedBft}`"></i>
             </div>
             <div class="w-smalltext">
                 {{ wth.wind.dirText }}
                 <span class="w-wind-dir">
-                        <i class="wi wi-wind" [class]="'from-' + wth.wind.dirDegrees + '-deg'"></i>
+                        <i class="wi wi-wind" [class]="`from-${wth.wind.dirDegrees}-deg`"></i>
                     </span>
             </div>
         </td>

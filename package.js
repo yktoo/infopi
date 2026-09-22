@@ -5,9 +5,9 @@ async function makeDeb(src) {
     const dest = 'dist/installers/';
 
     // Find out the arch: it's the last component of the path, and 'x64' is translated into 'amd64'
-    let arch = src.split('-').pop()
+    let arch = src.split('-').pop();
     if (arch === 'x64') {
-        arch = 'amd64'
+        arch = 'amd64';
     }
 
     // Run the DEB maker
@@ -16,7 +16,7 @@ async function makeDeb(src) {
         console.log(`Created DEB packages at ${dest}`);
     } catch (err) {
         console.error(err, err.stack);
-        process.exit(1)
+        process.exit(1);
     }
 }
 
@@ -38,11 +38,11 @@ async function bundle() {
     let paths;
     try {
         paths = await packager(packagerOptions);
-        console.log('Electron app bundles created:')
+        console.log('Electron app bundles created:');
         paths.forEach(p => console.log(` * ${p}`));
     } catch (err) {
         console.error(err, err.stack);
-        process.exit(1)
+        process.exit(1);
     }
 
     // Make DEBs (all in parallel)

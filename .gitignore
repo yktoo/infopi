@@ -1,5 +1,6 @@
-# compiled output
+# tool output
 /.angular
+/.eslintcache
 /dist
 /tmp
 /out-tsc

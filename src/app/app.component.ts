@@ -12,7 +12,7 @@ import { ElectricityPricesComponent } from './info-blocks/electricity-price/elec
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
+    styleUrl: './app.component.scss',
     imports: [
         NewsComponent,
         HomeAutomationComponent,

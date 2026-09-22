@@ -12,7 +12,7 @@ export interface ElectricityPriceDay {
 @Component({
     selector: 'app-electricity-prices',
     templateUrl: './electricity-prices.component.html',
-    styleUrls: ['./electricity-prices.component.scss'],
+    styleUrl: './electricity-prices.component.scss',
     imports: [
         ElectricityPriceComponent,
     ],

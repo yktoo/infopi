@@ -10,7 +10,7 @@
                 <td class="waste-day">
                     @let animate = cd.dateName === 'tomorrow';
                     <div [class.wave-animation-container]="animate">
-                        <div [class]="'day-'+cd.dateName" [class.wave-animation]="animate" class="badge">
+                        <div [class]="`day-${cd.dateName}`" [class.wave-animation]="animate" class="badge">
                             @if (cd.dateName) {
                                 <ng-container>{{ cd.dateName | titlecase }}</ng-container>
                             } @else {
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                 </td>
-                <td class="waste-type" [class]="'type-'+cd.type">{{ cd.type | titlecase }}</td>
+                <td class="waste-type" [class]="`type-${cd.type}`">{{ cd.type | titlecase }}</td>
             </tr>
         }
     </table>

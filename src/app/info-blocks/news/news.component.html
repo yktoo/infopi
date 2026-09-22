@@ -7,12 +7,12 @@
     <!-- Feed items (actually, only the current one, and the next one while being animated ) -->
     <div class="news-container">
         @let curIdx = currentIndex();
-        @for (item of newsItems(); track item.id; let idx = $index) {
-            @if (idx === curIdx) {
+        @for (item of newsItems(); track item.id) {
+            @if ($index === curIdx) {
                 <div animate.enter="slide-in" animate.leave="slide-out" class="news-item">
                     <div class="news-title">{{ item.title }}</div>
                     <div class="news-desc">{{ item.description }}</div>
-                    <div class="news-updated">{{ item.lastUpdate | timeAgo }}</div>
+                    <div class="news-updated">{{ item.lastUpdate | appTimeAgo }}</div>
                 </div>
             }
         }

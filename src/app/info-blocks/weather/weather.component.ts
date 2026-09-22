@@ -97,7 +97,7 @@ export class WeatherComponent {
 
         // Find the station in question
         const stationId = this.stationId();
-        const station = weather?.actual.stationmeasurements.find(sm => sm.stationid === stationId);
+        const station = weather.actual.stationmeasurements.find(sm => sm.stationid === stationId);
         if (!station) {
             return undefined;
         }
@@ -124,22 +124,22 @@ export class WeatherComponent {
             visibility:     station.visibility,
             icon:           WeatherComponent.getWeatherIconClass(station.iconurl),
             description:    station.weatherdescription,
-            message:        weather?.forecast.weatherreport.summary ?? '',
+            message:        weather.forecast.weatherreport.summary,
         };
     });
 
     /** Current astronomic conditions. */
     readonly astro = computed<AstroData | undefined>(() => this.weather.hasValue() ?
         {
-            sunrise:   new Date(this.weather.value()?.actual.sunrise),
-            sunset:    new Date(this.weather.value()?.actual.sunset),
+            sunrise:   new Date(this.weather.value().actual.sunrise),
+            sunset:    new Date(this.weather.value().actual.sunset),
             moonPhase: this.getMoonPhase(),
         } :
         undefined);
 
     /** Weather forecasts for the upcoming days. */
     readonly dayForecasts = computed<WeatherDayForecast[] | undefined>(() => this.weather.hasValue() ?
-        this.weather.value()?.forecast.fivedayforecast.map(fc => ({
+        this.weather.value().forecast.fivedayforecast.map(fc => ({
             date:            new Date(fc.day),
             probSun:         fc.sunChance,
             rain: {

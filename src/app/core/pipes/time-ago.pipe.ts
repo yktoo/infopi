@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Translate the provided date into the 'xxx time ago' string.
  */
 @Pipe({
-    name: 'timeAgo',
+    name: 'appTimeAgo',
 })
 export class TimeAgoPipe implements PipeTransform {
 

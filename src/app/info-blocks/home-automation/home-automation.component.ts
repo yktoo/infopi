@@ -21,7 +21,7 @@ export interface OpenHabItem {
 @Component({
     selector: 'app-home-automation',
     templateUrl: './home-automation.component.html',
-    styleUrls: ['./home-automation.component.scss'],
+    styleUrl: './home-automation.component.scss',
     imports: [
         LowerCasePipe,
         SpinnerDirective,
@@ -41,8 +41,8 @@ export class HomeAutomationComponent {
     /** Items being displayed. */
     readonly items = computed<OpenHabItem[] | undefined>(() =>
         this.itemsResource.hasValue() ?
-            // Sort members by label/name
-            this.itemsResource.value()?.members.sort((a, b) => (a.label || a.name).localeCompare(b.label || b.name)) :
+            // Sort members by label/name, then make a copy
+            [...this.itemsResource.value().members].sort((a, b) => (a.label || a.name).localeCompare(b.label || b.name)) :
             undefined);
 
     constructor() {

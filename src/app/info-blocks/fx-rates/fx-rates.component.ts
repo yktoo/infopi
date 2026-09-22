@@ -10,7 +10,7 @@ import { RawEcbFxResponse, FxRate, RawFxRateCube } from './models';
 @Component({
     selector: 'app-fx-rates',
     templateUrl: './fx-rates.component.html',
-    styleUrls: ['./fx-rates.component.scss'],
+    styleUrl: './fx-rates.component.scss',
     imports: [
         DecimalPipe,
         SpinnerDirective,

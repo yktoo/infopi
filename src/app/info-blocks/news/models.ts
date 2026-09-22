@@ -25,7 +25,7 @@ export interface RawRssChannel {
     copyright?: TextNode;
     language?: TextNode;
     ttl?: TextNode;
-    item: RawRssItem[];
+    item?: RawRssItem[]; // Absent when the feed currently carries no entries; xml-js omits the key entirely in that case
 }
 
 export interface RawRssFeed {

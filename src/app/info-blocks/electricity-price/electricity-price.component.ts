@@ -24,7 +24,7 @@ export type PriceRange = readonly [number, number];
 @Component({
     selector: 'app-electricity-price',
     templateUrl: './electricity-price.component.html',
-    styleUrls: ['./electricity-price.component.scss'],
+    styleUrl: './electricity-price.component.scss',
     imports: [
         SpinnerDirective,
         BaseChartDirective,
