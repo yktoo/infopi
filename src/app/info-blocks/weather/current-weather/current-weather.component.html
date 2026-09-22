@@ -16,7 +16,7 @@
     </div>
     <!-- Temperature -->
     <div class="card w-3 w-temp">
-        {{ wth.temperature }} <i class="wi wi-celsius"></i>
+        {{ wth.temperature | number:'.1-1' }} <i class="wi wi-celsius"></i>
     </div>
 </div>
 
