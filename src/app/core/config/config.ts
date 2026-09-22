@@ -9,15 +9,6 @@ export interface InfoBlockConfig {
     refreshRate: number;
 }
 
-export interface BusScheduleConfig extends InfoBlockConfig {
-    /** Name of the bus stop to show busses for. */
-    ovapiStopName: string;
-    /** Code of the bus stop to show busses for. */
-    ovapiStopCode: string;
-    /** Max. number of schedule slots to display. */
-    maxDepartureCount: number;
-}
-
 export interface ElectricityPriceConfig extends InfoBlockConfig {
     /** ID of the electricity supplier. */
     supplierId: number;
@@ -91,9 +82,6 @@ export interface InfoPiConfig {
     /** Train settings. */
     readonly trainSchedule: TrainScheduleConfig;
 
-    /** Bus settings. */
-    readonly busSchedule: BusScheduleConfig;
-
     /** Electricity price settings. */
     readonly electricityPrice: ElectricityPriceConfig;
 
@@ -109,13 +97,6 @@ export interface InfoPiConfig {
 
 export class InfoPiConfigImpl implements InfoPiConfig {
 
-    readonly busSchedule: BusScheduleConfig = {
-        enabled: false,
-        refreshRate: 3600 * 1000,
-        ovapiStopName: '',
-        ovapiStopCode: '',
-        maxDepartureCount: 0,
-    };
     readonly clock: ClockConfig = {
         enabled: false,
         refreshRate: 3600 * 1000,

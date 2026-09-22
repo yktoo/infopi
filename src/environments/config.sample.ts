@@ -24,15 +24,6 @@ export const configuration: Partial<InfoPiConfig> = {
         maxDepartureCount: 12,
     },
 
-    // Bus settings
-    busSchedule: {
-        enabled: true,
-        refreshRate: 30 * 1000  /* Once half a minute */,
-        ovapiStopName: 'De Erven/De Schaft',
-        ovapiStopCode: 'hoterv',
-        maxDepartureCount: 12,
-    },
-
     // FX settings
     fxRates: {
         enabled: true,

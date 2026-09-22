@@ -374,40 +374,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/forms@npm:^22.1.0":
-  version: 22.1.0
-  resolution: "@angular/forms@npm:22.1.0"
-  dependencies:
-    "@standard-schema/spec": "npm:^1.0.0"
-    tslib: "npm:^2.3.0"
-    zod: "npm:^4.0.10"
-  peerDependencies:
-    "@angular/common": 22.1.0
-    "@angular/core": 22.1.0
-    "@angular/platform-browser": 22.1.0
-    rxjs: ^6.5.3 || ^7.4.0
-  checksum: 10c0/9a1ac9e54b95ffbdeaa97f31677c20ec1bbe15da761e88cb62a99a815809f6e3639ff7a9bca903170a2ae3a7fadf1f3198d69adfd517906672cb9513b8ea3f4c
-  languageName: node
-  linkType: hard
-
 "@angular/language-service@npm:^22.1.0":
   version: 22.1.0
   resolution: "@angular/language-service@npm:22.1.0"
   checksum: 10c0/cdc5d03cfada7ba7090ec81485b5b70b9ea264ca8280ad9129294d1b4b069444d51cae4e4c4de6b80d08be1db22af0add8aeb047503e425c04f1afa49d207b81
-  languageName: node
-  linkType: hard
-
-"@angular/platform-browser-dynamic@npm:^22.1.0":
-  version: 22.1.0
-  resolution: "@angular/platform-browser-dynamic@npm:22.1.0"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/common": 22.1.0
-    "@angular/compiler": 22.1.0
-    "@angular/core": 22.1.0
-    "@angular/platform-browser": 22.1.0
-  checksum: 10c0/195ef11c9f0337dcbb1a0926dfa31bd60a3d43d7d4bb1ded9bf2bf4cddf05534923cfd3884487fd62a37e041e52962a630fe1c1cde5ba17603c45eb7db9bea98
   languageName: node
   linkType: hard
 
@@ -2610,7 +2580,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@standard-schema/spec@npm:^1.0.0, @standard-schema/spec@npm:^1.1.0":
+"@standard-schema/spec@npm:^1.1.0":
   version: 1.1.0
   resolution: "@standard-schema/spec@npm:1.1.0"
   checksum: 10c0/d90f55acde4b2deb983529c87e8025fa693de1a5e8b49ecc6eb84d1fd96328add0e03d7d551442156c7432fd78165b2c26ff561b970a9a881f046abb78d6a526
@@ -5314,10 +5284,8 @@ __metadata:
     "@angular/compiler": "npm:^22.1.0"
     "@angular/compiler-cli": "npm:^22.1.0"
     "@angular/core": "npm:^22.1.0"
-    "@angular/forms": "npm:^22.1.0"
     "@angular/language-service": "npm:^22.1.0"
     "@angular/platform-browser": "npm:^22.1.0"
-    "@angular/platform-browser-dynamic": "npm:^22.1.0"
     "@electron/packager": "npm:^20.0.4"
     "@eslint/js": "npm:^10.0.1"
     "@types/node": "npm:^24.13.3"
@@ -8847,7 +8815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:4.4.3, zod@npm:^4.0.10":
+"zod@npm:4.4.3":
   version: 4.4.3
   resolution: "zod@npm:4.4.3"
   checksum: 10c0/7ea31b558e88f9faf44f31dd185e2e1cbf51fed3081787fb96cc2534749b50c0acfc6da7f0922a7353ed092dd358c7d50c28ea96c94d04af64191bd33152eca3

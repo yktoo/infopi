@@ -36,7 +36,7 @@ cp src/environments/config.sample.ts src/environments/config.ts
 ```
 2. If you plan to use train information, request an NS API key [here](https://apiportal.ns.nl/).
 3. Edit the file `src/environments/config.ts` you copied on **step 1** and update values in it. Also put the NS API key there if you have one.\
-The file provides some sane initial values, like refresh intervals. You are encouraged to change stuff like the weather station or bus stop as you see fit.
+The file provides some sane initial values, like refresh intervals. You are encouraged to change stuff like the weather station or the departure station as you see fit.
 4. Test the application:
 ```bash
 yarn electron
@@ -45,9 +45,7 @@ You should see a new browser window started in the kiosk mode (use <kbd>Ctrl+Q</
 
 ## Packaging
 
-To create a `.deb` package for your current architecture run `yarn run package`.
-
-To create a package for Raspberry Pi run `yarn run package:rpi`.
+To create `.deb` packages, including one for the Raspberry Pi (arm64), run `yarn run package`.
 
 The packages will be created as `dist/installers/infopi_XXX_YYY.deb`
 
@@ -93,7 +91,6 @@ Data providers
 
 * Weather info (for the Netherlands): [Buienradar.nl](http://buienradar.nl/)
 * Train info: [Nederlandse Spoorwegen](http://www.ns.nl/)
-* Bus info: [openOV](http://openov.nl/)
 * FX rates: [ECB](https://www.ecb.europa.eu)
 * Home automation: locally-run [OpenHAB](https://www.openhab.org/).
 * Waste collection schedule (for the Netherlands): [mijnafvalwijzer.nl](https://www.mijnafvalwijzer.nl/)
